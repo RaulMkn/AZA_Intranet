@@ -1,0 +1,29 @@
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.connection.url">jdbc:postgresql://localhost:1234/Prueba3</property> <!-- BD Mane -->
+        <property name="hibernate.connection.driver_class">org.postgresql.Driver</property> <!-- DB Driver -->
+        <property name="hibernate.connection.username">maken</property> <!-- DB User -->
+        <property name="hibernate.connection.password">yuki</property> <!-- DB Password -->
+        <property name="hibernate.default_schema">public</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property> <!-- DB Dialect -->
+        <property name="hibernate.c3p0.min_size">5</property>
+        <property name="hibernate.c3p0.max_size">20</property>
+        <property name="hibernate.c3p0.timeout">1800</property>
+        <property name="hibernate.c3p0.max_statements">50</property>
+        <property name="connection.provider_class">org.hibernate.c3p0.internal.C3P0ConnectionProvider</property>
+        <property name="show_sql">true</property> <!-- Show SQL in console -->
+        <property name="format_sql">true</property> <!-- Show SQL formatted -->
+
+        <mapping class="com.example.entity.PaymentEntity"/>
+        <mapping class="com.example.entity.AppointmentEntity"/>
+        <mapping class="com.example.entity.DepartmentEntity"/>
+        <mapping class="com.example.entity.EventEntity"/>
+        <mapping class="com.example.entity.DentistEntity"/>
+        <mapping class="com.example.entity.PatientEntity"/>
+
+    </session-factory>
+</hibernate-configuration>

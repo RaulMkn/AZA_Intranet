@@ -1,0 +1,11 @@
+.container {
+  display: grid;
+  grid-template-columns: 200px 1fr; 
+}
+.main{
+  width: 177.5vh;
+}
+
+.aside{
+  height: 100vh;
+}

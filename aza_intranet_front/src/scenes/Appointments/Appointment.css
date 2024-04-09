@@ -1,0 +1,43 @@
+/* Appointment.css */
+
+
+  .title {
+    color: #1890ff;
+    margin-bottom: 20px;
+    font-family: 'fansong';
+    display: flex;
+    justify-content: center;
+
+  }
+  
+  .form-container {
+    
+    height: 80vh;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .form-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  
+  .ant-form-item-label {
+    font-weight: bold;
+  }
+  
+  .ant-input,
+  .ant-select-selector {
+    width: 100%;
+  }
+  
+  .ant-input-number {
+    width: 100%;
+  }
+  
+  .ant-btn {
+    width: 100%;
+  }
+  
