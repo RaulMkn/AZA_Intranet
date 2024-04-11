@@ -26,6 +26,7 @@ public class InterventionEntity implements Serializable {
     private BigDecimal price;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "department")
     private DepartmentEntity department;
 
     @ManyToMany(mappedBy = "interventions",fetch = FetchType.EAGER)

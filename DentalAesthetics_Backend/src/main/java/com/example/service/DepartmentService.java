@@ -21,6 +21,7 @@ public class DepartmentService {
             for(DepartmentEntity department : departments){
                 department.getDentist().isEmpty();
                 department.getAppointments().isEmpty();
+                department.getInterventions().isEmpty();
             }
             return departments;
         }

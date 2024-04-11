@@ -24,6 +24,7 @@
         <mapping class="com.example.entity.EventEntity"/>
         <mapping class="com.example.entity.DentistEntity"/>
         <mapping class="com.example.entity.PatientEntity"/>
+        <mapping class="com.example.entity.InterventionEntity"/>
 
     </session-factory>
 </hibernate-configuration>
