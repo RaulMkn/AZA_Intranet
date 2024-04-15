@@ -17,7 +17,8 @@ public class InterventionDAOImpl implements InterventionDAO {
 
     @Override
     public List<InterventionEntity> getInterventionsFromDatabase(Session session) {
-        return null;
+        String hql = "SELECT itv FROM InterventionEntity itv";
+        return session.createQuery(hql, InterventionEntity.class).list();
     }
 
     @Override

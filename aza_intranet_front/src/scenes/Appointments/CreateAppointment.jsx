@@ -6,6 +6,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import AppointmentDto from "../../DTOs/AppointmentDto";
 import PatientDropdown from "../../utils/PatientsDropdown";
+import InterventionsDropdown from "../../utils/InterventionsDropdown";
 
 const { Option } = Select;
 
@@ -13,18 +14,19 @@ const CreateAppointmentPage = () => {
   const [form] = Form.useForm();
 
   const handleDepartmentSelected = (departmentId) => {
-    // Establece el valor del dentista seleccionado en el formulario
     form.setFieldsValue({ department: departmentId });
   };
 
   const handlePatientSelected = (patientId) => {
-    // Establece el valor del dentista seleccionado en el formulario
     form.setFieldsValue({ patient: patientId });
   };
 
+  const handleInterventionSelected = (interventionId) =>{
+    form.setFieldValue({intervention: interventionId});
+  }
+
   const handleSubmit = async (values) => {
     try {
-      // Accede directamente a los valores del formulario desde el objeto 'values'
       const {
         date_time_beginning,
         date_time_ending,
@@ -32,13 +34,12 @@ const CreateAppointmentPage = () => {
         title,
         department,
         description,
-        //dentist,
         patient,
       } = values;
 
-      const state = "Completa";
-      const invoice = "Pruebas";
-      const dentist = 1;
+      const state = "Pendiente";
+      const invoice = "Factura Generica";
+      const dentist = localStorage.getItem("userId");
       const total_price = 20; //Esto seguramente se vaya fuera
 
       // Crea una instancia de AppointmentDto con los valores del formulario
@@ -98,6 +99,7 @@ const CreateAppointmentPage = () => {
       <main className="form-container">
         <h1 className="title">Crear Cita para Paciente</h1>
         <Form form={form} onFinish={handleSubmit} layout="vertical">
+
           <div className="form-row">
             <Form.Item
               label="Fecha de Inicio"
@@ -113,9 +115,10 @@ const CreateAppointmentPage = () => {
               name="date_time_ending"
               rules={[{ required: true, message: "Ingrese la fecha de fin" }]}
             >
-              <DatePicker showTime format="YYYY-MM-DD HH:mm:ss" />
+              <DatePicker showTime format="YYYY-MM-DD HH:mm" />
             </Form.Item>
           </div>
+
           <div className="form-row">
             <Form.Item
               label="Paciente"
@@ -132,6 +135,15 @@ const CreateAppointmentPage = () => {
             >
               <DepartmentsDropdown onSelect={handleDepartmentSelected} />
             </Form.Item>
+
+            <Form.Item
+              label="Procedimiento"
+              name="intervention"
+              rules={[{ required: false, message: "Ingrese los procedimientos" }]}
+            >
+              <InterventionsDropdown onSelect={handleInterventionSelected} />
+            </Form.Item>
+
             <Form.Item
               label="Prioridad"
               name="priority"
