@@ -65,7 +65,7 @@ function Calendar() {
 
   return (
     <>
-      <div style={{ width: "100%", color: "black" }}>
+      <div style={{ width: "1050px",height:"90vh", color: "black", marginLeft:"9%", marginRight:"0" }}>
         <FullCalendar
           plugins={[dayGridPlugin]}
           initialView="dayGridMonth"

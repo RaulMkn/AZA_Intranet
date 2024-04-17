@@ -40,7 +40,7 @@ const CreateAppointmentPage = () => {
       const state = "Pendiente";
       const invoice = "Factura Generica";
       const dentist = localStorage.getItem("userId");
-      const total_price = 20; //Esto seguramente se vaya fuera
+      const total_price = 0; //Esto seguramente se vaya fuera
 
       // Crea una instancia de AppointmentDto con los valores del formulario
       const appointmentDto = new AppointmentDto(

@@ -3,6 +3,8 @@ import MUIDataTable from "mui-datatables";
 import axios from "axios";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
+import "./Appointment.css";
+
 
 export const TableAxios = () => {
   // Configuramos los hooks
@@ -191,6 +193,7 @@ export const TableAxios = () => {
       data={appointment}
       columns={columns}
       options={options}
+      className="table_container"
     />
   );
 };

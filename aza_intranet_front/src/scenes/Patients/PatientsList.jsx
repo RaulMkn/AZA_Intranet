@@ -115,6 +115,7 @@ export const TableAxios = () => {
         data={dentist}
         columns={columns}
         options={options}
+        className="table_container2"
       />
     </>
   );

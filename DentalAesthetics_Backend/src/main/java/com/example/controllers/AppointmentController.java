@@ -36,7 +36,7 @@ public class AppointmentController {
 
     @Transactional
     @PostMapping(path = "/appointment")
-    public ResponseEntity<Void> addUser(
+    public ResponseEntity<Void> addAppointment(
             @Valid
             @RequestBody AppointmentDto dentistDto
     ) {

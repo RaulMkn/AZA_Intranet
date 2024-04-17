@@ -41,13 +41,7 @@ public class AppointmentService {
     public AppointmentEntity getAppointmentById(int id) {
         try (Session session = HibernateConfiguration.getSessionFactory().openSession()) {
             session.beginTransaction();
-            AppointmentEntity appointment = appointmentDAO.getAppointmentFromDatabaseById(session, id);
-            BigDecimal totalPrice = BigDecimal.ZERO;
-            for (InterventionEntity intervention : appointment.getInterventions()) {
-                totalPrice = totalPrice.add(intervention.getPrice());
-            }
-            appointment.setTotal_price(totalPrice);
-            return appointment;
+            return appointmentDAO.getAppointmentFromDatabaseById(session, id);
         }
     }
 
@@ -55,7 +49,11 @@ public class AppointmentService {
         try (Session session = HibernateConfiguration.getSessionFactory().openSession()) {
             session.beginTransaction();
             AppointmentEntity appointmentAttached = session.merge(entity);
-
+            BigDecimal total_price = BigDecimal.ZERO;
+            for (InterventionEntity intervention : appointmentAttached.getInterventions()){
+                total_price = total_price.add(intervention.getPrice());
+            }
+            appointmentAttached.setTotal_price(total_price);
             boolean persistSuccess = appointmentDAO.persistAppointmentToDatabase(appointmentAttached, session);
             if (persistSuccess) {
                 session.getTransaction().commit();
