@@ -14,7 +14,7 @@ Este sistema de intranet está destinado exclusivamente para el uso interno de l
 ## Instalación y Configuración
 
 ### Requisitos Previos
-- Java Development Kit (JDK) versión X.X.X o superior.
+- Java Development Kit (JDK).
 - Node.js y npm instalados en el sistema.
 
 ### Pasos de Instalación
@@ -41,4 +41,4 @@ Este sistema proporciona las siguientes funciones principales:
 
 ## Estructura del Proyecto
 
-Descripción de la estructura del proyecto, incluyendo los principales directorios y archivos relevantes.
+El proyecto esta estruturado en dos carpetas para gestionar el Backend en Java y el Frontend en React.
