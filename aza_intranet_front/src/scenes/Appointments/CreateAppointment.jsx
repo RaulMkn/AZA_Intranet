@@ -139,7 +139,7 @@ const CreateAppointmentPage = () => {
             <Form.Item
               label="Procedimiento"
               name="intervention"
-              rules={[{ required: false, message: "Ingrese los procedimientos" }]}
+              rules={[{ required: true, message: "Ingrese los procedimientos" }]}
             >
               <InterventionsDropdown onSelect={handleInterventionSelected} />
             </Form.Item>

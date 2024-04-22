@@ -86,36 +86,4 @@ public class AppointmentController {
         }
 
     }
-/*
-    @GetMapping("/events")
-    public ResponseEntity<List<AppointmentEntity>> getUserEvents(HttpServletRequest request) {
-        // Recuperar el identificador de sesión de la cookie
-        String sessionId = getSessionIdFromCookie(request);
-
-        // Obtener el ID del usuario asociado al identificador de sesión
-        Long userId = userService.getUserIdBySessionId(sessionId);
-
-        if (userId != null) {
-            // Verificar y recuperar eventos asociados al ID del usuario
-            List<AppointmentEntity> userEvents = appointmentService.getUserEvents(userId);
-
-            return ResponseEntity.ok(userEvents);
-        } else {
-            // Manejar el caso donde no se puede obtener el ID del usuario
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-    }
-
-    private String getSessionIdFromCookie(HttpServletRequest request) {
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if ("sessionId".equals(cookie.getName())) {
-                    return cookie.getValue();
-                }
-            }
-        }
-        return null;
-    }
-*/
 }

@@ -39,7 +39,9 @@ const LoginForm = () => {
       }).then(() => {
         console.log("Respuesta del servidor:", response.data);
 
-        localStorage.setItem('userId', response.data); 
+        localStorage.setItem('userId', response.data);
+        localStorage.setItem('permis', response.data); 
+
         window.location.href = "/home"; // Redirigir a la página de inicio
       });
     } catch (error) {

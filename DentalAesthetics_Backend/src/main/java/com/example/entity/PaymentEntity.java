@@ -1,6 +1,5 @@
 package com.example.entity;
 
-import com.example.utils.Enums;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,8 +25,7 @@ public class PaymentEntity implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Timestamp payment_date;
     private BigDecimal price;
-    @Enumerated(EnumType.STRING)
-    private Enums.PaymentState state;
+    private String state;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "responsible_dentist")
     private DentistEntity responsible_dentist;

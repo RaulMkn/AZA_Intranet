@@ -53,7 +53,7 @@ const InterventionsDropdown = ({ onSelect }) => {
       filterOption={(input, option) =>
         option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
       }
-      //mode="multiple"
+      mode="tags"
     >
       {interventions.map((intervention) => (
         <Option key={intervention.id} value={intervention.id}>
