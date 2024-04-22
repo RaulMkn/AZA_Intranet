@@ -11,7 +11,7 @@ import {
 /* eslint-disable react/prop-types */
 const MenuList = ({ darkTheme }) => {
 
-  const permits = JSON.parse(localStorage.getItem("permis"));
+  //const permits = JSON.parse(localStorage.getItem("permis"));
 
   return (
     <Menu
@@ -27,13 +27,20 @@ const MenuList = ({ darkTheme }) => {
         <Link to="/calendar">Calendario</Link>
       </Menu.Item>
 
-      {permits && permits.includes(null) && (
+     {//permits && permits.includes(null) && (
       <Menu.SubMenu key="subtasks" icon={<SettingOutlined />} title="Admin Ops">
-        <Menu.Item key="Interventios Ops">Intervenciones</Menu.Item>
-        <Menu.Item key="Dentists Ops">Dentistas</Menu.Item>
-        <Menu.Item key="Stats Ops">Estadisticas</Menu.Item>
+        <Menu.Item key="Interventios Ops">
+          <Link to="/interventions">Intervenciones</Link>
+        </Menu.Item>
+        <Menu.Item key="Dentists Ops">
+          <Link to="dentists">Dentistas</Link>
+        </Menu.Item>
+        <Menu.Item key="Stats Ops">
+          <Link to="stats">Estadisticas</Link>
+        </Menu.Item>
       </Menu.SubMenu>
-    )}
+    //)
+     }
 
       <Menu.Item key={"progress"} icon={<ContactsOutlined />}>
         <Link to="/appointments">Citas</Link>
@@ -41,10 +48,6 @@ const MenuList = ({ darkTheme }) => {
 
       <Menu.Item key={"payment"} icon={<UserOutlined />}>
         <Link to="/patients">Pacientes</Link>
-      </Menu.Item>
-
-      <Menu.Item key={"setting"} icon={<SettingOutlined />}>
-        Settings
       </Menu.Item>
     </Menu>
   );

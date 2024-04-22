@@ -9,6 +9,9 @@ import CreateAppointmentPage from "./scenes/Appointments/CreateAppointment";
 import AppointmentsList from "./scenes/Appointments/AppointmentsList";
 import CreatePatient from "./scenes/Patients/CreatePatient";
 import PatientsList from "./scenes/Patients/PatientsList";
+import InterventionsList from "./scenes/Interventions/InterventionsList"
+import DentistsList from "./scenes/Dentists/DentistsList"
+import Stats from "./scenes/Stats/Stats"
 
 import Calendar from "./scenes/Calendar/Calendar";
 
@@ -42,6 +45,9 @@ function App() {
           <Route path="/calendar" element={<Calendar />} />
           <Route path="/patients" element={<PatientsList />} />
           <Route path="/appointments" element={<AppointmentsList />} />
+          <Route path="/interventions" element={<InterventionsList />} />
+          <Route path="/dentists" element={<DentistsList />} />
+          <Route path="/stats" element={<Stats />} />
         </Routes>
       </main>
     </div>
