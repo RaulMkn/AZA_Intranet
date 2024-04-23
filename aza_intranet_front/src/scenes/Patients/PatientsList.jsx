@@ -36,12 +36,6 @@ export const TableAxios = () => {
     fetchData(); // Llama a la función para obtener datos cuando el componente se monta
   }, []);
 
-  // Función para manejar el clic en el botón
-  const handleButtonClick = () => {
-    // Redirige a la página deseada
-    history.push("/otra-pagina");
-  };
-
   // Opciones para personalizar el tamaño de la tabla
   const options = {
     // Establece la anchura máxima de la tabla
@@ -54,7 +48,6 @@ export const TableAxios = () => {
         <Button
           variant="contained"
           color="info"
-          onClick={handleButtonClick}
           style={{ marginRight: 10 }}
         >
       <Link to="/patient" style={{color: "white"}}> Crear</Link>
@@ -83,7 +76,7 @@ export const TableAxios = () => {
       options: {
         customBodyRender: (tableMeta) => {
           return (
-            <button onClick={() => handleButtonClick2(tableMeta.rowData[0])}>
+            <button onClick={() => handleButtonClick(tableMeta.rowData[0])}>
               Modificar
             </button>
           );
@@ -93,7 +86,7 @@ export const TableAxios = () => {
     },
   ];
 
-  const handleButtonClick2 = async (id) => {
+  const handleButtonClick = async (id) => {
     try {
       // Realizar la solicitud HTTP a tu backend
       const response = await axios.post(

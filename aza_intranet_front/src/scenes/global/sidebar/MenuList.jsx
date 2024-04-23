@@ -26,7 +26,7 @@ const MenuList = ({ darkTheme }) => {
         <Link to="/calendar">Calendario</Link>
       </Menu.Item>
 
-      {permits && permits.includes(null) && (
+      {permits && permits.includes(1) && (
         <Menu.SubMenu
           key="subtasks"
           icon={<SettingOutlined />}
