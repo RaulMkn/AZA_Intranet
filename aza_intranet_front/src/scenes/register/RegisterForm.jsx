@@ -5,13 +5,13 @@ import { IoIosMail } from "react-icons/io";
 import axios from "axios";
 import DentistDto from "../../DTOs/DentistDto";
 import Swal from "sweetalert2";
-//import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 document.body.className = 'register';
 
 
 const RegisterForm = () => {
-  //const history = useHistory();
+  const navigate = useNavigate();
   const [nombre, setNombre] = useState("");
   const [email, setEmail] = useState("");
   const [contrasena, setContrasena] = useState("");
@@ -43,7 +43,7 @@ const RegisterForm = () => {
       console.log(formData);
 
       const response = await axios.post(
-        "http://localhost:8080/intranet/DentalAesthetics/user",
+        "http://localhost:8080/intranet/DentalAesthetics/dentist",
         formData,
         {
           withCredentials: true,
@@ -63,7 +63,7 @@ const RegisterForm = () => {
         confirmButtonText: "Entendido!",
       }).then((result) => {
         if (result.isConfirmed) {
-          //history.push("waiting");
+          history.push("waiting");
         }
       });
     } catch (error) {
@@ -83,7 +83,7 @@ const RegisterForm = () => {
                          `,
       }).then((result) => {
         if (result.isConfirmed) {
-          //history.push("waiting");
+          navigate.push("/home");
         }
       });
     }
