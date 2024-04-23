@@ -31,7 +31,7 @@ public class InterventionService {
 
         }
     }
-
+@Transactional
     public boolean createIntervention(InterventionEntity entity) {
         try (Session session = HibernateConfiguration.getSessionFactory().openSession()) {
             session.beginTransaction();

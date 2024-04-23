@@ -4,9 +4,11 @@ import com.example.dto.DepartmentDto;
 import com.example.dto.InterventionDto;
 import com.example.service.InterventionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,5 +28,18 @@ public class InterventionController {
                         .stream()
                         .map(InterventionDto::toDto)
                         .collect(Collectors.toList()));
+    }
+
+    @PostMapping(path = "/intervention")
+    public ResponseEntity<Void> createIntervention(
+            @Valid
+            @RequestBody InterventionDto dto
+    ) {
+        if (!interventionService.createIntervention(InterventionDto.toEntity(dto))) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        } else {
+            return ResponseEntity.ok().build();
+        }
+
     }
 }
