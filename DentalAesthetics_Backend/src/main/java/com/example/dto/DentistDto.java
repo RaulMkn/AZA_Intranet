@@ -16,7 +16,7 @@ public class DentistDto {
     private String pass;
     private String picture;
     private String job;
-    private int permis;
+    private Integer permis;
 
     public static DentistEntity toEntity(DentistDto dentistDto){
         if (dentistDto == null){
@@ -41,7 +41,7 @@ public class DentistDto {
         dentistDto.setPass(dentistEntity.getPass());
         dentistDto.setJob(dentistEntity.getJob());
         dentistDto.setPicture(dentistEntity.getPicture());
-        dentistDto.setPermis(dentistDto.getPermis());
+        dentistDto.setPermis(dentistEntity.getPermis());
         return dentistDto;
     }
 }

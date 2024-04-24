@@ -26,7 +26,7 @@ public class PaymentEntity implements Serializable {
     private Timestamp payment_date;
     private BigDecimal price;
     private String state;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "responsible_dentist")
     private DentistEntity responsible_dentist;
     private String comment;

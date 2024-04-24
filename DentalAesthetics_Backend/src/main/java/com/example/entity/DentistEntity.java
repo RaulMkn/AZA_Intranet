@@ -30,7 +30,7 @@ public class DentistEntity implements Serializable {
 
     private String job;
 
-    private int permis;
+    private Integer permis;
 
     @OneToMany(mappedBy = "dentist")
     private List<AppointmentEntity> appointments;

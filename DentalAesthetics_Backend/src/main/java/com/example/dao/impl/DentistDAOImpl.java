@@ -57,6 +57,7 @@ public class DentistDAOImpl implements DentistDAO {
         }
     }
 
+    @Transactional
     @Override
     public DentistEntity getUserFromDatabaseByEmail(Session session, String mail) {
         String hql = "SELECT us FROM DentistEntity us WHERE us.email = :mail";

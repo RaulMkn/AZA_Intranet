@@ -30,8 +30,8 @@ public class InterventionDto {
         entity.setPrice(dto.getPrice());
         entity.setDepartment(departmentService.getDepartmentById(dto.getDepartment()));
         List<AppointmentEntity> appointments = new ArrayList<>();
-        for (Integer integer : dto.getAppointments()){
-            appointments.add(appointmentService.getAppointmentById(integer));
+        for (Integer appointment : dto.getAppointments()){
+            appointments.add(appointmentService.getAppointmentById(appointment));
         }
         entity.setAppointments(appointments);
         return entity;

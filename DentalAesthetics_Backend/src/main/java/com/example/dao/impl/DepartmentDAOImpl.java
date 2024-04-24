@@ -32,4 +32,11 @@ public class DepartmentDAOImpl implements DepartmentDAO {
             return false;
         }
     }
+
+    @Override
+    public DepartmentEntity getDepartmentPartialInfoFromDatabase(Session session, Integer id) {
+        String hql = "SELECT dp.department_name FROM DepartmentEntity dp WHERE dp.id = :id";
+        return session.createQuery(hql, DepartmentEntity.class).setParameter("id", id).uniqueResult();
+
+    }
 }

@@ -10,6 +10,8 @@ import AppointmentsList from "./scenes/Appointments/AppointmentsList";
 import CreatePatient from "./scenes/Patients/CreatePatient";
 import PatientsList from "./scenes/Patients/PatientsList";
 import InterventionsList from "./scenes/Interventions/InterventionsList"
+import CreateIntervention from "./scenes/Interventions/CreateIntervention"
+
 import DentistsList from "./scenes/Dentists/DentistsList"
 import Stats from "./scenes/Stats/Stats"
 
@@ -45,6 +47,7 @@ function App() {
           <Route path="/calendar" element={<Calendar />} />
           <Route path="/patients" element={<PatientsList />} />
           <Route path="/appointments" element={<AppointmentsList />} />
+          <Route path="/intervention" element={<CreateIntervention />} />
           <Route path="/interventions" element={<InterventionsList />} />
           <Route path="/dentists" element={<DentistsList />} />
           <Route path="/stats" element={<Stats />} />

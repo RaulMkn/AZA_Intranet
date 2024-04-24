@@ -81,7 +81,7 @@ const CreateIntervention = () => {
 
           <Form.Item
             type="number"
-            label="price"
+            label="Precio"
             name="price"
             rules={[
               {
@@ -94,7 +94,7 @@ const CreateIntervention = () => {
           </Form.Item>
 
           <Form.Item
-            label="department"
+            label="Departamento"
             name="department"
             rules={[{ required: true, message: "Seleccione un departamento" }]}
           >

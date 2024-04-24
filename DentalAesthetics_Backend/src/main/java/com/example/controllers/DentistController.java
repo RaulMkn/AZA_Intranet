@@ -60,14 +60,14 @@ public class DentistController {
 
     @Transactional
     @PostMapping("/login")
-    public ResponseEntity<Integer> login(
+    public ResponseEntity<DentistDto> login(
             @Valid
             @RequestBody LoginDto loginDto) {
         if (!dentistService.verifyLogin(loginDto)) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         } else {
-            Integer id = dentistService.getUserByEmail(loginDto).getId();
-            return ResponseEntity.ok(id);
+            DentistEntity id = dentistService.getUserByEmail(loginDto);
+            return ResponseEntity.ok(DentistDto.toDto(id));
         }
     }
 }

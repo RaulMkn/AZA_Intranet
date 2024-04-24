@@ -10,7 +10,14 @@ import {
 } from "@ant-design/icons";
 /* eslint-disable react/prop-types */
 const MenuList = ({ darkTheme }) => {
-  const permits = JSON.parse(localStorage.getItem("permis"));
+  // Recuperar los datos del DentistDto del localStorage
+  var dentistJson = localStorage.getItem("Dentist");
+
+  // Convertir la cadena JSON a un objeto DentistDto
+  var dentistDto = JSON.parse(dentistJson);
+  console.log(dentistDto);
+
+  const permits = dentistDto.permis;
 
   return (
     <Menu
@@ -26,7 +33,7 @@ const MenuList = ({ darkTheme }) => {
         <Link to="/calendar">Calendario</Link>
       </Menu.Item>
 
-      {permits && permits.includes(1) && (
+      {permits && permits === 1 && (
         <Menu.SubMenu
           key="subtasks"
           icon={<SettingOutlined />}

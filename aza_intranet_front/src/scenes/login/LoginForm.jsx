@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import LoginDto from "../../DTOs/LoginDto";
 
-document.body.className = 'login';
+//document.body.className = 'login';
 
 // En cualquier componente donde necesites acceder al ID del usuario
 
@@ -39,8 +39,15 @@ const LoginForm = () => {
       }).then(() => {
         console.log("Respuesta del servidor:", response.data);
 
-        localStorage.setItem('userId', response.data);
-        localStorage.setItem('permis', response.data); 
+        // Suponiendo que response.data contiene el DentistDto devuelto por la petición
+        var dentistDto = response.data;
+
+        // Convertir el DentistDto a cadena JSON
+        var dentistJson = JSON.stringify(dentistDto);
+        console.log(dentistJson);
+
+        // Guardar la cadena JSON en el localStorage
+        localStorage.setItem("Dentist", dentistJson);
 
         window.location.href = "/home"; // Redirigir a la página de inicio
       });
@@ -53,7 +60,7 @@ const LoginForm = () => {
         confirmButtonText: "Entendido",
       });
     }
-  };  
+  };
 
   return (
     <div className="wrapper">

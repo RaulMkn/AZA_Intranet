@@ -92,4 +92,11 @@ public class AppointmentService {
             return false;
         }
     }
+
+    public AppointmentEntity getAppointmentPartialInfoById(AppointmentEntity appointment) {
+        try (Session session = HibernateConfiguration.getSessionFactory().openSession()){
+            session.beginTransaction();
+            return appointmentDAO.getAppointmentPartialInfoFromDatabase(session, appointment.getId());
+        }
+    }
 }

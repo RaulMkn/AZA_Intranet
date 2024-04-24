@@ -50,4 +50,11 @@ public class DepartmentService {
             return false;
         }
     }
+
+    public DepartmentEntity getDepartmentPartialInfoById(DepartmentEntity department) {
+        try (Session session = HibernateConfiguration.getSessionFactory().openSession()){
+            session.beginTransaction();
+            return departmentDAO.getDepartmentPartialInfoFromDatabase(session, department.getId());
+        }
+    }
 }
