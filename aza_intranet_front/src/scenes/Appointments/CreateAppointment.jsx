@@ -13,6 +13,11 @@ const { Option } = Select;
 const CreateAppointmentPage = () => {
   const [form] = Form.useForm();
 
+  var dentistJson = localStorage.getItem("Dentist");
+
+  // Convertir la cadena JSON a un objeto DentistDto
+  var dentistDto = JSON.parse(dentistJson);
+
   const handleDepartmentSelected = (departmentId) => {
     form.setFieldsValue({ department: departmentId });
   };
@@ -21,9 +26,10 @@ const CreateAppointmentPage = () => {
     form.setFieldsValue({ patient: patientId });
   };
 
-  const handleInterventionSelected = (interventionId) =>{
-    form.setFieldValue({intervention: interventionId});
-  }
+  const handleInterventionSelected = (interventionId) => {
+    form.setFieldsValue({ interventions: interventionId });
+  };
+  
 
   const handleSubmit = async (values) => {
     try {
@@ -35,11 +41,12 @@ const CreateAppointmentPage = () => {
         department,
         description,
         patient,
+        interventions
       } = values;
 
       const state = "Pendiente";
       const invoice = "Factura Generica";
-      const dentist = localStorage.getItem("userId");
+      const dentist = dentistDto.id;
       const total_price = 0; //Esto seguramente se vaya fuera
 
       // Crea una instancia de AppointmentDto con los valores del formulario
@@ -54,7 +61,8 @@ const CreateAppointmentPage = () => {
         total_price,
         invoice,
         dentist,
-        patient
+        patient,
+        interventions
       );
 
       // Convierte el objeto AppointmentDto en FormData
@@ -138,7 +146,7 @@ const CreateAppointmentPage = () => {
 
             <Form.Item
               label="Procedimiento"
-              name="intervention"
+              name="interventions"
               rules={[{ required: true, message: "Ingrese los procedimientos" }]}
             >
               <InterventionsDropdown onSelect={handleInterventionSelected} />

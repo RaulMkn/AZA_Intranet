@@ -27,6 +27,7 @@ public class AppointmentService {
         try (Session session = HibernateConfiguration.getSessionFactory().openSession()) {
             session.beginTransaction();
             List<AppointmentEntity> appointments = appointmentDAO.getAllAppointmentsFromDatabase(session);
+
             for (AppointmentEntity appointment : appointments) {
                 BigDecimal totalPrice = BigDecimal.ZERO;
                 for (InterventionEntity intervention : appointment.getInterventions()) {
@@ -71,7 +72,11 @@ public class AppointmentService {
         try (Session session = HibernateConfiguration.getSessionFactory().openSession()) {
             session.beginTransaction();
             DentistEntity dentist = dentistService.getUserById(id);
-            return appointmentDAO.getAppointmentFromDatabaseByDentistId(session, dentist);
+            List<AppointmentEntity> entities = appointmentDAO.getAppointmentFromDatabaseByDentistId(session, dentist);
+            for (AppointmentEntity appointment : entities){
+                appointment.getInterventions().size();
+            }
+            return entities;
         }
     }
 

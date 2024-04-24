@@ -40,7 +40,7 @@ public class AppointmentController {
             @Valid
             @RequestBody AppointmentDto dentistDto
     ) {
-        if (!appointmentService.createAppointment(AppointmentDto.toEntity(dentistDto))) {
+        if (!appointmentService.createAppointment(AppointmentDto. toEntity(dentistDto))) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         } else {
             return ResponseEntity.ok().build();

@@ -1,7 +1,9 @@
 package com.example.dto;
 
 import com.example.entity.AppointmentEntity;
+import com.example.entity.InterventionEntity;
 import com.example.service.DepartmentService;
+import com.example.service.InterventionService;
 import com.example.service.PatientService;
 import com.example.service.DentistService;
 import lombok.Getter;
@@ -10,6 +12,8 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -27,6 +31,7 @@ public class AppointmentDto {
     private Integer department;
     private Integer dentist;
     private Integer patient;
+    private List<Integer> interventions;
 
 
 
@@ -37,6 +42,7 @@ public class AppointmentDto {
         DentistService dentistService = new DentistService();
         PatientService patientService = new PatientService();
         DepartmentService departmentService = new DepartmentService();
+        InterventionService interventionService = new InterventionService();
         AppointmentEntity appointment = new AppointmentEntity();
         appointment.setId(dto.getId());
         appointment.setDate_time_beginning(dto.getDate_time_beginning());
@@ -50,6 +56,11 @@ public class AppointmentDto {
         appointment.setDentist(dentistService.getUserById(dto.getDentist()));
         appointment.setPatient(patientService.getPatientId(dto.getPatient()));
         appointment.setDepartment(departmentService.getDepartmentById(dto.getDepartment()));
+        List<InterventionEntity> interventionEntities = new ArrayList<>();
+        for (Integer intervention : dto.getInterventions()){
+            interventionEntities.add(interventionService.getInterventionById(intervention));
+        }
+        appointment.setInterventions(interventionEntities);
         return appointment;
     }
     public static AppointmentDto toDto(AppointmentEntity entity){
@@ -66,6 +77,11 @@ public class AppointmentDto {
         dto.setDentist(entity.getDentist().getId());
         dto.setPatient(entity.getPatient().getId());
         dto.setDepartment(entity.getDepartment().getId());
+        List<Integer> interventions = new ArrayList<>();
+        for (InterventionEntity intervention : entity.getInterventions()){
+            interventions.add(intervention.getId());
+        }
+        dto.setInterventions(interventions);
         return dto;
 
     }

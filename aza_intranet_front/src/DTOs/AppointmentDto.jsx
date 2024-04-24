@@ -11,6 +11,7 @@ class AppointmentDto {
       invoice,
       dentist,
       patient,
+      interventions
 
     ) {
       this.date_time_beginning = date_time_beginning;
@@ -24,6 +25,7 @@ class AppointmentDto {
       this.invoice = invoice;
       this.dentist = dentist;
       this.patient = patient;
+      this.interventions = interventions;
 
     }
   
@@ -40,6 +42,7 @@ class AppointmentDto {
       formData.append('invoice', appointmentDto.invoice);
       formData.append('dentist', appointmentDto.dentist);
       formData.append('patient', appointmentDto.patient);
+      formData.append('intervention', appointmentDto.interventions);
       return formData;
     }
   }

@@ -11,12 +11,18 @@ export const TableAxios = () => {
   const [appointment, setAppointment] = useState([]);
 
   // En cualquier componente donde necesites acceder al ID del usuario
-  const userId = localStorage.getItem("userId");
+  // Recuperar los datos del DentistDto del localStorage
+  var dentistJson = localStorage.getItem("Dentist");
 
+  // Convertir la cadena JSON a un objeto DentistDto
+  var dentistDto = JSON.parse(dentistJson);
+  console.log(dentistDto);
+  var id = dentistDto.id;
+  console.log(id);
   const fetchData = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/intranet/DentalAesthetics/appointment/dentistId/${userId}`,
+        `http://localhost:8080/intranet/DentalAesthetics/appointment/dentistId/${id}`,
         {
           withCredentials: true,
           headers: {
@@ -78,7 +84,7 @@ export const TableAxios = () => {
 
   useEffect(() => {
     fetchData();
-  });
+  }, []);
 
   // Definimos las columnas
   const columns = [
