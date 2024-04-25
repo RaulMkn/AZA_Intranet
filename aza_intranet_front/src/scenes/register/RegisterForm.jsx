@@ -7,35 +7,27 @@ import DentistDto from "../../DTOs/DentistDto";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 
-document.body.className = 'register';
-
+document.body.className = "register";
 
 const RegisterForm = () => {
   const navigate = useNavigate();
   const [nombre, setNombre] = useState("");
   const [email, setEmail] = useState("");
   const [contrasena, setContrasena] = useState("");
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [error, setError] = useState("");
+  const [imageName, setImageName] = useState("");
+  const [error] = useState("");
 
-  const handleImageChange = (event) => {
-    const file = event.target.files[0];
-
-    if (file) {
-      if (file.type === "image/jpeg" || file.type === "image/png") {
-        setSelectedImage(file);
-        setError("");
-      } else {
-        setSelectedImage(null);
-        setError("Solo se permiten archivos JPEG o PNG.");
-      }
-    }
-  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const dentistDto = new DentistDto(nombre, email, contrasena, selectedImage, null);
+    const dentistDto = new DentistDto(
+      nombre,
+      email,
+      contrasena,
+      imageName,
+      null
+    );
     console.log(dentistDto);
 
     try {
@@ -128,8 +120,9 @@ const RegisterForm = () => {
           <input
             type="file"
             accept=".jpg, .jpeg, .png"
-            onChange={handleImageChange}
+            onChange={(e) => setImageName(e.target.files[0].name)}
           />
+
           {error && <p style={{ color: "red" }}>{error}</p>}
         </div>
 
