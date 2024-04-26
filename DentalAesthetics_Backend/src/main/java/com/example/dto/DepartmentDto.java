@@ -1,5 +1,9 @@
 package com.example.dto;
 
+import com.example.configuration.exceptionHandler.ResponseStatusException;
+import com.example.dto.fakes.FakeAppointmentDto;
+import com.example.dto.fakes.FakeDentistDto;
+import com.example.dto.fakes.FakeInterventionDto;
 import com.example.entity.AppointmentEntity;
 import com.example.entity.DepartmentEntity;
 import com.example.entity.DentistEntity;
@@ -22,11 +26,11 @@ import java.util.List;
 public class DepartmentDto {
     private Integer id;
     private String department_name;
-    private List<Integer> dentists;
-    private List<Integer> appointments;
-    private List<Integer> interventions;
-
-    public static DepartmentEntity toEntity(DepartmentDto dto){
+    private List<FakeDentistDto> dentists;
+    private List<FakeAppointmentDto> appointments;
+    private List<FakeInterventionDto> interventions;
+/*
+    public static DepartmentEntity toEntity(DepartmentDto dto) throws ResponseStatusException {
         DentistService dentistService = new DentistService();
         AppointmentService appointmentService = new AppointmentService();
         InterventionService interventionService = new InterventionService();
@@ -64,4 +68,6 @@ public class DepartmentDto {
         }
         return new DepartmentDto(entity.getId(), entity.getDepartment_name(), usersIds, appointmentsIds, interventionsIds);
     }
+    */
+
 }

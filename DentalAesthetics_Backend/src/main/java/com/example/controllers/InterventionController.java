@@ -1,8 +1,11 @@
 package com.example.controllers;
 
+import com.example.configuration.exceptionHandler.ResponseStatusException;
 import com.example.dto.DepartmentDto;
 import com.example.dto.InterventionDto;
+import com.example.entity.InterventionEntity;
 import com.example.service.InterventionService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +21,8 @@ import java.util.stream.Collectors;
 public class InterventionController {
     @Autowired
     InterventionService interventionService = new InterventionService();
-
+    @Autowired
+    private ModelMapper map;
     @GetMapping(path = "/interventions")
     public ResponseEntity<List<InterventionDto>> obtainDepartments(
     ) {
@@ -26,7 +30,7 @@ public class InterventionController {
                 interventionService
                         .getInterventions()
                         .stream()
-                        .map(InterventionDto::toDto)
+                        .map(intEn ->this.map.map(intEn,InterventionDto.class))
                         .collect(Collectors.toList()));
     }
 
@@ -34,8 +38,8 @@ public class InterventionController {
     public ResponseEntity<Void> createIntervention(
             @Valid
             @RequestBody InterventionDto dto
-    ) {
-        if (!interventionService.createIntervention(InterventionDto.toEntity(dto))) {
+    ) throws ResponseStatusException {
+        if (!interventionService.createIntervention(this.map.map(dto, InterventionEntity.class))) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         } else {
             return ResponseEntity.ok().build();

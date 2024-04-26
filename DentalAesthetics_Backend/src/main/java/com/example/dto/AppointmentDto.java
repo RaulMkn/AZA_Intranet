@@ -1,18 +1,15 @@
 package com.example.dto;
 
-import com.example.entity.AppointmentEntity;
-import com.example.entity.InterventionEntity;
-import com.example.service.DepartmentService;
-import com.example.service.InterventionService;
-import com.example.service.PatientService;
-import com.example.service.DentistService;
+import com.example.dto.fakes.FakeDentistDto;
+import com.example.dto.fakes.FakeDepartmentDto;
+import com.example.dto.fakes.FakeInterventionDto;
+import com.example.dto.fakes.FakePatientDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -28,13 +25,13 @@ public class AppointmentDto {
     private String description;
     private BigDecimal total_price;
     private String invoice;
-    private Integer department;
-    private Integer dentist;
-    private Integer patient;
-    private List<Integer> interventions;
+    private FakeDepartmentDto department;
+    private FakeDentistDto dentist;
+    private FakePatientDto patient;
+    private List<FakeInterventionDto> interventions;
 
 
-
+/*
     public static AppointmentEntity toEntity(AppointmentDto dto){
         if (dto == null){
             throw new IllegalArgumentException("El objeto ApointmentDto no puede ser nulo");
@@ -62,7 +59,8 @@ public class AppointmentDto {
         }
         appointment.setInterventions(interventionEntities);
         return appointment;
-    }
+    }*/
+    /*
     public static AppointmentDto toDto(AppointmentEntity entity){
         AppointmentDto dto = new AppointmentDto();
         dto.setId(entity.getId());
@@ -85,4 +83,8 @@ public class AppointmentDto {
         return dto;
 
     }
+
+    */
+
+
 }

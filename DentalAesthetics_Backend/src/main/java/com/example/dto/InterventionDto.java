@@ -1,5 +1,8 @@
 package com.example.dto;
 
+import com.example.configuration.exceptionHandler.ResponseStatusException;
+import com.example.dto.fakes.FakeAppointmentDto;
+import com.example.dto.fakes.FakeDepartmentDto;
 import com.example.entity.AppointmentEntity;
 import com.example.entity.DepartmentEntity;
 import com.example.entity.InterventionEntity;
@@ -18,10 +21,10 @@ public class InterventionDto {
     private Integer id;
     private String full_name;
     private BigDecimal price;
-    private Integer department;
-    private List<Integer> appointments;
-
-    public static InterventionEntity toEntity(InterventionDto dto){
+    private FakeDepartmentDto department;
+    private List<FakeAppointmentDto> appointments;
+/*
+    public static InterventionEntity toEntity(InterventionDto dto) throws ResponseStatusException {
         InterventionEntity entity = new InterventionEntity();
         DepartmentService departmentService = new DepartmentService();
         AppointmentService appointmentService = new AppointmentService();
@@ -49,5 +52,5 @@ public class InterventionDto {
         }
         dto.setAppointments(appointments);
         return dto;
-    }
+    }*/
 }

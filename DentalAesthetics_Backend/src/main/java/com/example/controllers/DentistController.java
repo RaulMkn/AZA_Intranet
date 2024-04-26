@@ -4,9 +4,11 @@ import com.example.dto.LoginDto;
 import com.example.dto.DentistDto;
 import com.example.entity.DentistEntity;
 import com.example.service.DentistService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,12 +16,16 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@RestController
+@Controller
 @RequestMapping("/intranet/DentalAesthetics")
 @CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true", allowedHeaders = "*", methods = {RequestMethod.POST, RequestMethod.GET})
 public class DentistController {
     @Autowired
     private DentistService dentistService;
+
+    @Autowired
+    private ModelMapper modelMapper;
+
 
     @GetMapping(path = "/dentists")
     public ResponseEntity<List<DentistDto>> obtainUsers(
@@ -28,7 +34,7 @@ public class DentistController {
                 dentistService
                         .getAllUsers()
                         .stream()
-                        .map(DentistDto::toDto)
+                        .map(dentistEntity -> this.modelMapper.map(dentistEntity, DentistDto.class))
                         .collect(Collectors.toList()));
     }
 
@@ -38,7 +44,7 @@ public class DentistController {
     ) {
         DentistEntity user = dentistService.getUserById(id);
         if (user != null) {
-            return ResponseEntity.ok(DentistDto.toDto(user));
+            return ResponseEntity.ok(this.modelMapper.map(user, DentistDto.class));
         } else {
             return ResponseEntity.notFound().build();
         }
@@ -51,7 +57,7 @@ public class DentistController {
             @Valid
             @RequestBody DentistDto dentistDto
     ) {
-        if (!dentistService.createUser(DentistDto.toEntity(dentistDto))) {
+        if (!dentistService.createUser(this.modelMapper.map(dentistDto, DentistEntity.class))) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         } else {
             return ResponseEntity.ok().build();
@@ -67,7 +73,7 @@ public class DentistController {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         } else {
             DentistEntity id = dentistService.getUserByEmail(loginDto);
-            return ResponseEntity.ok(DentistDto.toDto(id));
+            return ResponseEntity.ok(this.modelMapper.map(id, DentistDto.class));
         }
     }
 }

@@ -1,5 +1,9 @@
 package com.example.dto;
 
+import com.example.dto.fakes.FakeAppointmentDto;
+import com.example.dto.fakes.FakeDepartmentDto;
+import com.example.dto.fakes.FakeEventDto;
+import com.example.dto.fakes.FakePatientDto;
 import com.example.entity.*;
 import com.example.service.AppointmentService;
 import com.example.service.DepartmentService;
@@ -21,6 +25,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class DentistDto {
+
     private Integer id;
     private String full_name;
     private String email;
@@ -28,10 +33,13 @@ public class DentistDto {
     private String picture;
     private String job;
     private Integer permis;
-    private List<Integer> appointments;
-    private Integer department;
-    private List<Integer> events;
-    private List<Integer> patients;
+    private List<FakeAppointmentDto> appointments;
+    private FakeDepartmentDto department;
+    private List<FakeEventDto> events;
+    private List<FakePatientDto> patients;
+
+
+    /*
 
     public static DentistEntity toEntity(DentistDto dentistDto){
         DepartmentService departmentService = new DepartmentService();
@@ -50,11 +58,11 @@ public class DentistDto {
         user.setJob(dentistDto.getJob());
         user.setPermis(dentistDto.getPermis());
 
-        user.setDepartment(departmentService.getDepartmentById(dentistDto.getDepartment()));
+        user.setDepartment(DepartmentDto.toEntity(dentistDto.getDepartment()));
 
         List<AppointmentEntity> appointments = new ArrayList<>();
-        for (Integer integer : dentistDto.getAppointments()){
-            appointments.add(appointmentService.getAppointmentById(integer));
+        for (AppointmentDto integer : dentistDto.getAppointments()){
+            appointments.add(AppointmentDto.toEntity(integer));
         }
         user.setAppointments(appointments);
 
@@ -65,8 +73,8 @@ public class DentistDto {
         user.setEvents(events);
 
         List<PatientEntity> patients = new ArrayList<>();
-        for (Integer integer : dentistDto.getPatients()){
-            patients.add(patientService.getPatientId(integer));
+        for (PatientDto integer : dentistDto.getPatients()){
+            patients.add();
         }
         user.setPatients(patients);
 
@@ -102,5 +110,6 @@ public class DentistDto {
         }
         dentistDto.setPatients(patientsIds);
         return dentistDto;
-    }
+    }    */
+
 }

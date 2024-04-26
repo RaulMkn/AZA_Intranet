@@ -1,6 +1,7 @@
 package com.example.service;
 
 import com.example.configuration.HibernateConfiguration;
+import com.example.configuration.exceptionHandler.ResponseStatusException;
 import com.example.dao.AppointmentDAO;
 import com.example.dao.impl.AppointmentDAOImpl;
 import com.example.entity.AppointmentEntity;
@@ -8,12 +9,11 @@ import com.example.entity.DentistEntity;
 import com.example.entity.InterventionEntity;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 @Service
@@ -39,14 +39,18 @@ public class AppointmentService {
         }
     }
 
-    public AppointmentEntity getAppointmentById(int id) {
+    public AppointmentEntity getAppointmentById(int id) throws ResponseStatusException {
         try (Session session = HibernateConfiguration.getSessionFactory().openSession()) {
             session.beginTransaction();
-            return appointmentDAO.getAppointmentFromDatabaseById(session, id);
+            AppointmentEntity entity = appointmentDAO.getAppointmentFromDatabaseById(session, id);
+            if (entity != null) {
+                return entity;
+            }
         }
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No se ha podido encontrar el Appoiment con identificador -> " +id );
     }
 
-    public boolean createAppointment(AppointmentEntity entity) {
+    public boolean createAppointment(AppointmentEntity entity) throws ResponseStatusException {
         try (Session session = HibernateConfiguration.getSessionFactory().openSession()) {
             session.beginTransaction();
             AppointmentEntity appointmentAttached = session.merge(entity);
@@ -63,7 +67,7 @@ public class AppointmentService {
             }
             return persistSuccess;
         } catch (Exception e) {
-            return false;
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error realizando la conexión con Base de datos", e);
         }
     }
 
@@ -85,6 +89,9 @@ public class AppointmentService {
         try (Session session = HibernateConfiguration.getSessionFactory().openSession()) {
             session.beginTransaction();
             AppointmentEntity appointment = appointmentService.getAppointmentById(id);
+            if (appointment == null) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No se ha encontrado el appoiment con id -> " + id);
+            }
             boolean success = appointmentDAO.deleteAppointmentFromDatabase(session, appointment);
             if (success) {
                 session.getTransaction().commit();
