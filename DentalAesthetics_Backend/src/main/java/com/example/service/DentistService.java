@@ -4,6 +4,7 @@ import com.example.configuration.HibernateConfiguration;
 import com.example.dao.impl.DentistDAOImpl;
 import com.example.dto.LoginDto;
 import com.example.dao.DentistDAO;
+import com.example.entity.AppointmentEntity;
 import com.example.entity.DentistEntity;
 import com.example.utils.Security;
 import org.hibernate.Session;
@@ -25,7 +26,13 @@ public class DentistService {
     public List<DentistEntity> getAllUsers() {
         try (Session session = HibernateConfiguration.getSessionFactory().openSession()) {
             session.beginTransaction();
-            return dentistDAO.getAllUsersFromDatabase(session);
+            List<DentistEntity> dentists = dentistDAO.getAllUsersFromDatabase(session);
+            for (DentistEntity dentist : dentists){
+                dentist.getAppointments().size();
+                dentist.getPatients().size();
+                dentist.getEvents().size();
+            }
+            return dentists;
         }
     }
 
@@ -82,6 +89,7 @@ public class DentistService {
 
     }
 
+    @Transactional
     public boolean verifyLogin(LoginDto dto) {
         try (Session session = HibernateConfiguration.getSessionFactory().openSession()) {
             session.beginTransaction();
@@ -98,7 +106,7 @@ public class DentistService {
         }
 
     }
-
+@Transactional
     public DentistEntity getUserByEmail(LoginDto loginDto) {
         try (Session session = HibernateConfiguration.getSessionFactory().openSession()) {
             session.beginTransaction();

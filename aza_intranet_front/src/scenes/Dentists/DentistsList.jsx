@@ -1,14 +1,12 @@
 import { useState, useEffect } from "react";
 import MUIDataTable from "mui-datatables";
 import axios from "axios";
-import Button from '@mui/material/Button';
-import { Link } from "react-router-dom"; 
-
-
+import Button from "@mui/material/Button";
+import { Link } from "react-router-dom";
 
 export const TableAxios = () => {
   //1 - configuramos Los hooks
-  const [intervention, setIntervention] = useState([]);
+  const [dentist, setDentist] = useState([]);
 
   const fetchData = async () => {
     try {
@@ -25,7 +23,34 @@ export const TableAxios = () => {
         }
       );
       console.log(response.data);
-     setIntervention(response.data);
+      const dentists = response.data;
+
+      await Promise.all(
+        dentists.map(async (dentist) => {
+          try {
+            // Hacemos una solicitud para cada id de cita
+            const detailResponse = await axios.get(
+              `http://localhost:8080/intranet/DentalAesthetics/departments/id/${dentist.department}`,
+              {
+                withCredentials: true,
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: "Basic " + btoa("maken:yuki"),
+                },
+                crossdomain: true,
+              }
+            );
+
+            dentist.departmentDetails = detailResponse.data;
+
+            // Aquí puedes manejar la respuesta de cada detalle de la cita, por ejemplo:
+            console.log("Detalles de la cita:", detailResponse.data);
+          } catch (detailError) {
+            console.error("Error al obtener detalles de la cita:", detailError);
+          }
+        })
+      );
+      setDentist(dentists);
     } catch (error) {
       // Manejo de errores en caso de que la solicitud falle
       console.error("Error al obtener datos de usuarios:", error);
@@ -45,12 +70,11 @@ export const TableAxios = () => {
     // Agregar contenido personalizado encima de la tabla
     customToolbar: () => {
       return (
-        <Button
-          variant="contained"
-          color="info"
-          style={{ marginRight: 10 }}
-        >
-      <Link to="/intervention" style={{color: "white"}}> Crear</Link>
+        <Button variant="contained" color="info" style={{ marginRight: 10 }}>
+          <Link to="/dentist" style={{ color: "white" }}>
+            {" "}
+            Crear
+          </Link>
         </Button>
       );
     },
@@ -63,12 +87,49 @@ export const TableAxios = () => {
       label: "NOMBRE",
     },
     {
-      name: "price",
-      label: "PRECIO",
+      name: "email",
+      label: "EMAIL",
+    },
+    {
+      name: "job",
+      label: "Trabajo",
     },
     {
       name: "department",
       label: "DEPARTAMENTO",
+      options : {
+        customBodyRender : (value) => {
+          return (
+            value && (
+              <div>
+                <p>{value.department_name}</p>
+              </div>
+            )
+          )
+        }
+      }
+    },
+    {
+      name: "permis",
+      label: "ADMIN?",
+      options : {
+        customBodyRender : (value) => {
+          if (value === 1) {
+            return (
+              <div>
+                <p>Si</p>
+              </div>
+            )
+            
+          } else{
+            return (
+              <div>
+                <p>No</p>
+              </div>
+            )
+          }
+        }
+      }
     },
     {
       name: "customButton",
@@ -104,11 +165,11 @@ export const TableAxios = () => {
   return (
     <>
       <MUIDataTable
-        title={"Listado de intervenciones"}
-        data={intervention}
+        title={"Listado de Dentistas"}
+        data={dentist}
         columns={columns}
         options={options}
-        className="table_container2"
+        className="table_container3"
       />
     </>
   );
