@@ -27,7 +27,7 @@ public class DentistService {
         try (Session session = HibernateConfiguration.getSessionFactory().openSession()) {
             session.beginTransaction();
             List<DentistEntity> dentists = dentistDAO.getAllUsersFromDatabase(session);
-            for (DentistEntity dentist : dentists){
+            for (DentistEntity dentist : dentists) {
                 dentist.getAppointments().size();
                 dentist.getPatients().size();
                 dentist.getEvents().size();
@@ -40,7 +40,12 @@ public class DentistService {
     public DentistEntity getUserById(int id) {
         try (Session session = HibernateConfiguration.getSessionFactory().openSession()) {
             session.beginTransaction();
-            return dentistDAO.getUserFromDatabaseById(session, id);
+            DentistEntity dentist = dentistDAO.getUserFromDatabaseById(session, id);
+            dentist.getEvents().size();
+            dentist.getPatients().size();
+            dentist.getAppointments().size();
+            dentist.getPayments().size();
+            return dentist;
         }
     }
 
@@ -93,7 +98,7 @@ public class DentistService {
     public boolean verifyLogin(LoginDto dto) {
         try (Session session = HibernateConfiguration.getSessionFactory().openSession()) {
             session.beginTransaction();
-            DentistEntity user = dentistDAO.getUserFromDatabaseByEmail(session,dto.getEmail());
+            DentistEntity user = dentistDAO.getUserFromDatabaseByEmail(session, dto.getEmail());
             if (user != null && Security.verifyPassword(dto.getPass(), user.getPass())) {
                 session.getTransaction().commit();
                 return true;
@@ -106,11 +111,17 @@ public class DentistService {
         }
 
     }
-@Transactional
+
+    @Transactional
     public DentistEntity getUserByEmail(LoginDto loginDto) {
         try (Session session = HibernateConfiguration.getSessionFactory().openSession()) {
             session.beginTransaction();
-            return dentistDAO.getUserFromDatabaseByEmail(session, loginDto.getEmail());
+            DentistEntity dentist = dentistDAO.getUserFromDatabaseByEmail(session, loginDto.getEmail());
+            dentist.getEvents().size();
+            dentist.getPatients().size();
+            dentist.getAppointments().size();
+            dentist.getPayments().size();
+            return dentist;
         }
     }
 }

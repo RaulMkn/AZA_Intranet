@@ -19,7 +19,7 @@ public class DepartmentService {
             session.beginTransaction();
             List<DepartmentEntity> departments = departmentDAO.getAllDepartmentsFromDatabase(session);
             for(DepartmentEntity department : departments){
-                department.getDentist().isEmpty();
+                department.getDentists().isEmpty();
                 department.getAppointments().isEmpty();
                 department.getInterventions().isEmpty();
             }

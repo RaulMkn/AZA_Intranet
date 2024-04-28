@@ -1,6 +1,5 @@
 package com.example.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,7 +21,7 @@ public class DepartmentEntity implements Serializable {
     private Integer id;
     private String department_name;
     @OneToMany(mappedBy = "department")
-    private List<DentistEntity> dentist;
+    private List<DentistEntity> dentists;
     @OneToMany(mappedBy = "department")
     private List<AppointmentEntity> appointments;
     @OneToMany(mappedBy = "department")

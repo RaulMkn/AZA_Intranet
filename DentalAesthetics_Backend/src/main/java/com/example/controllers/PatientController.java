@@ -3,6 +3,7 @@ package com.example.controllers;
 import com.example.configuration.exceptionHandler.ResponseStatusException;
 import com.example.dto.PatientDto;
 import com.example.entity.PatientEntity;
+import com.example.service.DentistService;
 import com.example.service.PatientService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,11 @@ public class PatientController {
     private PatientService patientService;
 
     @Autowired
+    private DentistService dentistService;
+
+    @Autowired
     private ModelMapper map;
+
     @GetMapping(path = "/patients")
     public ResponseEntity<List<PatientDto>> obtainPatients(
     ) {
@@ -33,7 +38,7 @@ public class PatientController {
                 patientService
                         .getAllPatients()
                         .stream()
-                        .map(patEn->this.map.map(patEn, PatientDto.class))
+                        .map(patEn -> this.map.map(patEn, PatientDto.class))
                         .collect(Collectors.toList()));
     }
 

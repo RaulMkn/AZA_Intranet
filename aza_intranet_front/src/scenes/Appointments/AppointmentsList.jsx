@@ -84,6 +84,7 @@ export const TableAxios = () => {
 
   useEffect(() => {
     fetchData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Definimos las columnas
