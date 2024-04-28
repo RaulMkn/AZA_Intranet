@@ -15,7 +15,6 @@ const MenuList = ({ darkTheme }) => {
 
   // Convertir la cadena JSON a un objeto DentistDto
   var dentistDto = JSON.parse(dentistJson);
-  console.log(dentistDto);
 
   const permits = dentistDto.permis;
 

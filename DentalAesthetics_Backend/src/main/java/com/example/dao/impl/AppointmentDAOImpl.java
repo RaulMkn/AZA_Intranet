@@ -52,10 +52,4 @@ public class AppointmentDAOImpl implements AppointmentDAO {
             return false;
         }
     }
-
-    @Override
-    public AppointmentEntity getAppointmentPartialInfoFromDatabase(Session session, Integer id) {
-        String hql = "SELECT ap.date_time_beginning, ap.date_time_ending, ap.priority, ap.state, ap.title, ap.description, ap.total_price, ap.invoice FROM AppointmentEntity ap WHERE ap.id = : id";
-        return session.createQuery(hql, AppointmentEntity.class).setParameter("id", id).uniqueResult();
-    }
 }

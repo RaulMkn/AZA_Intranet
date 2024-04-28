@@ -33,50 +33,9 @@ export const TableAxios = () => {
         }
       );
 
-      const appointments = response.data;
-
-      // Utilizamos Promise.all para esperar todas las solicitudes simultáneamente
-      await Promise.all(
-        appointments.map(async (appointment) => {
-          try {
-            // Hacemos una solicitud para cada id de cita
-            const detailResponse = await axios.get(
-              `http://localhost:8080/intranet/DentalAesthetics/dentist/id/${appointment.dentist}`,
-              {
-                withCredentials: true,
-                headers: {
-                  "Content-Type": "application/json",
-                  Authorization: "Basic " + btoa("maken:yuki"),
-                },
-                crossdomain: true,
-              }
-            );
-
-            const detailResponse2 = await axios.get(
-              `http://localhost:8080/intranet/DentalAesthetics/patientName/id/${appointment.patient}`,
-              {
-                withCredentials: true,
-                headers: {
-                  "Content-Type": "application/json",
-                  Authorization: "Basic " + btoa("maken:yuki"),
-                },
-                crossdomain: true,
-              }
-            );
-
-            appointment.dentistDetails = detailResponse.data;
-            appointment.patientDetails = detailResponse2.data;
-
-            // Aquí puedes manejar la respuesta de cada detalle de la cita, por ejemplo:
-            console.log("Detalles de la cita:", detailResponse.data);
-          } catch (detailError) {
-            console.error("Error al obtener detalles de la cita:", detailError);
-          }
-        })
-      );
-
       // Setear el estado con los datos de las citas
-      setAppointment(appointments);
+      setAppointment(response.data);
+      console.log(response.data)
     } catch (error) {
       console.error("Error al obtener datos de usuarios:", error);
     }
@@ -114,7 +73,7 @@ export const TableAxios = () => {
       label: "Precio Total",
     },
     {
-      name: "dentistDetails",
+      name: "dentist",
       label: "Dentista",
       options: {
         customBodyRender: (value) => {
@@ -129,14 +88,14 @@ export const TableAxios = () => {
       },
     },
     {
-      name: "patientDetails",
+      name: "patient",
       label: "Paciente",
       options: {
         customBodyRender: (value) => {
           return (
             value && (
               <div>
-                <p>{value}</p>
+                <p>{value.full_name}</p>
               </div>
             )
           );

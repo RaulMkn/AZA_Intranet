@@ -16,6 +16,4 @@ public interface AppointmentDAO {
     List<AppointmentEntity> getAppointmentFromDatabaseByDentistId(Session session, DentistEntity id);
 
     boolean deleteAppointmentFromDatabase(Session session, AppointmentEntity appointment);
-
-    AppointmentEntity getAppointmentPartialInfoFromDatabase(Session session, Integer id);
 }
