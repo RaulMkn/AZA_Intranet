@@ -27,33 +27,4 @@ public class PatientDto {
     private Integer phone;
     private FakeDentistDto dentist;
     private List<FakeAppointmentDto> appointments;
-/*
-    public static PatientEntity toEntity(PatientDto dto) throws ResponseStatusException {
-        DentistService dentistService = new DentistService();
-        AppointmentService appointmentService = new AppointmentService();
-        if (dto == null) {
-            throw new IllegalArgumentException("El objeto patientDTO no puede ser nulo");
-        }
-        List<AppointmentEntity> appointmentEntities = new ArrayList<>();
-        for(Integer list : dto.getAppointments()){
-            appointmentEntities.add(appointmentService.getAppointmentById(list));
-
-        }
-        return new PatientEntity(
-                dto.getId(), dto.getFull_name(), dto.getEmail(), dto.getPhone(),
-                dentistService.getUserById(dto.getDentist()), appointmentEntities);
-    }
-
-    public static PatientDto toDto(PatientEntity entity) {
-        List<Integer> appointments = new ArrayList<>();
-        for (AppointmentEntity appointment : entity.getAppointments()){
-            appointments.add(appointment.getId());
-        }
-        return new PatientDto(
-                entity.getId(), entity.getFull_name(), entity.getEmail(), entity.getPhone(),
-                entity.getDentist().getId(), appointments);
-
-    }
-
-*/
 }

@@ -59,10 +59,11 @@ public class DentistService {
     public boolean createUser(DentistEntity user, PictureEntity picture) {
         try (Session session = HibernateConfiguration.getSessionFactory().openSession()) {
             session.beginTransaction();
-            DentistEntity userAttached = session.merge(user);
             PictureEntity pictureAttached = session.merge(picture);
             PictureEntity persistedPicture = pictureDAO.persistPictureToDatabase(pictureAttached, session);
             user.setPicture(persistedPicture);
+            user.setPass(Security.hashPassword(user.getPass()));
+            DentistEntity userAttached = session.merge(user);
             boolean persistSuccess = dentistDAO.persistUserToDatabase(userAttached, session);
             if (persistSuccess) {
                 session.getTransaction().commit();
