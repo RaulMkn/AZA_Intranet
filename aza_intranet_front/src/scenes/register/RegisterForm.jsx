@@ -15,63 +15,71 @@ const RegisterForm = () => {
   const [contrasena, setContrasena] = useState("");
   const [imageName, setImageName] = useState("");
   const [imageFile, setImageFile] = useState("");
-  const [error] = useState("");
+  const [error, setError] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const dentistDto = new DentistDto(nombre, email, contrasena, null, null);
-    const pictureDto = new PictureDto(imageName, imageFile);
+    // Convertir la imagen a un array de bytes
+    const reader = new FileReader();
+    reader.readAsArrayBuffer(imageFile);
+    reader.onload = async () => {
+      const arrayBuffer = reader.result;
+      const byteArray = new Uint8Array(arrayBuffer);
 
-    console.log(dentistDto);
-    console.log(pictureDto);
+      const dentistDto = new DentistDto(nombre, email, contrasena, null, null);
+      const pictureDto = new PictureDto(imageName, byteArray);
 
-    try {
-      const formData = new FormData();
-      formData.append("dentistDto", JSON.stringify(dentistDto)); // Convertir el objeto a JSON y agregarlo al FormData
-      formData.append("pictureDto", JSON.stringify(pictureDto)); // Convertir el objeto a JSON y agregarlo al FormData
-      console.log(formData);
+      try {
+        const formData = new FormData();
+        formData.append("dentistDto", JSON.stringify(dentistDto));
+        formData.append("pictureDto", JSON.stringify(pictureDto));
 
-      const response = await axios.post(
-        "http://localhost:8080/intranet/DentalAesthetics/dentist",
-        formData,
-        {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Basic " + btoa("maken:yuki"),
-          },
-          crossdomain: true,
-        }
-      );
+        const response = await axios.post(
+          "http://localhost:8080/intranet/DentalAesthetics/dentist",
+          formData,
+          {
+            withCredentials: true,
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Basic " + btoa("maken:yuki"),
+            },
+            crossdomain: true,
+          }
+        );
 
-      console.log("Respuesta del servidor:", response.data);
-      Swal.fire({
-        title: "Registro Exitoso!",
-        text: "Pongase en contacto con su supervisor para que valide su cuenta.",
-        icon: "success",
-        confirmButtonText: "Entendido!",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          history.push("waiting");
-        }
-      });
-    } catch (error) {
-      console.error("Error al enviar datos al servidor:", error);
-      Swal.fire({
-        title: "Registro Fallido!",
-        text: "Pongase en contacto con su supervisor.",
-        icon: "error",
-        width: 600,
-        padding: "3em",
-        color: "#716add",
-        confirmButtonText: "Entendido",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          navigate.push("/home");
-        }
-      });
-    }
+        console.log("Respuesta del servidor:", response.data);
+        Swal.fire({
+          title: "Registro Exitoso!",
+          text: "Pongase en contacto con su supervisor para que valide su cuenta.",
+          icon: "success",
+          confirmButtonText: "Entendido!",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            navigate.push("waiting");
+          }
+        });
+      } catch (error) {
+        console.error("Error al enviar datos al servidor:", error);
+        Swal.fire({
+          title: "Registro Fallido!",
+          text: "Pongase en contacto con su supervisor.",
+          icon: "error",
+          width: 600,
+          padding: "3em",
+          color: "#716add",
+          confirmButtonText: "Entendido",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            navigate.push("/home");
+          }
+        });
+      }
+    };
+
+    reader.onerror = () => {
+      setError("Error al leer el archivo");
+    };
   };
 
   return (
@@ -114,8 +122,8 @@ const RegisterForm = () => {
             type="file"
             accept=".jpg, .jpeg, .png"
             onChange={(e) => {
-              setImageName(e.target.files[0].name); // Actualiza el nombre de la imagen
-              setImageFile(e.target.files[0]); // Actualiza el archivo de imagen
+              setImageName(e.target.files[0].name);
+              setImageFile(e.target.files[0]);
             }}
           />
 
