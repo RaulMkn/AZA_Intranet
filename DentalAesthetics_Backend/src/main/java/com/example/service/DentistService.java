@@ -1,11 +1,14 @@
 package com.example.service;
 
 import com.example.configuration.HibernateConfiguration;
+import com.example.dao.PictureDAO;
 import com.example.dao.impl.DentistDAOImpl;
+import com.example.dao.impl.PictureDAOImpl;
 import com.example.dto.LoginDto;
 import com.example.dao.DentistDAO;
 import com.example.entity.AppointmentEntity;
 import com.example.entity.DentistEntity;
+import com.example.entity.PictureEntity;
 import com.example.utils.Security;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +23,9 @@ public class DentistService {
 
     @Autowired
     DentistDAO dentistDAO = new DentistDAOImpl();
+
+    @Autowired
+    PictureDAO pictureDAO = new PictureDAOImpl();
 
 
     @Transactional
@@ -50,18 +56,21 @@ public class DentistService {
     }
 
     @Transactional
-    public boolean createUser(DentistEntity user) {
+    public boolean createUser(DentistEntity user, PictureEntity picture) {
         try (Session session = HibernateConfiguration.getSessionFactory().openSession()) {
             session.beginTransaction();
             DentistEntity userAttached = session.merge(user);
-
+            PictureEntity pictureAttached = session.merge(picture);
+            PictureEntity persistedPicture = pictureDAO.persistPictureToDatabase(pictureAttached, session);
+            user.setPicture(persistedPicture);
             boolean persistSuccess = dentistDAO.persistUserToDatabase(userAttached, session);
             if (persistSuccess) {
                 session.getTransaction().commit();
             } else {
                 session.getTransaction().rollback();
             }
-            return persistSuccess;
+            return  persistSuccess;
+
         } catch (Exception e) {
             return false;
         }

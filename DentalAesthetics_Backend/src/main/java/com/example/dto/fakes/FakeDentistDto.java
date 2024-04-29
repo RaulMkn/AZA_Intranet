@@ -14,7 +14,6 @@ public class FakeDentistDto {
     private String full_name;
     private String email;
     private String pass;
-    private String picture;
     private String job;
     private Integer permis;
 }

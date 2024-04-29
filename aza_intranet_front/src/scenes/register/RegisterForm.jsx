@@ -6,8 +6,7 @@ import axios from "axios";
 import DentistDto from "../../DTOs/DentistDto";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-
-document.body.className = "register";
+import PictureDto from "../../DTOs/PictureDto";
 
 const RegisterForm = () => {
   const navigate = useNavigate();
@@ -15,23 +14,22 @@ const RegisterForm = () => {
   const [email, setEmail] = useState("");
   const [contrasena, setContrasena] = useState("");
   const [imageName, setImageName] = useState("");
+  const [imageFile, setImageFile] = useState("");
   const [error] = useState("");
-
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const dentistDto = new DentistDto(
-      nombre,
-      email,
-      contrasena,
-      imageName,
-      null
-    );
+    const dentistDto = new DentistDto(nombre, email, contrasena, null, null);
+    const pictureDto = new PictureDto(imageName, imageFile);
+
     console.log(dentistDto);
+    console.log(pictureDto);
 
     try {
-      const formData = DentistDto.toFormData(dentistDto);
+      const formData = new FormData();
+      formData.append("dentistDto", JSON.stringify(dentistDto)); // Convertir el objeto a JSON y agregarlo al FormData
+      formData.append("pictureDto", JSON.stringify(pictureDto)); // Convertir el objeto a JSON y agregarlo al FormData
       console.log(formData);
 
       const response = await axios.post(
@@ -68,11 +66,6 @@ const RegisterForm = () => {
         padding: "3em",
         color: "#716add",
         confirmButtonText: "Entendido",
-        backdrop: `
-                           rgba(0,0,123,0.4)
-                           url("assets/SuccessRegisterDuck.gif")
-                           
-                         `,
       }).then((result) => {
         if (result.isConfirmed) {
           navigate.push("/home");
@@ -120,7 +113,10 @@ const RegisterForm = () => {
           <input
             type="file"
             accept=".jpg, .jpeg, .png"
-            onChange={(e) => setImageName(e.target.files[0].name)}
+            onChange={(e) => {
+              setImageName(e.target.files[0].name); // Actualiza el nombre de la imagen
+              setImageFile(e.target.files[0]); // Actualiza el archivo de imagen
+            }}
           />
 
           {error && <p style={{ color: "red" }}>{error}</p>}

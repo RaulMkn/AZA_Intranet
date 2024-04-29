@@ -2,7 +2,9 @@ package com.example.controllers;
 
 import com.example.dto.LoginDto;
 import com.example.dto.DentistDto;
+import com.example.dto.PictureDto;
 import com.example.entity.DentistEntity;
+import com.example.entity.PictureEntity;
 import com.example.service.DentistService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,9 +57,11 @@ public class DentistController {
     @PostMapping(path = "/dentist")
     public ResponseEntity<Void> addUser(
             @Valid
-            @RequestBody DentistDto dentistDto
+            @RequestBody DentistDto dentistDto,
+            @RequestBody PictureDto pictureDto
     ) {
-        if (!dentistService.createUser(this.modelMapper.map(dentistDto, DentistEntity.class))) {
+        if (!dentistService.createUser(this.modelMapper.map(dentistDto, DentistEntity.class),
+                                        this.modelMapper.map(pictureDto, PictureEntity.class))) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         } else {
             return ResponseEntity.ok().build();

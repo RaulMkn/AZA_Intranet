@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ManyToAny;
 
 import java.io.Serializable;
 import java.util.List;
@@ -26,8 +27,6 @@ public class DentistEntity implements Serializable {
 
     private String pass;
 
-    private String picture;
-
     private String job;
 
     private Integer permis;
@@ -47,5 +46,9 @@ public class DentistEntity implements Serializable {
 
     @OneToMany(mappedBy = "responsible_dentist")
     private List<PaymentEntity> payments;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    private PictureEntity picture;
+
 
 }

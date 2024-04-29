@@ -1,24 +1,10 @@
 package com.example.dto;
 
-import com.example.dto.fakes.FakeAppointmentDto;
-import com.example.dto.fakes.FakeDepartmentDto;
-import com.example.dto.fakes.FakeEventDto;
-import com.example.dto.fakes.FakePatientDto;
-import com.example.entity.*;
-import com.example.service.AppointmentService;
-import com.example.service.DepartmentService;
-import com.example.service.EventService;
-import com.example.service.PatientService;
-import com.example.utils.Security;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import com.example.dto.fakes.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -30,7 +16,7 @@ public class DentistDto {
     private String full_name;
     private String email;
     private String pass;
-    private String picture;
+    private FakePictureDto picture;
     private String job;
     private Integer permis;
     private List<FakeAppointmentDto> appointments;
