@@ -57,8 +57,8 @@ public class DentistController {
     @PostMapping(path = "/dentist")
     public ResponseEntity<Void> addUser(
             @Valid
-            @RequestBody DentistDto dentistDto,
-            @RequestBody PictureDto pictureDto
+            @RequestPart("dentistDto") DentistDto dentistDto,
+            @RequestPart("pictureDto") PictureDto pictureDto
     ) {
         if (!dentistService.createUser(this.modelMapper.map(dentistDto, DentistEntity.class),
                                         this.modelMapper.map(pictureDto, PictureEntity.class))) {

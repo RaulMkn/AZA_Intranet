@@ -34,6 +34,11 @@ const RegisterForm = () => {
         const formData = new FormData();
         formData.append("dentistDto", JSON.stringify(dentistDto));
         formData.append("pictureDto", JSON.stringify(pictureDto));
+        // Mostrar los datos del FormData en la consola
+        console.log("Contenido del FormData:");
+        formData.forEach((value, key) => {
+          console.log(key, value);
+        });
 
         const response = await axios.post(
           "http://localhost:8080/intranet/DentalAesthetics/dentist",
@@ -41,7 +46,7 @@ const RegisterForm = () => {
           {
             withCredentials: true,
             headers: {
-              "Content-Type": "application/json",
+              "Content-Type": "multipart/form-data",
               Authorization: "Basic " + btoa("maken:yuki"),
             },
             crossdomain: true,

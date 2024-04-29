@@ -48,6 +48,7 @@ public class DentistEntity implements Serializable {
     private List<PaymentEntity> payments;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "picture")
     private PictureEntity picture;
 
 
