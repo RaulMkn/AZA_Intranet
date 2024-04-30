@@ -15,10 +15,9 @@ public class PictureDAOImpl implements PictureDAO {
     @Override
     public PictureEntity persistPictureToDatabase(PictureEntity pictureAttached, Session session) {
         try {
-            session.persist(pictureAttached); // Guarda o actualiza la entidad en la base de datos
+            session.persist(pictureAttached);
             return pictureAttached; // Devuelve la entidad guardada o actualizada
         } catch (Exception e) {
-            // Maneja cualquier excepción que pueda ocurrir durante la persistencia
             throw new RuntimeException("Error al persistir la imagen en la base de datos", e);
         }
     }

@@ -23,7 +23,9 @@ public class PictureEntity implements Serializable {
     private String img_name;
 
     @Lob
-    private Byte[] img;
+    @Column(name = "img", columnDefinition="bytea")
+    private byte[] img;
+
 
     @OneToMany(mappedBy = "picture", fetch = FetchType.EAGER)
     private List<DentistEntity> dentist;

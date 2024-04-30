@@ -9,10 +9,12 @@ import com.example.service.DentistService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -54,14 +56,19 @@ public class DentistController {
     }
 
     @Transactional
-    @PostMapping(path = "/dentist")
+    @PostMapping(path = "/dentist", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Void> addUser(
             @Valid
-            @RequestPart("dentistDto") DentistDto dentistDto,
-            @RequestPart("pictureDto") PictureDto pictureDto
+            @RequestPart("name") String name,
+            @RequestPart("email") String mail,
+            @RequestPart("pass") String pass,
+            @RequestPart("file") MultipartFile file
     ) {
-        if (!dentistService.createUser(this.modelMapper.map(dentistDto, DentistEntity.class),
-                                        this.modelMapper.map(pictureDto, PictureEntity.class))) {
+        DentistEntity dentistDto = new DentistEntity();
+        dentistDto.setFull_name(name);
+        dentistDto.setEmail(mail);
+        dentistDto.setPass(pass);
+        if (!dentistService.createUser(dentistDto, file)) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         } else {
             return ResponseEntity.ok().build();

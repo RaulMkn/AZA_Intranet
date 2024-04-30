@@ -6,34 +6,29 @@ import axios from "axios";
 import DentistDto from "../../DTOs/DentistDto";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-import PictureDto from "../../DTOs/PictureDto";
+//import PictureDto from "../../DTOs/PictureDto";
 
 const RegisterForm = () => {
   const navigate = useNavigate();
   const [nombre, setNombre] = useState("");
   const [email, setEmail] = useState("");
   const [contrasena, setContrasena] = useState("");
-  const [imageName, setImageName] = useState("");
+  //const [imageName, setImageName] = useState("");
   const [imageFile, setImageFile] = useState("");
-  const [error, setError] = useState("");
+  const [error] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     // Convertir la imagen a un array de bytes
-    const reader = new FileReader();
-    reader.readAsArrayBuffer(imageFile);
-    reader.onload = async () => {
-      const arrayBuffer = reader.result;
-      const byteArray = new Uint8Array(arrayBuffer);
 
       const dentistDto = new DentistDto(nombre, email, contrasena, null, null);
-      const pictureDto = new PictureDto(imageName, byteArray);
+      //const pictureDto = new PictureDto(imageName, byteArray);
 
       try {
         const formData = new FormData();
-        formData.append("dentistDto", JSON.stringify(dentistDto));
-        formData.append("pictureDto", JSON.stringify(pictureDto));
+        formData.append("dentist", JSON.stringify(dentistDto));
+        formData.append("file", imageFile);
         // Mostrar los datos del FormData en la consola
         console.log("Contenido del FormData:");
         formData.forEach((value, key) => {
@@ -80,11 +75,6 @@ const RegisterForm = () => {
           }
         });
       }
-    };
-
-    reader.onerror = () => {
-      setError("Error al leer el archivo");
-    };
   };
 
   return (
@@ -127,9 +117,9 @@ const RegisterForm = () => {
             type="file"
             accept=".jpg, .jpeg, .png"
             onChange={(e) => {
-              setImageName(e.target.files[0].name);
               setImageFile(e.target.files[0]);
             }}
+            required
           />
 
           {error && <p style={{ color: "red" }}>{error}</p>}

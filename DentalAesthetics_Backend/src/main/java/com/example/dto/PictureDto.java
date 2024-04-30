@@ -21,7 +21,7 @@ public class PictureDto {
 
     private String img_name;
 
-    private Byte[] img;
+    private byte[] img;
 
     private List<FakeDentistDto> dentist;
 }

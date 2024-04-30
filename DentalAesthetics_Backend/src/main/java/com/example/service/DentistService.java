@@ -9,13 +9,16 @@ import com.example.dao.DentistDAO;
 import com.example.entity.AppointmentEntity;
 import com.example.entity.DentistEntity;
 import com.example.entity.PictureEntity;
+import com.example.utils.ImageUtils;
 import com.example.utils.Security;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.net.ssl.SSLSession;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -56,11 +59,14 @@ public class DentistService {
     }
 
     @Transactional
-    public boolean createUser(DentistEntity user, PictureEntity picture) {
+    public boolean createUser(DentistEntity user, MultipartFile picture) {
         try (Session session = HibernateConfiguration.getSessionFactory().openSession()) {
             session.beginTransaction();
-            PictureEntity pictureAttached = session.merge(picture);
-            PictureEntity persistedPicture = pictureDAO.persistPictureToDatabase(pictureAttached, session);
+
+            PictureEntity pictureEntity = new PictureEntity();
+            pictureEntity.setImg_name(picture.getOriginalFilename());
+            pictureEntity.setImg(ImageUtils.compressImage(picture.getBytes()));
+            PictureEntity persistedPicture = pictureDAO.persistPictureToDatabase(session.merge(pictureEntity), session);
             user.setPicture(persistedPicture);
             user.setPass(Security.hashPassword(user.getPass()));
             DentistEntity userAttached = session.merge(user);

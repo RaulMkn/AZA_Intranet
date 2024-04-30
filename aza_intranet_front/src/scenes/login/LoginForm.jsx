@@ -4,10 +4,6 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import LoginDto from "../../DTOs/LoginDto";
 
-//document.body.className = 'login';
-
-// En cualquier componente donde necesites acceder al ID del usuario
-
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
