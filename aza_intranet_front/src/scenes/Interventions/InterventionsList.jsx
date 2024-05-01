@@ -69,6 +69,18 @@ export const TableAxios = () => {
     {
       name: "department",
       label: "DEPARTAMENTO",
+      options: {
+        customBodyRender: (value) => {
+          return (
+            value && (
+              <div>
+                <p>{value.full_name}</p>
+              </div>
+            )
+          );
+        },
+      },
+
     },
     {
       name: "customButton",
