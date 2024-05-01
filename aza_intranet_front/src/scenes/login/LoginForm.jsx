@@ -40,7 +40,7 @@ const LoginForm = () => {
 
         // Convertir el DentistDto a cadena JSON
         var dentistJson = JSON.stringify(dentistDto);
-        console.log(dentistJson);
+        console.log(response.data);
 
         // Guardar la cadena JSON en el localStorage
         localStorage.setItem("Dentist", dentistJson);

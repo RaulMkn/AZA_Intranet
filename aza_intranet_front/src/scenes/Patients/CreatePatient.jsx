@@ -18,10 +18,14 @@ const CreatePatient = () => {
       const { full_name, email, phone, dentist } = values;
 
       // Crea una instancia de PatientDto con los valores del formulario
-      const patientDto = new PatientDto(full_name, email, phone, dentist);
+      const patientDto = new PatientDto(full_name, email, phone);
 
       // Convierte el objeto PatientDto en FormData
-      const formData = PatientDto.toFormData(patientDto);
+      const formData = new FormData();
+      formData.append ("full_name", full_name);
+      formData.append ("email", email);
+      formData.append (" phone", phone);
+      formData.append("dentistId", dentist);
       console.log(patientDto)
 
       // Realiza la solicitud POST a la API
@@ -31,7 +35,7 @@ const CreatePatient = () => {
         {
           withCredentials: true,
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "multipart/form-data",
             Authorization: "Basic " + btoa("maken:yuki"),
           },
           crossdomain: true,

@@ -74,13 +74,12 @@ export const TableAxios = () => {
           return (
             value && (
               <div>
-                <p>{value.full_name}</p>
+                <p>{value.department_name}</p>
               </div>
             )
           );
         },
       },
-
     },
     {
       name: "customButton",

@@ -17,6 +17,9 @@ public class PatientService {
     @Autowired
     PatientDAO patientDAO = new PatientDAOImpl();
 
+    @Autowired
+    DentistService dentistService = new DentistService();
+
     @Transactional
     public PatientEntity getPatientId(Integer patientId) {
         try(Session session = HibernateConfiguration.getSessionFactory().openSession()){
@@ -31,16 +34,17 @@ public class PatientService {
             session.beginTransaction();
             List<PatientEntity> patients =  patientDAO.getPatientsFromDatabase(session);
             for(PatientEntity patient : patients){
-                patient.getAppointments().isEmpty();
+                patient.getAppointments().size();
             }
             return patients;
         }
     }
 
     @Transactional
-    public boolean createPatient(PatientEntity entity) {
+    public boolean createPatient(PatientEntity entity, Integer dentist) {
         try (Session session = HibernateConfiguration.getSessionFactory().openSession()) {
             session.beginTransaction();
+            entity.setDentist(dentistService.getUserById(dentist));
             PatientEntity patientAttached = session.merge(entity);
 
             boolean persistSuccess = patientDAO.persistPatientToDatabase(patientAttached, session);

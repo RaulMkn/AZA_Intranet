@@ -2,12 +2,14 @@ package com.example.controllers;
 
 import com.example.configuration.exceptionHandler.ResponseStatusException;
 import com.example.dto.PatientDto;
+import com.example.dto.fakes.FakeDentistDto;
 import com.example.entity.PatientEntity;
 import com.example.service.DentistService;
 import com.example.service.PatientService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -69,12 +71,16 @@ public class PatientController {
     }
 
     @Transactional
-    @PostMapping(path = "/patient")
+    @PostMapping(path = "/patient", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Void> addPatient(
             @Valid
-            @RequestBody PatientDto patientDto
+            @RequestPart("full_name") String full_name,
+            @RequestPart("email") String email,
+            @RequestPart("phone") Integer phone,
+            @RequestPart("dentistId") Integer dentist
     ) throws ResponseStatusException {
-        if (!patientService.createPatient(this.map.map(patientDto, PatientEntity.class))) {
+        PatientEntity entity = new PatientEntity(null,full_name,email,phone,null,null);
+        if (!patientService.createPatient(entity, dentist)) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         } else {
             return ResponseEntity.ok().build();

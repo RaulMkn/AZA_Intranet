@@ -82,7 +82,7 @@ public class DentistService {
     private PictureEntity getPicture(MultipartFile picture, Session session) throws IOException {
         PictureEntity pictureEntity = new PictureEntity();
         pictureEntity.setImg_name(picture.getOriginalFilename());
-        pictureEntity.setImg(ImageUtils.compressImage(picture.getBytes()));
+        pictureEntity.setImg(picture.getBytes());
         pictureEntity.setImg_type(picture.getContentType());
         return pictureDAO.persistPictureToDatabase(session.merge(pictureEntity), session);
     }
