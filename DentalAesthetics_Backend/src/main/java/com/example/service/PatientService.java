@@ -3,8 +3,6 @@ package com.example.service;
 import com.example.configuration.HibernateConfiguration;
 import com.example.dao.PatientDAO;
 import com.example.dao.impl.PatientDAOImpl;
-import com.example.entity.AppointmentEntity;
-import com.example.entity.DentistEntity;
 import com.example.entity.PatientEntity;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;

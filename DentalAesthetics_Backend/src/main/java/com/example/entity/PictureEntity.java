@@ -22,8 +22,7 @@ public class PictureEntity implements Serializable {
 
     private String img_name;
 
-    @Lob
-    @Column(name = "img", columnDefinition="bytea")
+    @Column(name = "img_array", columnDefinition="bytea")
     private byte[] img;
 
 

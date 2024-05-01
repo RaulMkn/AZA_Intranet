@@ -7,6 +7,7 @@ import org.hibernate.Session;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Component
@@ -16,7 +17,7 @@ public class PictureDAOImpl implements PictureDAO {
     public PictureEntity persistPictureToDatabase(PictureEntity pictureAttached, Session session) {
         try {
             session.persist(pictureAttached);
-            return pictureAttached; // Devuelve la entidad guardada o actualizada
+            return pictureAttached;
         } catch (Exception e) {
             throw new RuntimeException("Error al persistir la imagen en la base de datos", e);
         }

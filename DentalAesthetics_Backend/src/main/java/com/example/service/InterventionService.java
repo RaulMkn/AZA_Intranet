@@ -3,7 +3,6 @@ package com.example.service;
 import com.example.configuration.HibernateConfiguration;
 import com.example.dao.InterventionDAO;
 import com.example.dao.impl.InterventionDAOImpl;
-import com.example.entity.AppointmentEntity;
 import com.example.entity.InterventionEntity;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;

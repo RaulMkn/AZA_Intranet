@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.net.ssl.SSLSession;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -62,11 +63,7 @@ public class DentistService {
     public boolean createUser(DentistEntity user, MultipartFile picture) {
         try (Session session = HibernateConfiguration.getSessionFactory().openSession()) {
             session.beginTransaction();
-
-            PictureEntity pictureEntity = new PictureEntity();
-            pictureEntity.setImg_name(picture.getOriginalFilename());
-            pictureEntity.setImg(ImageUtils.compressImage(picture.getBytes()));
-            PictureEntity persistedPicture = pictureDAO.persistPictureToDatabase(session.merge(pictureEntity), session);
+            PictureEntity persistedPicture = getPicture(picture, session);
             user.setPicture(persistedPicture);
             user.setPass(Security.hashPassword(user.getPass()));
             DentistEntity userAttached = session.merge(user);
@@ -82,6 +79,13 @@ public class DentistService {
             return false;
         }
 
+    }
+@Transactional
+    private PictureEntity getPicture(MultipartFile picture, Session session) throws IOException {
+        PictureEntity pictureEntity = new PictureEntity();
+        pictureEntity.setImg_name(picture.getOriginalFilename());
+        pictureEntity.setImg(ImageUtils.compressImage(picture.getBytes()));
+        return pictureDAO.persistPictureToDatabase(session.merge(pictureEntity), session);
     }
 
     @Transactional
