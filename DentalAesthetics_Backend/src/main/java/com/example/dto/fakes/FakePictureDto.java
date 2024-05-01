@@ -19,4 +19,6 @@ public class FakePictureDto {
     private String img_name;
 
     private byte[] img;
+
+    private String img_type;
 }

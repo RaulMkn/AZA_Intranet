@@ -6,20 +6,17 @@ import com.example.dao.impl.DentistDAOImpl;
 import com.example.dao.impl.PictureDAOImpl;
 import com.example.dto.LoginDto;
 import com.example.dao.DentistDAO;
-import com.example.entity.AppointmentEntity;
 import com.example.entity.DentistEntity;
 import com.example.entity.PictureEntity;
-import com.example.utils.ImageUtils;
-import com.example.utils.Security;
+import com.example.configuration.utils.ImageUtils;
+import com.example.configuration.utils.Security;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.net.ssl.SSLSession;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -73,18 +70,20 @@ public class DentistService {
             } else {
                 session.getTransaction().rollback();
             }
-            return  persistSuccess;
+            return persistSuccess;
 
         } catch (Exception e) {
             return false;
         }
 
     }
-@Transactional
+
+    @Transactional
     private PictureEntity getPicture(MultipartFile picture, Session session) throws IOException {
         PictureEntity pictureEntity = new PictureEntity();
         pictureEntity.setImg_name(picture.getOriginalFilename());
         pictureEntity.setImg(ImageUtils.compressImage(picture.getBytes()));
+        pictureEntity.setImg_type(picture.getContentType());
         return pictureDAO.persistPictureToDatabase(session.merge(pictureEntity), session);
     }
 

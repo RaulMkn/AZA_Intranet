@@ -23,5 +23,7 @@ public class PictureDto {
 
     private byte[] img;
 
+    private String img_type;
+
     private List<FakeDentistDto> dentist;
 }

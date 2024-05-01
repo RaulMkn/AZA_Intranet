@@ -1,4 +1,4 @@
-package com.example.utils;
+package com.example.configuration.utils;
 
 import java.io.ByteArrayOutputStream;
 import java.util.zip.Deflater;
