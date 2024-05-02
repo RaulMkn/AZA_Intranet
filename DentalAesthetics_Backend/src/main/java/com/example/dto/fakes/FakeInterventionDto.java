@@ -6,12 +6,31 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
+import java.util.List;
+
+
 public class FakeInterventionDto {
-    private Integer id;
-    private String full_name;
-    private BigDecimal price;
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Getter
+    @Setter
+    public static class GetInterventionDto {
+        private Integer id;
+        private String full_name;
+        private BigDecimal price;
+    }
+
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Getter
+    @Setter
+    public static class PostInterventionDto {
+        private Integer id;
+        private String full_name;
+        private BigDecimal price;
+        private Integer department;
+        private List<Integer> appointments;
+
+    }
+
 }

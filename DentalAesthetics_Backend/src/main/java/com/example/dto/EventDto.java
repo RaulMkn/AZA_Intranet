@@ -18,5 +18,5 @@ public class EventDto {
     private String title;
     private String description;
     private String location;
-    private FakeDentistDto dentist;
+    private FakeDentistDto.GetDentistDto dentist;
 }

@@ -16,6 +16,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+//Special class, maybe I delete it
 public class PictureDto {
     private Integer id;
 
@@ -25,5 +26,5 @@ public class PictureDto {
 
     private String img_type;
 
-    private List<FakeDentistDto> dentist;
+    private List<FakeDentistDto.GetDentistDto> dentist;
 }

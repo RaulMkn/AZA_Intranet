@@ -19,8 +19,8 @@ public class DentistDto {
     private FakePictureDto picture;
     private String job;
     private Integer permis;
-    private List<FakeAppointmentDto> appointments;
-    private FakeDepartmentDto department;
-    private List<FakeEventDto> events;
+    private List<FakeAppointmentDto.GetAppointmentDto> appointments;
+    private FakeDepartmentDto.GetDepartmentDto department;
+    private List<FakeEventDto.GetEventDto> events;
     private List<FakePatientDto.GetPatientDto> patients;
 }

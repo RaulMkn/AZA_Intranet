@@ -13,6 +13,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+//Special class, maybe I delete it
 public class FakePictureDto {
     private Integer id;
 
