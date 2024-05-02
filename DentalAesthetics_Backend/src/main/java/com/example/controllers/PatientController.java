@@ -3,6 +3,7 @@ package com.example.controllers;
 import com.example.configuration.exceptionHandler.ResponseStatusException;
 import com.example.dto.PatientDto;
 import com.example.dto.fakes.FakeDentistDto;
+import com.example.dto.fakes.FakePatientDto;
 import com.example.entity.PatientEntity;
 import com.example.service.DentistService;
 import com.example.service.PatientService;
@@ -71,20 +72,18 @@ public class PatientController {
     }
 
     @Transactional
-    @PostMapping(path = "/patient", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(path = "/patient", consumes = "application/json")
     public ResponseEntity<Void> addPatient(
             @Valid
-            @RequestPart("full_name") String full_name,
-            @RequestPart("email") String email,
-            @RequestPart("phone") Integer phone,
-            @RequestPart("dentistId") Integer dentist
-    ) throws ResponseStatusException {
-        PatientEntity entity = new PatientEntity(null,full_name,email,phone,null,null);
-        if (!patientService.createPatient(entity, dentist)) {
+            @RequestBody FakePatientDto.PostPatientDto dto
+            ) throws ResponseStatusException {
+        PatientEntity entity = new PatientEntity(null,dto.getFull_name(),dto.getEmail(),dto.getPhone(),null,null);
+        if (!patientService.createPatient(entity, dto.getDentistId())) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         } else {
             return ResponseEntity.ok().build();
         }
     }
+
 
 }

@@ -22,5 +22,5 @@ public class DentistDto {
     private List<FakeAppointmentDto> appointments;
     private FakeDepartmentDto department;
     private List<FakeEventDto> events;
-    private List<FakePatientDto> patients;
+    private List<FakePatientDto.GetPatientDto> patients;
 }

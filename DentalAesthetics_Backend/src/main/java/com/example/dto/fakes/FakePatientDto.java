@@ -5,13 +5,28 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
 public class FakePatientDto {
-    private Integer id;
-    private String full_name;
-    private String email;
-    private int phone;
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Getter
+    @Setter
+    public static class GetPatientDto {
+        private Integer id;
+        private String full_name;
+        private String email;
+        private int phone;
+    }
+
+
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Getter
+    @Setter
+    public static class PostPatientDto{
+        private Integer id;
+        private String full_name;
+        private String email;
+        private int phone;
+        private Integer dentistId;
+    }
 }

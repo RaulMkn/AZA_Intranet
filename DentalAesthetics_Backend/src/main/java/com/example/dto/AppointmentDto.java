@@ -27,7 +27,7 @@ public class AppointmentDto {
     private String invoice;
     private FakeDepartmentDto department;
     private FakeDentistDto dentist;
-    private FakePatientDto patient;
+    private FakePatientDto.GetPatientDto patient;
     private List<FakeInterventionDto> interventions;
 
 }
