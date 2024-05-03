@@ -75,10 +75,10 @@ public class PatientController {
     @PostMapping(path = "/patient", consumes = "application/json")
     public ResponseEntity<Void> addPatient(
             @Valid
-            @RequestBody FakePatientDto.PostPatientDto dto
+            @RequestBody FakePatientDto.PostPatientDto patientDto
             ) throws ResponseStatusException {
-        PatientEntity entity = new PatientEntity(null,dto.getFull_name(),dto.getEmail(),dto.getPhone(),null,null);
-        if (!patientService.createPatient(entity, dto.getDentistId())) {
+        PatientEntity entity = new PatientEntity(null,patientDto.getFull_name(),patientDto.getEmail(),patientDto.getPhone(),null,null);
+        if (!patientService.createPatient(entity, patientDto.getDentistId())) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         } else {
             return ResponseEntity.ok().build();

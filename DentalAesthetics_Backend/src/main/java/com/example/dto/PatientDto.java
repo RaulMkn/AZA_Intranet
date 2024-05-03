@@ -18,6 +18,10 @@ public class PatientDto {
     private String full_name;
     private String email;
     private Integer phone;
+    private String nif;
+    private String address;
+    private String gender;
+    private String birthDate;
     private FakeDentistDto.GetDentistDto dentist;
     private List<FakeAppointmentDto.GetAppointmentDto> appointments;
 }

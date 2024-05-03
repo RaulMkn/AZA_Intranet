@@ -15,6 +15,10 @@ public class FakePatientDto {
         private String full_name;
         private String email;
         private int phone;
+        private String nif;
+        private String address;
+        private String gender;
+        private String birthDate;
     }
 
 
@@ -27,6 +31,10 @@ public class FakePatientDto {
         private String full_name;
         private String email;
         private int phone;
+        private String nif;
+        private String address;
+        private String gender;
+        private String birthDate;
         private Integer dentistId;
     }
 }

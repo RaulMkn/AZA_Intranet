@@ -22,6 +22,10 @@ public class PatientEntity implements Serializable {
     private String full_name;
     private String email;
     private int phone;
+    private String nif;
+    private String address;
+    private String gender;
+    private String birthDate;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "dentist")
     private DentistEntity dentist;
