@@ -98,8 +98,7 @@ const CreatePatient = () => {
             >
               <Input />
             </Form.Item>
-          </div>
-          <div className="form-row">
+
             <Form.Item
               label="Direccion"
               name="address"
@@ -112,7 +111,8 @@ const CreatePatient = () => {
             >
               <Input />
             </Form.Item>
-
+          </div>
+          <div className="form-row">
             <Form.Item
               label="Genero"
               name="gender"
