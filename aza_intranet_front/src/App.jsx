@@ -11,6 +11,7 @@ import CreatePatient from "./scenes/Patients/CreatePatient";
 import PatientsList from "./scenes/Patients/PatientsList";
 import InterventionsList from "./scenes/Interventions/InterventionsList"
 import CreateIntervention from "./scenes/Interventions/CreateIntervention"
+import Email from "../emails/emailTest";
 
 import DentistsList from "./scenes/Dentists/DentistsList"
 import Stats from "./scenes/Stats/Stats"
@@ -51,6 +52,8 @@ function App() {
           <Route path="/interventions" element={<InterventionsList />} />
           <Route path="/dentists" element={<DentistsList />} />
           <Route path="/stats" element={<Stats />} />
+          <Route path="/mails" element={<Email />} />
+
         </Routes>
       </main>
     </div>
