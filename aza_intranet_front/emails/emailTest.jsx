@@ -3,6 +3,7 @@ import { Hr } from '@react-email/hr';
 import { Html } from '@react-email/html';
 import { Text } from '@react-email/text';
 
+// eslint-disable-next-line react/prop-types
 export function ConfirmationEmail({ patientName, appointmentDate }) {
   const formattedDate = new Date(appointmentDate).toLocaleString('en-US', {
     weekday: 'long',

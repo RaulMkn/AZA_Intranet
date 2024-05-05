@@ -1,8 +1,10 @@
+
+### ESTO ES UN EJEMPLO DE COMO SE VERIA EL ARCHIVO APPLICATION.PROPERTIES ###
 # DataSource settings
-spring.datasource.url=jdbc:postgresql://localhost:1234/Prueba3
+spring.datasource.url=jdbc:postgresql://TU_PUERTO/TU_BBDD
 spring.datasource.driver-class-name=org.postgresql.Driver
-spring.datasource.username=maken
-spring.datasource.password=yuki
+spring.datasource.username= username
+spring.datasource.password= password
 spring.datasource.hikari.minimum-idle=5
 spring.datasource.hikari.maximum-pool-size=20
 spring.datasource.hikari.idle-timeout=1800000
@@ -29,10 +31,10 @@ spring.entity-scan=com.example.entity
 # Spring Boot application settings
 server.port=8080
 
-spring.security.user.name=maken
-spring.security.user.password=yuki
+spring.security.user.name= username
+spring.security.user.password= password
 
-RESEND_API_KEY= re_8xvHDZGB_BuCj8BftUbbtBunryteMwtLg
+RESEND_API_KEY= tu_key
 
 
 
