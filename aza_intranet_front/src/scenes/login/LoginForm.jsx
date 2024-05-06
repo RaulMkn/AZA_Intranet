@@ -24,7 +24,7 @@ const LoginForm = () => {
           withCredentials: true,
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Basic " + btoa("maken:yuki"),
+            Authorization: "Basic " + btoa(import.meta.env.VITE_DATABASE_AUTH),
           },
           crossdomain: true,
         }

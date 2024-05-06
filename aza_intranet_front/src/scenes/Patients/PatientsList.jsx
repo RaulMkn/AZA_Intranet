@@ -19,7 +19,7 @@ export const TableAxios = () => {
           withCredentials: true, // Utiliza credenciales de autenticación
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Basic " + btoa("maken:yuki"), // Agrega encabezados necesarios
+            Authorization: "Basic " + btoa(import.meta.env.VITE_DATABASE_AUTH),
           },
           crossdomain: true, // Permite solicitudes a diferentes dominios
         }

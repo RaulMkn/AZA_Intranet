@@ -50,7 +50,7 @@ const CreatePatient = () => {
           withCredentials: true,
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Basic " + btoa("maken:yuki"),
+            Authorization: "Basic " + btoa(import.meta.env.VITE_DATABASE_AUTH),
           },
           crossdomain: true,
         }
@@ -61,7 +61,6 @@ const CreatePatient = () => {
         icon: "success",
       });
 
-      // Puedes hacer más acciones aquí después de una creación exitosa (por ejemplo, redirigir a otra página)
     } catch (error) {
       console.error("Error al enviar datos al servidor:", error);
 
