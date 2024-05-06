@@ -5,7 +5,7 @@ Intranet creada para la gestion interna de una clinica dental.
 ## Tabla de Contenidos
 
 1. [Introducción](#introducción)
-2. [Principales Tecnologías Utilizadas](#tecnologías-utilizadas)
+2. [Principales Tecnologías Utilizadas](#principales-tecnologías-utilizadas)
 3. [Instalación](#instalación)
 4. [Uso](#uso)
 
