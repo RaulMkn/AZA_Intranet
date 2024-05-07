@@ -5,6 +5,7 @@ import com.example.dto.PatientDto;
 import com.example.dto.fakes.FakeDentistDto;
 import com.example.dto.fakes.FakePatientDto;
 import com.example.entity.PatientEntity;
+import com.example.service.AppointmentService;
 import com.example.service.DentistService;
 import com.example.service.PatientService;
 import org.modelmapper.ModelMapper;
@@ -33,6 +34,8 @@ public class PatientController {
 
     @Autowired
     private ModelMapper map;
+    @Autowired
+    private AppointmentService appointmentService;
 
     @GetMapping(path = "/patients")
     public ResponseEntity<List<PatientDto>> obtainPatients(
@@ -77,7 +80,16 @@ public class PatientController {
             @Valid
             @RequestBody FakePatientDto.PostPatientDto patientDto
             ) throws ResponseStatusException {
-        PatientEntity entity = new PatientEntity(null,patientDto.getFull_name(),patientDto.getEmail(),patientDto.getPhone(),null,null);
+        PatientEntity entity = new PatientEntity();
+        entity.setFull_name(patientDto.getFull_name());
+        entity.setEmail(patientDto.getEmail());
+        entity.setPhone(patientDto.getPhone());
+        entity.setNif(patientDto.getNif());
+        entity.setAddress(patientDto.getAddress());
+        entity.setGender(patientDto.getGender());
+        entity.setBirthDate(patientDto.getBirthDate());
+        entity.setDentist(dentistService.getUserById(patientDto.getDentistId()));
+        entity.setAppointments(null);
         if (!patientService.createPatient(entity, patientDto.getDentistId())) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         } else {
