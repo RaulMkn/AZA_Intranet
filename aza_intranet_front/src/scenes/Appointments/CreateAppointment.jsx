@@ -7,6 +7,7 @@ import Swal from "sweetalert2";
 import AppointmentDto from "../../DTOs/AppointmentDto";
 import PatientDropdown from "../../utils/PatientsDropdown";
 import InterventionsDropdown from "../../utils/InterventionsDropdown";
+import Sender from "../../../emails/api/Sender";
 
 const { Option } = Select;
 
@@ -82,6 +83,18 @@ const CreateAppointmentPage = () => {
           crossdomain: true,
         }
       );
+      const response = await axios.get(
+        `http://localhost:8080/intranet/DentalAesthetics/patient/id/${patient}`,
+        {
+          withCredentials: true, // Utiliza credenciales de autenticación
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Basic " + btoa(import.meta.env.VITE_DATABASE_AUTH),
+          },
+          crossdomain: true, // Permite solicitudes a diferentes dominios
+        }
+      );
+      await Sender({ patientInfo: response.data, appointmentDto });
 
       // Muestra un mensaje de éxito al usuario
       Swal.fire({

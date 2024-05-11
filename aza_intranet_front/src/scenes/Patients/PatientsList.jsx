@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 
 export const TableAxios = () => {
   //1 - configuramos Los hooks
-  const [dentist, setDentist] = useState([]);
+  const [patient, setPatients] = useState([]);
 
   const fetchData = async () => {
     try {
@@ -25,7 +25,7 @@ export const TableAxios = () => {
         }
       );
       console.log(response.data);
-      setDentist(response.data);
+      setPatients(response.data);
     } catch (error) {
       // Manejo de errores en caso de que la solicitud falle
       console.error("Error al obtener datos de usuarios:", error);
@@ -105,7 +105,7 @@ export const TableAxios = () => {
     <>
       <MUIDataTable
         title={"Listado de pacientes"}
-        data={dentist}
+        data={patient}
         columns={columns}
         options={options}
         className="table_container2"
