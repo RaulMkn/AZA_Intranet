@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Getter
@@ -25,7 +26,8 @@ public class PatientEntity implements Serializable {
     private String nif;
     private String address;
     private String gender;
-    private String birthDate;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Timestamp birthDate;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "dentist")
     private DentistEntity dentist;

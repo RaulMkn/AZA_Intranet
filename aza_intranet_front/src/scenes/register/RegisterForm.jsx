@@ -49,7 +49,7 @@ const RegisterForm = () => {
         confirmButtonText: "Entendido!",
       }).then((result) => {
         if (result.isConfirmed) {
-          navigate.push("waiting");
+          window.location.href = "/login"; // Redirigir a la página de inicio
         }
       });
     } catch (error) {

@@ -7,9 +7,9 @@ import axios from "axios";
 const CreateIntervention = () => {
   const [form] = Form.useForm();
 
-  const handleInterventionSelected = (interventionId) => {
+  const handleDepartmentSelected = (departmentId) => {
     // Establece el valor del departmenta seleccionado en el formulario
-    form.setFieldsValue({ intervention: interventionId });
+    form.setFieldsValue({ department: departmentId });
   };
 
   const handleSubmit = async (values) => {
@@ -98,7 +98,7 @@ const CreateIntervention = () => {
             name="department"
             rules={[{ required: true, message: "Seleccione un departamento" }]}
           >
-            <DepartmentDropDown onSelect={handleInterventionSelected} />
+            <DepartmentDropDown onSelect={handleDepartmentSelected} />
           </Form.Item>
 
           <Form.Item>

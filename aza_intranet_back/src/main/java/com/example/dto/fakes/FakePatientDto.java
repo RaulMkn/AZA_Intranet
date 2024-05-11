@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.sql.Timestamp;
+
 public class FakePatientDto {
     @AllArgsConstructor
     @NoArgsConstructor
@@ -18,7 +20,7 @@ public class FakePatientDto {
         private String nif;
         private String address;
         private String gender;
-        private String birthDate;
+        private Timestamp birthDate;
     }
 
 
@@ -34,7 +36,7 @@ public class FakePatientDto {
         private String nif;
         private String address;
         private String gender;
-        private String birthDate;
+        private Timestamp birthDate;
         private Integer dentistId;
     }
 }

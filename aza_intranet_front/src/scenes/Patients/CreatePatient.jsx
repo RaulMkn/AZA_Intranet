@@ -60,7 +60,6 @@ const CreatePatient = () => {
         title: "Paciente creado con éxito!",
         icon: "success",
       });
-
     } catch (error) {
       console.error("Error al enviar datos al servidor:", error);
 
@@ -140,10 +139,10 @@ const CreatePatient = () => {
               label="Fecha de nacimiento"
               name="birthDate"
               rules={[
-                { required: true, message: "Ingrese la fecha de inicio" },
+                { required: true, message: "Ingrese la fecha de nacimiento" },
               ]}
             >
-              <DatePicker showTime format="YYYY-MM-DD" />
+              <DatePicker format="YYYY-MM-DD" />
             </Form.Item>
           </div>
           <div className="form-row">
