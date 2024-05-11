@@ -1,9 +1,9 @@
+import PropTypes from "prop-types";
 import {
   Body,
   Button,
   Container,
   Head,
-  Hr,
   Html,
   Img,
   Preview,
@@ -12,7 +12,10 @@ import {
 } from "@react-email/components";
 import "./AppointmentTemplate.css";
 
-const KoalaWelcomeEmail = ({ patient,appointmentDto }) => {
+const KoalaWelcomeEmail = ({ patient, appointmentDto }) => {
+  // Validación de props
+  PropTypes.checkPropTypes(KoalaWelcomeEmail.propTypes, { patient, appointmentDto }, 'prop', 'KoalaWelcomeEmail');
+
   // Format the date for the iCalendar format
   const formatDate = (date) => {
     return date.toISOString().replace(/-|:|\.\d+/g, "");
@@ -20,16 +23,15 @@ const KoalaWelcomeEmail = ({ patient,appointmentDto }) => {
 
   // Generate the iCalendar file content
   const generateICSContent = () => {
-    const { title, description, location, start, end } = event;
-    const formattedStart = formatDate(start);
-    const formattedEnd = formatDate(end);
+    const formattedStart = formatDate(appointmentDto.date_time_beginning);
+    const formattedEnd = formatDate(appointmentDto.date_time_end);
 
     return `BEGIN:VCALENDAR
   VERSION:2.0
   BEGIN:VEVENT
-  SUMMARY:${title}
-  DESCRIPTION:${description}
-  LOCATION:${location}
+  SUMMARY:${appointmentDto.title}
+  DESCRIPTION:${appointmentDto.description}
+  LOCATION:${appointmentDto.location}
   DTSTART:${formattedStart}
   DTEND:${formattedEnd}
   END:VEVENT
@@ -43,38 +45,33 @@ const KoalaWelcomeEmail = ({ patient,appointmentDto }) => {
     <Html>
       <Head />
       <Preview>
-        The sales intelligence platform that helps you uncover qualified leads.
+        Recordatorio cita dental.
       </Preview>
       <Body className="main">
         <Container className="container">
           <Img
-            src={`imagen`}
+            src={"../src/assets/AZA_logo2.png"}
             width="170"
             height="50"
-            alt="Koala"
+            alt="Logo"
             className="logo"
           />
-          <Text className="paragraph">Hi {patient.full_name},</Text>
+          <Text className="paragraph">Hola {patient.full_name},</Text>
           <Text className="paragraph">
-            Welcome to Koala, the sales intelligence platform that helps you
-            uncover qualified leads and close deals faster.
+            Le recordamos que tiene una cita para una consulta en la clínica AZA el dia {appointmentDto.date_time_beginning.toLocaleString()}
           </Text>
           <Section className="btn-container">
             <Button
               href={`data:text/calendar;charset=utf-8,${encodedICSContent}`}
-              download={`${event.title}.ics`}
+              download={`${appointmentDto.title}.ics`}
             >
               Agregar al calendario
             </Button>
           </Section>
           <Text className="paragraph">
-            Best,
+            Un placer,
             <br />
-            The Koala team
-          </Text>
-          <Hr className="hr" />
-          <Text className="footer">
-            470 Noor Ave STE B #1148, South San Francisco, CA 94080
+            Equipo clínica dental AZA
           </Text>
         </Container>
       </Body>
@@ -82,8 +79,32 @@ const KoalaWelcomeEmail = ({ patient,appointmentDto }) => {
   );
 };
 
-KoalaWelcomeEmail.PreviewProps = {
-  userFirstname: "Alan",
+// Prop validation
+KoalaWelcomeEmail.propTypes = {
+  patient: PropTypes.shape({
+    full_name: PropTypes.string.isRequired,
+  }).isRequired,
+  appointmentDto: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    location: PropTypes.string.isRequired,
+    date_time_beginning: PropTypes.instanceOf(Date).isRequired,
+    date_time_end: PropTypes.instanceOf(Date).isRequired,
+  }).isRequired,
 };
+
+KoalaWelcomeEmail.PreviewProps = {
+  patient: {
+    full_name: "Juan Pérez",
+  },
+  appointmentDto: {
+    title: "Consulta dental",
+    description: "Consulta regular de revisión y limpieza",
+    location: "Clínica Dental AZA",
+    date_time_beginning: new Date("2024-05-15T10:00:00"),
+    date_time_end: new Date("2024-05-15T11:00:00"),
+  },
+};
+
 
 export default KoalaWelcomeEmail;
