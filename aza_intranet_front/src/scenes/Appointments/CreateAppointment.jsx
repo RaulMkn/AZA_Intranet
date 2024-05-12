@@ -8,6 +8,7 @@ import AppointmentDto from "../../DTOs/AppointmentDto";
 import PatientDropdown from "../../utils/PatientsDropdown";
 import InterventionsDropdown from "../../utils/InterventionsDropdown";
 import Sender from "../../../emails/api/Sender";
+import side_eye from "../../assets/side_eye.jpeg"
 
 const { Option } = Select;
 
@@ -15,15 +16,18 @@ const CreateAppointmentPage = () => {
   const [form] = Form.useForm();
 
   var dentistJson = localStorage.getItem("Dentist");
+  console.log(dentistJson)
   if (dentistJson ==  null) {
     Swal.fire({
-      title: "¿Estas seguro de que tienes permisos para esta pagina?",
-      icon: "warning",
-      text: "Yo creo que no, pero contacta con tu administrador",
-      imageUrl: "../../assets/side_eye.jpeg",
+      title: "¿Estas seguro de que tienes permisos para esta página?",
+      icon: false,
+      text: "Yo creo que no, pero contacta con maken",
+      imageUrl: side_eye,
       imageWidth: 400,
-      imageHeight: 200,
-      imageAlt: "Ojo Lateral Boombastico ;-;"
+      imageHeight: 300,
+      imageAlt: "Ojo Lateral Boombastico ;-;",
+      showCancelButton: false,
+      showConfirmButton: false,
     });
     setTimeout(() => {
       window.location.href = "/login";

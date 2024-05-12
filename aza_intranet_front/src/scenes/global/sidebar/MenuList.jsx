@@ -1,23 +1,51 @@
-import { Menu } from "antd";
+import { Menu, Button } from "antd";
 import { Link } from "react-router-dom";
-
 import {
   HomeOutlined,
   CalendarOutlined,
   ContactsOutlined,
   UserOutlined,
   SettingOutlined,
+  RollbackOutlined,
 } from "@ant-design/icons";
-/* eslint-disable react/prop-types */
-const MenuList = ({ darkTheme }) => {
-  // Recuperar los datos del DentistDto del localStorage
-  var dentistJson = localStorage.getItem("Dentist");
+import Swal from "sweetalert2";
 
-  // Convertir la cadena JSON a un objeto DentistDto
+/* eslint-disable react/prop-types */
+
+const MenuList = ({ darkTheme }) => {
+  const logOut = () => {
+    try {
+      localStorage.removeItem("Dentist");
+      Swal.fire({
+        title: "Session cerrada correctamente",
+        icon: "success",
+        showCancelButton: false,
+        showConfirmButton: false,
+      });
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 2000);
+    } catch {
+      Swal.fire({
+        title: "Problema al cerrar sesion",
+        text: "Corre a contactar con maken",
+        icon: "error",
+        showCancelButton: false,
+        showConfirmButton: false,
+      });
+    }
+  };
+
+  // Obtener datos del localStorage
+  var dentistJson = localStorage.getItem("Dentist");
   var dentistDto = JSON.parse(dentistJson);
 
-  const permits = dentistDto.permis;
+  // Si dentistDto es nulo o vacío, retorna un componente vacío
+  if (!dentistDto) {
+    return null;
+  }
 
+  // Si hay datos en dentistDto, se procede a mostrar el menú
   return (
     <Menu
       theme={darkTheme ? "dark" : "light"}
@@ -32,7 +60,7 @@ const MenuList = ({ darkTheme }) => {
         <Link to="/calendar">Calendario</Link>
       </Menu.Item>
 
-      {permits && permits === 1 && (
+      {dentistDto.permis && dentistDto.permis === 1 && (
         <Menu.SubMenu
           key="subtasks"
           icon={<SettingOutlined />}
@@ -56,6 +84,10 @@ const MenuList = ({ darkTheme }) => {
 
       <Menu.Item key={"payment"} icon={<UserOutlined />}>
         <Link to="/patients">Pacientes</Link>
+      </Menu.Item>
+
+      <Menu.Item icon={<RollbackOutlined />}>
+        <Button onClick={logOut}>Cerrar Sesión</Button>
       </Menu.Item>
     </Menu>
   );
