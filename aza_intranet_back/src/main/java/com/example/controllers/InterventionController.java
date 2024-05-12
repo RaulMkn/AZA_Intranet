@@ -3,7 +3,9 @@ package com.example.controllers;
 import com.example.configuration.exceptionHandler.ResponseStatusException;
 import com.example.dto.DepartmentDto;
 import com.example.dto.InterventionDto;
+import com.example.dto.fakes.FakeInterventionDto;
 import com.example.entity.InterventionEntity;
+import com.example.service.DepartmentService;
 import com.example.service.InterventionService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +22,12 @@ import java.util.stream.Collectors;
 @CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true", allowedHeaders = "*", methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.DELETE})
 public class InterventionController {
     @Autowired
-    InterventionService interventionService = new InterventionService();
+    InterventionService interventionService;
     @Autowired
     private ModelMapper map;
+    @Autowired
+    private DepartmentService departmentService;
+
     @GetMapping(path = "/interventions")
     public ResponseEntity<List<InterventionDto>> obtainDepartments(
     ) {
@@ -37,9 +42,14 @@ public class InterventionController {
     @PostMapping(path = "/intervention")
     public ResponseEntity<Void> createIntervention(
             @Valid
-            @RequestBody InterventionDto dto
+            @RequestBody FakeInterventionDto.PostInterventionDto dto
     ) throws ResponseStatusException {
-        if (!interventionService.createIntervention(this.map.map(dto, InterventionEntity.class))) {
+        InterventionEntity interventionEntity = new InterventionEntity();
+        interventionEntity.setFull_name(dto.getFull_name());
+        interventionEntity.setPrice(dto.getPrice());
+        interventionEntity.setDepartment(departmentService.getDepartmentById(dto.getDepartment()));
+        interventionEntity.setAppointments(null);
+        if (!interventionService.createIntervention(interventionEntity)) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         } else {
             return ResponseEntity.ok().build();

@@ -4,10 +4,8 @@ import { FaUser, FaLock } from "react-icons/fa";
 import { IoIosMail } from "react-icons/io";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
 
 const RegisterForm = () => {
-  const navigate = useNavigate();
   const [nombre, setNombre] = useState("");
   const [email, setEmail] = useState("");
   const [contrasena, setContrasena] = useState("");
@@ -46,12 +44,10 @@ const RegisterForm = () => {
         title: "Registro Exitoso!",
         text: "Pongase en contacto con su supervisor para que valide su cuenta.",
         icon: "success",
-        confirmButtonText: "Entendido!",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          window.location.href = "/login"; // Redirigir a la página de inicio
-        }
       });
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 2000);
     } catch (error) {
       console.error("Error al enviar datos al servidor:", error);
       Swal.fire({
@@ -62,11 +58,7 @@ const RegisterForm = () => {
         padding: "3em",
         color: "#716add",
         confirmButtonText: "Entendido",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          navigate.push("/home");
-        }
-      });
+      })
     }
   };
 

@@ -15,6 +15,21 @@ const CreateAppointmentPage = () => {
   const [form] = Form.useForm();
 
   var dentistJson = localStorage.getItem("Dentist");
+  if (dentistJson ==  null) {
+    Swal.fire({
+      title: "¿Estas seguro de que tienes permisos para esta pagina?",
+      icon: "warning",
+      text: "Yo creo que no, pero contacta con tu administrador",
+      imageUrl: "../../assets/side_eye.jpeg",
+      imageWidth: 400,
+      imageHeight: 200,
+      imageAlt: "Ojo Lateral Boombastico ;-;"
+    });
+    setTimeout(() => {
+      window.location.href = "/login";
+    }, 4000);
+  }
+
 
   // Convertir la cadena JSON a un objeto DentistDto
   var dentistDto = JSON.parse(dentistJson);

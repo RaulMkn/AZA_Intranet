@@ -8,28 +8,22 @@ const CreateIntervention = () => {
   const [form] = Form.useForm();
 
   const handleDepartmentSelected = (departmentId) => {
-    // Establece el valor del departmenta seleccionado en el formulario
     form.setFieldsValue({ department: departmentId });
   };
 
   const handleSubmit = async (values) => {
     try {
-      // Accede directamente a los valores del formulario desde el objeto 'values'
-      const { full_name, price, phone, department } = values;
+      const { full_name, price, department } = values;
 
-      // Crea una instancia de PatientDto con los valores del formulario
       const interventionDto = new InterventionDto(
         full_name,
         price,
-        phone,
         department
       );
 
-      // Convierte el objeto PatientDto en FormData
       const formData = InterventionDto.toFormData(interventionDto);
       console.log(interventionDto);
 
-      // Realiza la solicitud POST a la API
       await axios.post(
         "http://localhost:8080/intranet/DentalAesthetics/intervention",
         formData,
@@ -42,17 +36,15 @@ const CreateIntervention = () => {
           crossdomain: true,
         }
       );
-      // Muestra un mensaje de éxito al usuario
       Swal.fire({
         title: "Intervencion creada con éxito!",
         icon: "success",
       });
-
-      // Puedes hacer más acciones aquí después de una creación exitosa (por ejemplo, redirigir a otra página)
+      setTimeout(() => {
+        window.location.href = "/interventions";
+      }, 2000);
     } catch (error) {
       console.error("Error al enviar datos al servidor:", error);
-
-      // Muestra un mensaje de error al usuario
       Swal.fire({
         title: "Fallo al crear la intervencion!",
         text: "Revise los datos del formulario o póngase en contacto con maken :(",
