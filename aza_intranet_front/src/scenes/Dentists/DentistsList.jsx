@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import MUIDataTable from "mui-datatables";
 import axios from "axios";
 import Button from "@mui/material/Button";
-import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import side_eye from "../../assets/side_eye.jpeg";
 
@@ -73,16 +72,6 @@ export const TableAxios = () => {
     // Establece la altura máxima de la tabla
     responsive: "standard",
     // Agregar contenido personalizado encima de la tabla
-    customToolbar: () => {
-      return (
-        <Button variant="contained" color="info" style={{ marginRight: 10 }}>
-          <Link to="/dentist" style={{ color: "white" }}>
-            {" "}
-            Crear
-          </Link>
-        </Button>
-      );
-    },
   };
 
   //3 - Definimos las columnas
