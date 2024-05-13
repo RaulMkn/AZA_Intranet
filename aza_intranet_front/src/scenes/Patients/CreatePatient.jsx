@@ -3,9 +3,12 @@ import DentistDropDown from "../../utils/DentistsDropdown";
 import Swal from "sweetalert2";
 import PatientDto from "../../DTOs/PatientDto";
 import axios from "axios";
+import side_eye from "../../assets/side_eye.jpeg";
 
 const CreatePatient = () => {
-  const [form] = Form.useForm();
+  var dentistJson = localStorage.getItem("Dentist");
+  console.log(dentistJson);
+   const [form] = Form.useForm();
 
   const handleDentistSelect = (dentistId) => {
     // Establece el valor del dentista seleccionado en el formulario
@@ -71,6 +74,23 @@ const CreatePatient = () => {
       });
     }
   };
+  if (dentistJson == null) {
+    Swal.fire({
+      title: "¿Estas seguro de que tienes permisos para esta página?",
+      icon: false,
+      text: "Yo creo que no, pero contacta con maken",
+      imageUrl: side_eye,
+      imageWidth: 400,
+      imageHeight: 300,
+      imageAlt: "Ojo Lateral Boombastico ;-;",
+      showCancelButton: false,
+      showConfirmButton: false,
+    });
+    setTimeout(() => {
+      window.location.href = "/login";
+    }, 4000);
+    return null;
+  }
 
   return (
     <>

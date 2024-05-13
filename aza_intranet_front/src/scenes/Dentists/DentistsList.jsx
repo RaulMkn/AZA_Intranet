@@ -3,8 +3,13 @@ import MUIDataTable from "mui-datatables";
 import axios from "axios";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
+import side_eye from "../../assets/side_eye.jpeg";
 
 export const TableAxios = () => {
+  var dentistJson = localStorage.getItem("Dentist");
+  console.log(dentistJson);
+  var dentistDto = JSON.parse(dentistJson);
   //1 - configuramos Los hooks
   const [dentist, setDentist] = useState([]);
 
@@ -97,46 +102,46 @@ export const TableAxios = () => {
     {
       name: "department",
       label: "DEPARTAMENTO",
-      options : {
-        customBodyRender : (value) => {
+      options: {
+        customBodyRender: (value) => {
           return (
             value && (
               <div>
                 <p>{value.department_name}</p>
               </div>
             )
-          )
-        }
-      }
+          );
+        },
+      },
     },
     {
       name: "permis",
       label: "ADMIN?",
-      options : {
-        customBodyRender : (value) => {
+      options: {
+        customBodyRender: (value) => {
           if (value === 1) {
             return (
               <div>
                 <p>Si</p>
               </div>
-            )
-            
-          } else{
+            );
+          } else {
             return (
               <div>
                 <p>No</p>
               </div>
-            )
+            );
           }
-        }
-      }
+        },
+      },
     },
     {
       name: "customButton",
       label: "Acciones",
       options: {
         customBodyRender: (value, tableMeta) => {
-          if (!tableMeta.rowData[3]) { // Si el departamento es null
+          if (!tableMeta.rowData[3]) {
+            // Si el departamento es null
             return (
               <Button onClick={() => handleButtonClick(tableMeta.rowData[0])}>
                 <b>Validar</b>
@@ -147,8 +152,7 @@ export const TableAxios = () => {
           }
         },
       },
-    }
-    
+    },
   ];
 
   const handleButtonClick = async (id) => {
@@ -164,6 +168,23 @@ export const TableAxios = () => {
       console.error("Error al realizar la solicitud HTTP:", error);
     }
   };
+  if (dentistJson == null || dentistDto.permis == 0) {
+    Swal.fire({
+      title: "¿Estas seguro de que tienes permisos para esta página?",
+      icon: false,
+      text: "Yo creo que no, pero contacta con maken",
+      imageUrl: side_eye,
+      imageWidth: 400,
+      imageHeight: 300,
+      imageAlt: "Ojo Lateral Boombastico ;-;",
+      showCancelButton: false,
+      showConfirmButton: false,
+    });
+    setTimeout(() => {
+      window.location.href = "/login";
+    }, 4000);
+    return null;
+  }
 
   //4 - renderizamos la datatable
   return (

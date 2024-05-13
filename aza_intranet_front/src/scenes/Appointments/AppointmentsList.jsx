@@ -4,11 +4,13 @@ import axios from "axios";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
 import "./Appointment.css";
+import Swal from "sweetalert2";
+import side_eye from "../../assets/side_eye.jpeg"
 
 
 export const TableAxios = () => {
-  // Configuramos los hooks
   const [appointment, setAppointment] = useState([]);
+  // Configuramos los hooks
 
   // En cualquier componente donde necesites acceder al ID del usuario
   // Recuperar los datos del DentistDto del localStorage
@@ -17,12 +19,10 @@ export const TableAxios = () => {
   // Convertir la cadena JSON a un objeto DentistDto
   var dentistDto = JSON.parse(dentistJson);
   console.log(dentistDto);
-  var id = dentistDto.id;
-  console.log(id);
   const fetchData = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/intranet/DentalAesthetics/appointment/dentistId/${id}`,
+        `http://localhost:8080/intranet/DentalAesthetics/appointment/dentistId/${dentistDto.id}`,
         {
           withCredentials: true,
           headers: {
@@ -151,6 +151,23 @@ export const TableAxios = () => {
       console.error("Error al realizar la solicitud HTTP:", error);
     }
   };
+  if (dentistJson ==  null) {
+    Swal.fire({
+      title: "¿Estas seguro de que tienes permisos para esta página?",
+      icon: false,
+      text: "Yo creo que no, pero contacta con maken",
+      imageUrl: side_eye,
+      imageWidth: 400,
+      imageHeight: 300,
+      imageAlt: "Ojo Lateral Boombastico ;-;",
+      showCancelButton: false,
+      showConfirmButton: false,
+    });
+    setTimeout(() => {
+      window.location.href = "/login";
+    }, 4000);
+    return null;
+  }
 
   // Renderizamos la tabla
   return (

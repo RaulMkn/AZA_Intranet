@@ -1,12 +1,15 @@
 import { useState, useEffect } from "react";
 import MUIDataTable from "mui-datatables";
 import axios from "axios";
-import Button from '@mui/material/Button';
-import { Link } from "react-router-dom"; 
-
-
+import Button from "@mui/material/Button";
+import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
+import side_eye from "../../assets/side_eye.jpeg";
 
 export const TableAxios = () => {
+  var dentistJson = localStorage.getItem("Dentist");
+  console.log(dentistJson);
+  var dentistDto = JSON.parse(dentistJson);
   //1 - configuramos Los hooks
   const [intervention, setIntervention] = useState([]);
 
@@ -25,7 +28,7 @@ export const TableAxios = () => {
         }
       );
       console.log(response.data);
-     setIntervention(response.data);
+      setIntervention(response.data);
     } catch (error) {
       // Manejo de errores en caso de que la solicitud falle
       console.error("Error al obtener datos de usuarios:", error);
@@ -45,12 +48,11 @@ export const TableAxios = () => {
     // Agregar contenido personalizado encima de la tabla
     customToolbar: () => {
       return (
-        <Button
-          variant="contained"
-          color="info"
-          style={{ marginRight: 10 }}
-        >
-      <Link to="/intervention" style={{color: "white"}}> Crear</Link>
+        <Button variant="contained" color="info" style={{ marginRight: 10 }}>
+          <Link to="/intervention" style={{ color: "white" }}>
+            {" "}
+            Crear
+          </Link>
         </Button>
       );
     },
@@ -111,7 +113,23 @@ export const TableAxios = () => {
     }
   };
 
-  //4 - renderizamos la datatable
+  if (dentistJson == null || dentistDto.permis == 0) {
+    Swal.fire({
+      title: "¿Estas seguro de que tienes permisos para esta página?",
+      icon: false,
+      text: "Yo creo que no, pero contacta con maken",
+      imageUrl: side_eye,
+      imageWidth: 400,
+      imageHeight: 300,
+      imageAlt: "Ojo Lateral Boombastico ;-;",
+      showCancelButton: false,
+      showConfirmButton: false,
+    });
+    setTimeout(() => {
+      window.location.href = "/login";
+    }, 4000);
+    return null;
+  }
   return (
     <>
       <MUIDataTable

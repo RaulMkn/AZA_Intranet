@@ -4,11 +4,11 @@ import DepartmentsDropdown from "../../utils/DepartmentsDropdown";
 import "./Appointment.css";
 import axios from "axios";
 import Swal from "sweetalert2";
-import AppointmentDto from "../../DTOs/AppointmentDto";
+import side_eye from "../../assets/side_eye.jpeg"
 import PatientDropdown from "../../utils/PatientsDropdown";
 import InterventionsDropdown from "../../utils/InterventionsDropdown";
 import Sender from "../../../emails/api/Sender";
-import side_eye from "../../assets/side_eye.jpeg"
+import AppointmentDto from "../../DTOs/AppointmentDto";
 
 const { Option } = Select;
 
@@ -17,6 +17,11 @@ const CreateAppointmentPage = () => {
 
   var dentistJson = localStorage.getItem("Dentist");
   console.log(dentistJson)
+
+
+
+  // Convertir la cadena JSON a un objeto DentistDto
+  var dentistDto = JSON.parse(dentistJson);
   if (dentistJson ==  null) {
     Swal.fire({
       title: "¿Estas seguro de que tienes permisos para esta página?",
@@ -32,12 +37,8 @@ const CreateAppointmentPage = () => {
     setTimeout(() => {
       window.location.href = "/login";
     }, 4000);
+    return null;
   }
-
-
-  // Convertir la cadena JSON a un objeto DentistDto
-  var dentistDto = JSON.parse(dentistJson);
-
   const handleDepartmentSelected = (departmentId) => {
     form.setFieldsValue({ department: departmentId });
   };

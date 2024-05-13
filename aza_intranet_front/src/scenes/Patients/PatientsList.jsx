@@ -3,10 +3,14 @@ import MUIDataTable from "mui-datatables";
 import axios from "axios";
 import Button from '@mui/material/Button';
 import { Link } from "react-router-dom"; 
+import Swal from "sweetalert2";
+import side_eye from "../../assets/side_eye.jpeg"
 
 
 
 export const TableAxios = () => {
+  var dentistJson = localStorage.getItem("Dentist");
+  console.log(dentistJson)
   //1 - configuramos Los hooks
   const [patient, setPatients] = useState([]);
 
@@ -99,6 +103,23 @@ export const TableAxios = () => {
       console.error("Error al realizar la solicitud HTTP:", error);
     }
   };
+  if (dentistJson == null) {
+    Swal.fire({
+      title: "¿Estas seguro de que tienes permisos para esta página?",
+      icon: false,
+      text: "Yo creo que no, pero contacta con maken",
+      imageUrl: side_eye,
+      imageWidth: 400,
+      imageHeight: 300,
+      imageAlt: "Ojo Lateral Boombastico ;-;",
+      showCancelButton: false,
+      showConfirmButton: false,
+    });
+    setTimeout(() => {
+      window.location.href = "/login";
+    }, 4000);
+    return null;
+  }
 
   //4 - renderizamos la datatable
   return (
