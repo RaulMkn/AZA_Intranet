@@ -133,18 +133,22 @@ export const TableAxios = () => {
     },
     {
       name: "customButton",
-      label: "Acciones", // Etiqueta para la columna del botón personalizado
+      label: "Acciones",
       options: {
-        customBodyRender: (tableMeta) => {
-          return (
-            <button onClick={() => handleButtonClick(tableMeta.rowData[0])}>
-              Modificar
-            </button>
-          );
+        customBodyRender: (value, tableMeta) => {
+          if (!tableMeta.rowData[3]) { // Si el departamento es null
+            return (
+              <Button onClick={() => handleButtonClick(tableMeta.rowData[0])}>
+                <b>Validar</b>
+              </Button>
+            );
+          } else {
+            return "VALIDADO"; // Si el departamento no es null
+          }
         },
-        page: 8,
       },
-    },
+    }
+    
   ];
 
   const handleButtonClick = async (id) => {

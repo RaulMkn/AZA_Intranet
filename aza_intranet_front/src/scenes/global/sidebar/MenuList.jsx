@@ -87,7 +87,7 @@ const MenuList = ({ darkTheme }) => {
       </Menu.Item>
 
       <Menu.Item icon={<RollbackOutlined />}>
-        <Button onClick={logOut}>Cerrar Sesión</Button>
+        <Button onClick={logOut}><b>Cerrar Sesión</b></Button>
       </Menu.Item>
     </Menu>
   );
