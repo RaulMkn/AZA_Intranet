@@ -4,6 +4,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import axios from "axios";
 import Swal from "sweetalert2";
 import side_eye from "../../assets/side_eye.jpeg";
+import esLocale from "@fullcalendar/core/locales/es";
 
 function Calendar() {
   var dentistJson = localStorage.getItem("Dentist");
@@ -12,21 +13,18 @@ function Calendar() {
   const [eventos, setEventos] = useState([]);
 
   useEffect(() => {
-    // Realiza la consulta a tu backend con Axios
     axios
       .get("http://localhost:8080/intranet/DentalAesthetics/appointments")
       .then((response) => {
-        // Transforma los datos para que se ajusten a FullCalendar
-        const eventosTransformados = response.data.map((evento) => ({
+        const formattedEvents = response.data.map((evento) => ({
           title: evento.title,
           start: evento.date_time_beginning,
           end: evento.date_time_ending,
           description: evento.description,
-          // Agrega más propiedades según sea necesario
         }));
 
         // Establece los eventos transformados en el estado
-        setEventos(eventosTransformados);
+        setEventos(formattedEvents);
       })
       .catch((error) => {
         console.error("Error al obtener eventos:", error);
@@ -103,7 +101,9 @@ function Calendar() {
           eventContent={eventContent}
           eventMouseEnter={eventMouseEnter}
           eventMouseLeave={eventMouseLeave}
-          height={"80vh"}
+          height={"83vh"}
+          locale={esLocale} 
+          firstDay={1} 
         />
       </div>
     </>
