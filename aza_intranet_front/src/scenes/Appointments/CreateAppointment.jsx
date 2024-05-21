@@ -68,7 +68,7 @@ const CreateAppointmentPage = () => {
       const state = "Pendiente";
       const invoice = "Factura Generica";
       const dentist = dentistDto.id;
-      const total_price = 0; //Esto seguramente se vaya fuera
+      const total_price = 0;
 
       // Crea una instancia de AppointmentDto con los valores del formulario
       const appointmentDto = new AppointmentDto(
@@ -120,7 +120,9 @@ const CreateAppointmentPage = () => {
       Swal.fire({
         title: "Cita creada con éxito!",
         icon: "success",
-      });
+      });setTimeout(() => {
+        window.location.href = "/appointments";
+      }, 4000);
 
       // Puedes hacer más acciones aquí después de una creación exitosa (por ejemplo, redirigir a otra página)
     } catch (error) {

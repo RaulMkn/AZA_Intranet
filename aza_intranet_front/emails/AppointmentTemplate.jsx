@@ -11,7 +11,6 @@ import {
   Text,
 } from "@react-email/components";
 import "./AppointmentTemplate.css";
-import logo from "../src/assets/AZA_logo.jpg";
 
 const KoalaWelcomeEmail = ({ patient, appointmentDto }) => {
   // Validación de props
@@ -51,8 +50,7 @@ const KoalaWelcomeEmail = ({ patient, appointmentDto }) => {
       <Body className="main">
         <Container className="container">
           <Img
-            src={logo}
-            width="170"
+ç            width="170"
             height="50"
             alt="Logo"
             className="logo"

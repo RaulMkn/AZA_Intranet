@@ -62,7 +62,9 @@ const CreatePatient = () => {
       Swal.fire({
         title: "Paciente creado con éxito!",
         icon: "success",
-      });
+      }); setTimeout(() => {
+        window.location.href = "/patients";
+      }, 4000);
     } catch (error) {
       console.error("Error al enviar datos al servidor:", error);
 

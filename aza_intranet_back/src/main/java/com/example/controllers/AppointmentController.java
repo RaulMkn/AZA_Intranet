@@ -3,9 +3,12 @@ package com.example.controllers;
 import com.example.configuration.exceptionHandler.ResponseStatusException;
 import com.example.dto.AppointmentDto;
 import com.example.dto.DentistDto;
+import com.example.dto.fakes.FakeAppointmentDto;
 import com.example.entity.AppointmentEntity;
 import com.example.entity.DentistEntity;
 import com.example.service.AppointmentService;
+import com.example.service.DentistService;
+import com.example.service.DepartmentService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,6 +32,10 @@ public class AppointmentController {
 
     @Autowired
     private ModelMapper map;
+    @Autowired
+    private DentistService dentistService;
+    @Autowired
+    private DepartmentService departmentService;
 
     @GetMapping(path = "/appointments")
     public ResponseEntity<List<AppointmentDto>> obtainAppointment(
@@ -44,8 +51,18 @@ public class AppointmentController {
     @PostMapping(path = "/appointment")
     public ResponseEntity<Void> addAppointment(
             @Valid
-            @RequestBody AppointmentDto appoimentDto
+            @RequestBody FakeAppointmentDto.PostAppointmentDto appoimentDto
     ) throws ResponseStatusException {
+        AppointmentEntity entity = new AppointmentEntity();
+        entity.setTitle(appoimentDto.getTitle());
+        entity.setDescription(appoimentDto.getDescription());
+        entity.setDentist(dentistService.getUserById(appoimentDto.getDentist()));
+        entity.setDepartment(departmentService.getDepartmentById(appoimentDto.getDepartment()));
+        entity.setInvoice(appoimentDto.getInvoice());
+        entity.setDate_time_beginning(appoimentDto.getDate_time_beginning());
+        entity.setDate_time_ending(appoimentDto.getDate_time_ending());
+        entity.setPriority(appoimentDto.getPriority());
+        entity.setState(appoimentDto.getState());
         if (!appointmentService.createAppointment(this.map.map(appoimentDto, AppointmentEntity.class))) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         } else {
