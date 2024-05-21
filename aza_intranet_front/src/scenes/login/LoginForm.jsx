@@ -83,15 +83,17 @@ const LoginForm = () => {
           />
         </div>
 
-        <div className="remember-forgot">
+        {/* <div className="remember-forgot">
           <label>
             <input type="checkbox" />
             Recordar contraseña
           </label>
         </div>
+    
         <div>
           <a href="../App">He olvidado mi contraseña</a>
         </div>
+            */}
         <button type="submit">Login</button>
 
         <div className="register-link">
