@@ -11,7 +11,7 @@ import {
   Text,
 } from "@react-email/components";
 import "./AppointmentTemplate.css";
-import logo from "../src/assets/AZA_logo2.png";
+import logo from "../src/assets/AZA_logo.jpg";
 
 const KoalaWelcomeEmail = ({ patient, appointmentDto }) => {
   // Validación de props
