@@ -25,7 +25,7 @@ public class DepartmentController {
 
     @Autowired
     private ModelMapper map;
-
+    @Transactional
     @GetMapping(path = "/departments")
     public ResponseEntity<List<DepartmentDto>> obtainDepartments(
     ) {
@@ -36,7 +36,7 @@ public class DepartmentController {
                         .map(depEn -> this.map.map(depEn, DepartmentDto.class))
                         .collect(Collectors.toList()));
     }
-
+    @Transactional
     @GetMapping(path = "/departments/id/{id}")
     public ResponseEntity<DepartmentDto> obtainDepartmentById(
             @PathVariable("id") int id

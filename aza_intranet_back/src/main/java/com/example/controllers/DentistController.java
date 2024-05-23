@@ -30,7 +30,7 @@ public class DentistController {
     @Autowired
     private ModelMapper modelMapper;
 
-
+    @Transactional
     @GetMapping(path = "/dentists")
     public ResponseEntity<List<DentistDto>> obtainUsers(
     ) {
@@ -41,7 +41,7 @@ public class DentistController {
                         .map(dentistEntity -> this.modelMapper.map(dentistEntity, DentistDto.class))
                         .collect(Collectors.toList()));
     }
-
+    @Transactional
     @GetMapping(path = "/dentist/id/{id}")
     public ResponseEntity<DentistDto> obtainUserById(
             @PathVariable("id") int id

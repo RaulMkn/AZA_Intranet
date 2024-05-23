@@ -64,12 +64,12 @@ const CreateAppointmentPage = () => {
         patient,
         interventions
       } = values;
-
+    
       const state = "Pendiente";
       const invoice = "Factura Generica";
       const dentist = dentistDto.id;
       const total_price = 0;
-
+    
       const appointmentDto = new AppointmentDto(
         date_time_beginning,
         date_time_ending,
@@ -84,11 +84,11 @@ const CreateAppointmentPage = () => {
         patient,
         interventions
       );
-
+    
       const formData = AppointmentDto.toFormData(appointmentDto);
       console.log(appointmentDto);
-
-      await axios.post(
+    
+      const response = await axios.post(
         "http://localhost:8080/intranet/DentalAesthetics/appointment",
         formData,
         {
@@ -100,34 +100,37 @@ const CreateAppointmentPage = () => {
           crossdomain: true,
         }
       );
-      const response = await axios.get(
-        `http://localhost:8080/intranet/DentalAesthetics/patient/id/${patient}`,
-        {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Basic " + btoa(import.meta.env.VITE_DATABASE_AUTH),
-          },
-          crossdomain: true,
-        }
-      );
-      await Sender({ patientInfo: response.data, appointmentDto });
+    
+      // Extraer los datos del paciente desde la respuesta
+      const patientInfo = response.data.patient;
+    
+      // Llamar a la función `Sender` con la información del paciente y los datos de la cita
+      await Sender({ patientInfo, appointmentDto: formData });
 
+    
       Swal.fire({
         title: "Cita creada con éxito!",
         icon: "success",
-      });setTimeout(() => {
+      });
+    
+      setTimeout(() => {
         window.location.href = "/appointments";
       }, 4000);
+    
     } catch (error) {
       console.error("Error al enviar datos al servidor:", error);
-
+    
       Swal.fire({
         title: "Fallo al crear la cita!",
         text: "Revise los datos del formulario o póngase en contacto con maken :(",
         icon: "error",
       });
+    
+      setTimeout(() => {
+        window.location.reload();
+      }, 4000);
     }
+    
   };
 
   return (

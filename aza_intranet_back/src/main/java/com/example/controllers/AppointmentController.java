@@ -7,10 +7,8 @@ import com.example.dto.fakes.FakeAppointmentDto;
 import com.example.entity.AppointmentEntity;
 import com.example.entity.DentistEntity;
 import com.example.entity.InterventionEntity;
-import com.example.service.AppointmentService;
-import com.example.service.DentistService;
-import com.example.service.DepartmentService;
-import com.example.service.InterventionService;
+import com.example.entity.PatientEntity;
+import com.example.service.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,7 +21,9 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -40,6 +40,8 @@ public class AppointmentController {
     private DepartmentService departmentService;
     @Autowired
     private InterventionService interventionService;
+    @Autowired
+    private PatientService patientService;
 
     @GetMapping(path = "/appointments")
     public ResponseEntity<List<AppointmentDto>> obtainAppointment(
@@ -53,7 +55,7 @@ public class AppointmentController {
 
     @Transactional
     @PostMapping(path = "/appointment")
-    public ResponseEntity<Void> addAppointment(
+    public ResponseEntity<Map<String,Object>> addAppointment(
             @Valid
             @RequestBody FakeAppointmentDto.PostAppointmentDto appointmentDto
     ) throws ResponseStatusException {
@@ -67,15 +69,24 @@ public class AppointmentController {
         entity.setDate_time_ending(appointmentDto.getDate_time_ending());
         entity.setPriority(appointmentDto.getPriority());
         entity.setState(appointmentDto.getState());
+        PatientEntity patient = patientService.getPatientId(appointmentDto.getPatient());
+        entity.setPatient(patient);
         List<InterventionEntity> interventionEntities = new ArrayList<>();
-        for (Integer intervention : appointmentDto.getInterventions()){
-            interventionEntities.add(interventionService.getInterventionById(intervention));
+        if (appointmentDto.getInterventions() != null) {
+            for (Integer intervention : appointmentDto.getInterventions()) {
+                interventionEntities.add(interventionService.getInterventionById(intervention));
+            }
         }
         entity.setInterventions(interventionEntities);
         if (!appointmentService.createAppointment(entity)){
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         } else {
-            return ResponseEntity.ok().build();
+            // Crear la respuesta con los datos del paciente
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "Appointment created successfully");
+            response.put("patient", patient);
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
         }
     }
 

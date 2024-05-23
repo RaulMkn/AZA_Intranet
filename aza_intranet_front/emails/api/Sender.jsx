@@ -20,6 +20,7 @@ async function sendEmail(patient, appointmentDto) {
 
     return { message: "Email sent successfully" };
   } catch (error) {
+    console.error("Error sending email:", error);
     throw new Error("Error sending email");
   }
 }

@@ -36,7 +36,7 @@ public class PatientController {
     private ModelMapper map;
     @Autowired
     private AppointmentService appointmentService;
-
+    @Transactional
     @GetMapping(path = "/patients")
     public ResponseEntity<List<PatientDto>> obtainPatients(
     ) {
@@ -47,7 +47,7 @@ public class PatientController {
                         .map(patEn -> this.map.map(patEn, PatientDto.class))
                         .collect(Collectors.toList()));
     }
-
+    @Transactional
     @GetMapping(path = "/patient/id/{id}")
     public ResponseEntity<PatientDto> obtainPatientById(
             @PathVariable("id") int id
@@ -60,7 +60,7 @@ public class PatientController {
         }
 
     }
-
+    @Transactional
     @GetMapping(path = "/patientName/id/{id}")
     public ResponseEntity<String> obtainPatientNameById(
             @PathVariable("id") int id

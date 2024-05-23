@@ -1,10 +1,7 @@
 package com.example.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -15,6 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@ToString
 @Table(name = "patient")
 public class PatientEntity implements Serializable {
     @Id

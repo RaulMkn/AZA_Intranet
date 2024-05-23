@@ -11,6 +11,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -27,7 +28,7 @@ public class InterventionController {
     private ModelMapper map;
     @Autowired
     private DepartmentService departmentService;
-
+    @Transactional
     @GetMapping(path = "/interventions")
     public ResponseEntity<List<InterventionDto>> obtainDepartments(
     ) {
@@ -38,7 +39,7 @@ public class InterventionController {
                         .map(intEn ->this.map.map(intEn,InterventionDto.class))
                         .collect(Collectors.toList()));
     }
-
+    @Transactional
     @PostMapping(path = "/intervention")
     public ResponseEntity<Void> createIntervention(
             @Valid
