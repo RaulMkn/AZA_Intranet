@@ -6,9 +6,11 @@ import com.example.dto.DentistDto;
 import com.example.dto.fakes.FakeAppointmentDto;
 import com.example.entity.AppointmentEntity;
 import com.example.entity.DentistEntity;
+import com.example.entity.InterventionEntity;
 import com.example.service.AppointmentService;
 import com.example.service.DentistService;
 import com.example.service.DepartmentService;
+import com.example.service.InterventionService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,22 +22,24 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Controller
+@RestController
 @RequestMapping("/intranet/DentalAesthetics")
 @CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true", allowedHeaders = "*", methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.DELETE})
 public class AppointmentController {
     @Autowired
     private AppointmentService appointmentService;
-
     @Autowired
     private ModelMapper map;
     @Autowired
     private DentistService dentistService;
     @Autowired
     private DepartmentService departmentService;
+    @Autowired
+    private InterventionService interventionService;
 
     @GetMapping(path = "/appointments")
     public ResponseEntity<List<AppointmentDto>> obtainAppointment(
@@ -51,19 +55,24 @@ public class AppointmentController {
     @PostMapping(path = "/appointment")
     public ResponseEntity<Void> addAppointment(
             @Valid
-            @RequestBody FakeAppointmentDto.PostAppointmentDto appoimentDto
+            @RequestBody FakeAppointmentDto.PostAppointmentDto appointmentDto
     ) throws ResponseStatusException {
         AppointmentEntity entity = new AppointmentEntity();
-        entity.setTitle(appoimentDto.getTitle());
-        entity.setDescription(appoimentDto.getDescription());
-        entity.setDentist(dentistService.getUserById(appoimentDto.getDentist()));
-        entity.setDepartment(departmentService.getDepartmentById(appoimentDto.getDepartment()));
-        entity.setInvoice(appoimentDto.getInvoice());
-        entity.setDate_time_beginning(appoimentDto.getDate_time_beginning());
-        entity.setDate_time_ending(appoimentDto.getDate_time_ending());
-        entity.setPriority(appoimentDto.getPriority());
-        entity.setState(appoimentDto.getState());
-        if (!appointmentService.createAppointment(this.map.map(appoimentDto, AppointmentEntity.class))) {
+        entity.setTitle(appointmentDto.getTitle());
+        entity.setDescription(appointmentDto.getDescription());
+        entity.setDentist(dentistService.getUserById(appointmentDto.getDentist()));
+        entity.setDepartment(departmentService.getDepartmentById(appointmentDto.getDepartment()));
+        entity.setInvoice(appointmentDto.getInvoice());
+        entity.setDate_time_beginning(appointmentDto.getDate_time_beginning());
+        entity.setDate_time_ending(appointmentDto.getDate_time_ending());
+        entity.setPriority(appointmentDto.getPriority());
+        entity.setState(appointmentDto.getState());
+        List<InterventionEntity> interventionEntities = new ArrayList<>();
+        for (Integer intervention : appointmentDto.getInterventions()){
+            interventionEntities.add(interventionService.getInterventionById(intervention));
+        }
+        entity.setInterventions(interventionEntities);
+        if (!appointmentService.createAppointment(entity)){
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         } else {
             return ResponseEntity.ok().build();

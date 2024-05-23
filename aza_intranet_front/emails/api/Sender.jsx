@@ -10,7 +10,7 @@ async function sendEmail(patient, appointmentDto) {
     const { error } = await resend.emails.send({
       from: "AZA <onboarding@resend.dev>",
       to: [patient.email],
-      subject: "Thank you",
+      subject: "Recordatorio cita dental",
       html: render(<AppointmentTemplate patientDto={patient} appointmentDto={appointmentDto} />),
     });
 

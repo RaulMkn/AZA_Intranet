@@ -21,18 +21,14 @@ import Calendar from "./scenes/Calendar/Calendar";
 import { useLocation } from "react-router-dom";
 
 function App() {
-  // Obtener la ubicación actual utilizando el hook useLocation
   const location = useLocation();
 
-  // Verificar si la ruta actual es /login o /register
   const isLoginOrRegister = location.pathname === "/login" || location.pathname === "/register";
 
   return (
     <div className="container">
-      {/* Renderizar el componente Sidebar solo si no estamos en las rutas de login o register */}
       {!isLoginOrRegister && (
         <aside className="aside">
-          {/* Incluye el componente Sidebar */}
           <Sidebar />
         </aside>
       )}

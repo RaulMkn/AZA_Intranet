@@ -70,7 +70,6 @@ const CreateAppointmentPage = () => {
       const dentist = dentistDto.id;
       const total_price = 0;
 
-      // Crea una instancia de AppointmentDto con los valores del formulario
       const appointmentDto = new AppointmentDto(
         date_time_beginning,
         date_time_ending,
@@ -86,11 +85,9 @@ const CreateAppointmentPage = () => {
         interventions
       );
 
-      // Convierte el objeto AppointmentDto en FormData
       const formData = AppointmentDto.toFormData(appointmentDto);
       console.log(appointmentDto);
 
-      // Realiza la solicitud POST a la API
       await axios.post(
         "http://localhost:8080/intranet/DentalAesthetics/appointment",
         formData,
@@ -106,29 +103,25 @@ const CreateAppointmentPage = () => {
       const response = await axios.get(
         `http://localhost:8080/intranet/DentalAesthetics/patient/id/${patient}`,
         {
-          withCredentials: true, // Utiliza credenciales de autenticación
+          withCredentials: true,
           headers: {
             "Content-Type": "application/json",
             Authorization: "Basic " + btoa(import.meta.env.VITE_DATABASE_AUTH),
           },
-          crossdomain: true, // Permite solicitudes a diferentes dominios
+          crossdomain: true,
         }
       );
       await Sender({ patientInfo: response.data, appointmentDto });
 
-      // Muestra un mensaje de éxito al usuario
       Swal.fire({
         title: "Cita creada con éxito!",
         icon: "success",
       });setTimeout(() => {
         window.location.href = "/appointments";
       }, 4000);
-
-      // Puedes hacer más acciones aquí después de una creación exitosa (por ejemplo, redirigir a otra página)
     } catch (error) {
       console.error("Error al enviar datos al servidor:", error);
 
-      // Muestra un mensaje de error al usuario
       Swal.fire({
         title: "Fallo al crear la cita!",
         text: "Revise los datos del formulario o póngase en contacto con maken :(",
