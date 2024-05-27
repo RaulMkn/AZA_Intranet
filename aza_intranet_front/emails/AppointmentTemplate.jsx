@@ -12,9 +12,9 @@ import {
 } from "@react-email/components";
 import "./AppointmentTemplate.css";
 
-const KoalaWelcomeEmail = ({ patient, appointmentDto }) => {
+const AppointmentTemplate = ({ patient, appointmentDto }) => {
   // Validación de props
-  PropTypes.checkPropTypes(KoalaWelcomeEmail.propTypes, { patient, appointmentDto }, 'prop', 'KoalaWelcomeEmail');
+  PropTypes.checkPropTypes(AppointmentTemplate.propTypes, { patient, appointmentDto }, 'prop', 'AppointmentTemplate');
 
   // Format the date for the iCalendar format
   const formatDate = (date) => {
@@ -79,7 +79,7 @@ const KoalaWelcomeEmail = ({ patient, appointmentDto }) => {
 };
 
 // Prop validation
-KoalaWelcomeEmail.propTypes = {
+AppointmentTemplate.propTypes = {
   patient: PropTypes.shape({
     full_name: PropTypes.string.isRequired,
   }).isRequired,
@@ -92,7 +92,7 @@ KoalaWelcomeEmail.propTypes = {
   }).isRequired,
 };
 
-KoalaWelcomeEmail.PreviewProps = {
+AppointmentTemplate.PreviewProps = {
   patient: {
     full_name: "Juan Pérez",
   },
@@ -106,4 +106,4 @@ KoalaWelcomeEmail.PreviewProps = {
 };
 
 
-export default KoalaWelcomeEmail;
+export default AppointmentTemplate;

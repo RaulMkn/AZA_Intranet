@@ -27,7 +27,6 @@ const InterventionsDropdown = ({ onSelect }) => {
             crossdomain: true,
           }
         );
-        console.log(response.data);
         setInterventions(response.data);
       } catch (error) {
         console.error("Error al obtener datos de intervenciones:", error);
@@ -56,7 +55,7 @@ const InterventionsDropdown = ({ onSelect }) => {
       mode="tags"
     >
       {interventions.map((intervention) => (
-        <Option key={intervention.id} value={intervention.id}>
+        <Option key={intervention.id} value={intervention.id.toString()}>
           {`${intervention.id}. ${intervention.full_name} - ${intervention.price}€`}
         </Option>
       ))}

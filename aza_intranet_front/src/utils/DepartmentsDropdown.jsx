@@ -27,7 +27,6 @@ const DepartmentDropdown = ({ onSelect }) => {
             crossdomain: true,
           }
         );
-        console.log(response.data);
         setDepartments(response.data);
       } catch (error) {
         console.error("Error al obtener datos de usuarios:", error);
@@ -55,7 +54,7 @@ const DepartmentDropdown = ({ onSelect }) => {
       }
     >
       {departments.map((department) => (
-        <Option key={department.id} value={department.id}>
+        <Option key={department.id} value={department.id.toString()}>
           {`${department.id} - ${department.department_name}`}
         </Option>
       ))}

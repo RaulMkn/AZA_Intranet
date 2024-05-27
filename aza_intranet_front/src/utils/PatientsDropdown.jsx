@@ -27,7 +27,6 @@ const PatientDropdown = ({ onSelect }) => {
             crossdomain: true,
           }
         );
-        console.log(response.data);
         setpatients(response.data);
       } catch (error) {
         console.error("Error al obtener datos de usuarios:", error);
@@ -55,7 +54,7 @@ const PatientDropdown = ({ onSelect }) => {
       }
     >
       {patients.map((patient) => (
-        <Option key={patient.id} value={patient.id}>
+        <Option key={patient.id} value={patient.id.toString()}>
           {`${patient.id} - ${patient.full_name}`}
         </Option>
       ))}

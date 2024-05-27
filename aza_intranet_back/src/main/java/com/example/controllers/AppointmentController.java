@@ -4,6 +4,7 @@ import com.example.configuration.exceptionHandler.ResponseStatusException;
 import com.example.dto.AppointmentDto;
 import com.example.dto.DentistDto;
 import com.example.dto.fakes.FakeAppointmentDto;
+import com.example.dto.fakes.FakePatientDto;
 import com.example.entity.AppointmentEntity;
 import com.example.entity.DentistEntity;
 import com.example.entity.InterventionEntity;
@@ -52,7 +53,7 @@ public class AppointmentController {
                         .stream().map(appoEn -> this.map.map(appoEn, AppointmentDto.class))
                         .collect(Collectors.toList()));
     }
-
+    //Toda esta logica hay que moverla al service
     @Transactional
     @PostMapping(path = "/appointment")
     public ResponseEntity<Map<String,Object>> addAppointment(
@@ -70,6 +71,7 @@ public class AppointmentController {
         entity.setPriority(appointmentDto.getPriority());
         entity.setState(appointmentDto.getState());
         PatientEntity patient = patientService.getPatientId(appointmentDto.getPatient());
+
         entity.setPatient(patient);
         List<InterventionEntity> interventionEntities = new ArrayList<>();
         if (appointmentDto.getInterventions() != null) {
@@ -82,11 +84,25 @@ public class AppointmentController {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         } else {
             Map<String, Object> response = new HashMap<>();
+            FakePatientDto.GetPatientDto sendPatient = getGetPatientDto(patient);
             response.put("message", "Appointment created successfully");
-            response.put("patient", patient);
+            response.put("patient", sendPatient);
 
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
         }
+    }
+    //Mover al service
+    private static FakePatientDto.GetPatientDto getGetPatientDto(PatientEntity patient) {
+        FakePatientDto.GetPatientDto sendPatient = new FakePatientDto.GetPatientDto();
+        sendPatient.setId(patient.getId());
+        sendPatient.setGender(patient.getGender());
+        sendPatient.setNif(patient.getNif());
+        sendPatient.setEmail(patient.getEmail());
+        sendPatient.setAddress(patient.getAddress());
+        sendPatient.setFull_name(patient.getFull_name());
+        sendPatient.setPhone(patient.getPhone());
+        sendPatient.setBirthDate(patient.getBirthDate());
+        return sendPatient;
     }
 
     @GetMapping(path = "/appointment/id/{id}")

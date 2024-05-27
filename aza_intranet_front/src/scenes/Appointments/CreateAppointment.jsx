@@ -16,7 +16,7 @@ const CreateAppointmentPage = () => {
   const [form] = Form.useForm();
 
   var dentistJson = localStorage.getItem("Dentist");
-  console.log(dentistJson)
+  //console.log(dentistJson)
 
 
 
@@ -69,6 +69,8 @@ const CreateAppointmentPage = () => {
       const invoice = "Factura Generica";
       const dentist = dentistDto.id;
       const total_price = 0;
+      const interventionsInt = interventions.map(intervention => parseInt(intervention, 10));
+
     
       const appointmentDto = new AppointmentDto(
         date_time_beginning,
@@ -82,11 +84,11 @@ const CreateAppointmentPage = () => {
         invoice,
         dentist,
         patient,
-        interventions
+        interventionsInt
       );
     
       const formData = AppointmentDto.toFormData(appointmentDto);
-      console.log(appointmentDto);
+      console.log( "Appointment DTO:",appointmentDto);
     
       const response = await axios.post(
         "http://localhost:8080/intranet/DentalAesthetics/appointment",
@@ -103,6 +105,7 @@ const CreateAppointmentPage = () => {
     
       // Extraer los datos del paciente desde la respuesta
       const patientInfo = response.data.patient;
+      console.log("Patient Info",patientInfo);
     
       // Llamar a la función `Sender` con la información del paciente y los datos de la cita
       await Sender({ patientInfo, appointmentDto: formData });
