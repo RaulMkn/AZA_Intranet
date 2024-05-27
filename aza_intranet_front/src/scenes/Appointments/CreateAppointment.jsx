@@ -126,9 +126,9 @@ const CreateAppointmentPage = () => {
         icon: "error",
       });
     
-      setTimeout(() => {
-        window.location.reload();
-      }, 4000);
+      //setTimeout(() => {
+        //window.location.reload();
+      //}, 4000);
     }
     
   };

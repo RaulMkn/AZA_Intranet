@@ -10,13 +10,8 @@ import side_eye from "../../assets/side_eye.jpeg"
 
 export const TableAxios = () => {
   const [appointment, setAppointment] = useState([]);
-  // Configuramos los hooks
-
-  // En cualquier componente donde necesites acceder al ID del usuario
-  // Recuperar los datos del DentistDto del localStorage
   var dentistJson = localStorage.getItem("Dentist");
 
-  // Convertir la cadena JSON a un objeto DentistDto
   var dentistDto = JSON.parse(dentistJson);
   console.log(dentistDto);
   const fetchData = async () => {
@@ -33,7 +28,6 @@ export const TableAxios = () => {
         }
       );
 
-      // Setear el estado con los datos de las citas
       setAppointment(response.data);
       console.log(response.data)
     } catch (error) {
@@ -46,7 +40,6 @@ export const TableAxios = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Definimos las columnas
   const columns = [
     {
       name: "date_time_beginning",

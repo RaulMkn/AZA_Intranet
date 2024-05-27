@@ -81,7 +81,6 @@ public class AppointmentController {
         if (!appointmentService.createAppointment(entity)){
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         } else {
-            // Crear la respuesta con los datos del paciente
             Map<String, Object> response = new HashMap<>();
             response.put("message", "Appointment created successfully");
             response.put("patient", patient);
