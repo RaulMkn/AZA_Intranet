@@ -20,4 +20,14 @@ public class EventDAOImpl implements EventDAO {
         String hql = "SELECT ev FROM EventEntity ev WHERE ev.id = :id";
         return session.createQuery(hql, EventEntity.class).setParameter("id", id).uniqueResult();
     }
+
+    @Override
+    public boolean persistEventToDatabase(EventEntity eventAttached, Session session) {
+        try {
+            session.persist(eventAttached);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }

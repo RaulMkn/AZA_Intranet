@@ -10,6 +10,13 @@ export const TableAxios = () => {
   const [appointment, setAppointment] = useState([]);
   const dentistJson = localStorage.getItem("Dentist");
   const dentistDto = JSON.parse(dentistJson);
+  const createButton = (
+    <Button type="primary">
+      <Link to="/appointment" style={{ color: "white" }}>
+        Crear
+      </Link>
+    </Button>
+  );
 const options = {
   year: 'numeric',
   month: '2-digit',
@@ -120,6 +127,12 @@ const formatTimestamp = (timestamp) => {
         <Button onClick={() => handleButtonClick(record.id)}>Modificar</Button>
       ),
     },
+    {
+      title: "Acciones",
+      key: "actions",
+      width: 150,
+      render: () => createButton,
+    },
   ];
 
   const handleButtonClick = async (id) => {
@@ -159,11 +172,11 @@ const formatTimestamp = (timestamp) => {
         </Link>
       </Button>
       <Table
-        title={() => "Listado de citas"}
         columns={columns}
         dataSource={appointment}
         rowKey={(record) => record.id}
         scroll={{ y: 400 , x: 400}}
+        style={{ background: "transparent" }}
       />
     </div>
   );

@@ -57,8 +57,6 @@ public class AppointmentController {
     @Transactional
     @PostMapping(path = "/appointment")
     public ResponseEntity<Map<String, Object>> addAppointment(@RequestBody FakeAppointmentDto.PostAppointmentDto appointmentDto) throws ResponseStatusException {
-        System.out.println("Datos de la cita: " + appointmentDto.toString());
-
         AppointmentEntity entity = new AppointmentEntity();
         try {
             entity.setTitle(appointmentDto.getTitle());

@@ -9,4 +9,6 @@ public interface EventDAO {
     List<EventEntity> getEventsFromDatabase(Session session);
 
     EventEntity getEventsFromDatabaseById(Session session, Integer id);
+
+    boolean persistEventToDatabase(EventEntity eventAttached, Session session);
 }

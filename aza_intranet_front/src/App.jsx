@@ -12,6 +12,7 @@ import PatientsList from "./scenes/Patients/PatientsList";
 import InterventionsList from "./scenes/Interventions/InterventionsList"
 import CreateIntervention from "./scenes/Interventions/CreateIntervention"
 import Email from "../emails/emailTest";
+import Event from "./scenes/Events/CreateEvent";
 
 import DentistsList from "./scenes/Dentists/DentistsList"
 import Stats from "./scenes/Stats/Stats"
@@ -21,6 +22,7 @@ import Calendar from "./scenes/Calendar/Calendar";
 import { useLocation } from "react-router-dom";
 
 function App() {
+  // Obtener la ubicación actual utilizando el hook useLocation
   const location = useLocation();
 
   const isLoginOrRegister = location.pathname === "/login" || location.pathname === "/register";
@@ -49,6 +51,8 @@ function App() {
           <Route path="/dentists" element={<DentistsList />} />
           <Route path="/stats" element={<Stats />} />
           <Route path="/mails" element={<Email />} />
+          <Route path="/event" element={<Event />} />
+
 
         </Routes>
       </main>
