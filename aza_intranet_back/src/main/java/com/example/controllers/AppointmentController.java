@@ -74,12 +74,13 @@ public class AppointmentController {
 
         entity.setPatient(patient);
         List<InterventionEntity> interventionEntities = new ArrayList<>();
-        if (appointmentDto.getInterventions() != null) {
+        //if (appointmentDto.getInterventions() != null) {
             for (Integer intervention : appointmentDto.getInterventions()) {
                 interventionEntities.add(interventionService.getInterventionById(intervention));
             }
-        }
+       // }
         entity.setInterventions(interventionEntities);
+        System.out.println("Encontrar con esto " + entity.getInterventions());
         if (!appointmentService.createAppointment(entity)){
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         } else {

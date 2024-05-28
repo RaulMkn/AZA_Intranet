@@ -42,7 +42,7 @@ class AppointmentDto {
       formData.append('invoice', appointmentDto.invoice);
       formData.append('dentist', appointmentDto.dentist);
       formData.append('patient', appointmentDto.patient);
-      formData.append('intervention', appointmentDto.interventions);
+      formData.append('interventions', appointmentDto.interventions);
       return formData;
     }
   }

@@ -1,5 +1,6 @@
 package com.example.dto.fakes;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -28,6 +29,7 @@ public class FakeAppointmentDto {
     @Getter
     @Setter
     @NoArgsConstructor
+    @AllArgsConstructor
     public static class PostAppointmentDto {
         private Integer id;
         private Timestamp date_time_beginning;

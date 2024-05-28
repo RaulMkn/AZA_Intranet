@@ -70,6 +70,7 @@ const CreateAppointmentPage = () => {
       const dentist = dentistDto.id;
       const total_price = 0;
       const interventionsInt = interventions.map(intervention => parseInt(intervention, 10));
+      const patientInt = parseInt(patient,10);
 
     
       const appointmentDto = new AppointmentDto(
@@ -83,7 +84,7 @@ const CreateAppointmentPage = () => {
         total_price,
         invoice,
         dentist,
-        patient,
+        patientInt,
         interventionsInt
       );
     

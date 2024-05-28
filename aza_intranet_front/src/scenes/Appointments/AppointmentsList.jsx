@@ -1,19 +1,30 @@
 import { useState, useEffect } from "react";
-import MUIDataTable from "mui-datatables";
+import { Table, Button, message } from "antd";
 import axios from "axios";
-import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
 import "./Appointment.css";
 import Swal from "sweetalert2";
-import side_eye from "../../assets/side_eye.jpeg"
-
+import side_eye from "../../assets/side_eye.jpeg";
 
 export const TableAxios = () => {
   const [appointment, setAppointment] = useState([]);
-  var dentistJson = localStorage.getItem("Dentist");
+  const dentistJson = localStorage.getItem("Dentist");
+  const dentistDto = JSON.parse(dentistJson);
+const options = {
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit',
+  hour: '2-digit',
+  minute: '2-digit',
+  second: '2-digit',
+  hour12: false
+};
+const formatTimestamp = (timestamp) => {
+  const date = new Date(timestamp);
+  return date.toLocaleString('es-ES', options);
+};
 
-  var dentistDto = JSON.parse(dentistJson);
-  console.log(dentistDto);
+
   const fetchData = async () => {
     try {
       const response = await axios.get(
@@ -29,7 +40,7 @@ export const TableAxios = () => {
       );
 
       setAppointment(response.data);
-      console.log(response.data)
+      console.log(response.data);
     } catch (error) {
       console.error("Error al obtener datos de usuarios:", error);
     }
@@ -37,114 +48,92 @@ export const TableAxios = () => {
 
   useEffect(() => {
     fetchData();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const columns = [
     {
-      name: "date_time_beginning",
-      label: "Fecha y Hora de Inicio",
+      title: "Fecha y Hora de Inicio",
+      dataIndex: "date_time_beginning",
+      key: "date_time_beginning",
+      render: (date_time_beginning) => <div>{formatTimestamp(date_time_beginning)}</div>,
+      width: 150
+
+
     },
     {
-      name: "date_time_ending",
-      label: "Fecha y Hora de Fin",
+      title: "Fecha y Hora de Fin",
+      dataIndex: "date_time_ending",
+      key: "date_time_ending",
+      render: (date_time_ending) => <div>{formatTimestamp(date_time_ending)}</div>,
+      width: 150
+
+
     },
     {
-      name: "priority",
-      label: "Prioridad",
+      title: "Prioridad",
+      dataIndex: "priority",
+      key: "priority",
+      width: 150
+
+
     },
     {
-      name: "state",
-      label: "Estado",
+      title: "Estado",
+      dataIndex: "state",
+      key: "state",
+      width: 150
+
     },
     {
-      name: "title",
-      label: "Título",
+      title: "Título",
+      dataIndex: "title",
+      key: "title",
+      width: 150
+
     },
     {
-      name: "total_price",
-      label: "Precio Total",
+      title: "Precio Total",
+      dataIndex: "total_price",
+      key: "total_price",
+      width: 150
+
     },
     {
-      name: "dentist",
-      label: "Dentista",
-      options: {
-        customBodyRender: (value) => {
-          return (
-            value && (
-              <div>
-                <p>{value.full_name}</p>
-              </div>
-            )
-          );
-        },
-      },
+      title: "Dentista",
+      dataIndex: "dentist",
+      key: "dentist",
+      width: 150,
+      render: (dentist) => <div>{dentist?.full_name}</div>,
     },
     {
-      name: "patient",
-      label: "Paciente",
-      options: {
-        customBodyRender: (value) => {
-          return (
-            value && (
-              <div>
-                <p>{value.full_name}</p>
-              </div>
-            )
-          );
-        },
-      },
+      title: "Paciente",
+      dataIndex: "patient",
+      key: "patient",
+      width: 150,
+      render: (patient) => <div>{patient?.full_name}</div>,
     },
     {
-      name: "customButton",
-      label: "Acciones", // Etiqueta para la columna del botón personalizado
-      color: "red",
-      options: {
-        customBodyRender: (tableMeta) => {
-          return (
-            <button onClick={() => handleButtonClick(tableMeta.rowData[0])}>
-              Modificar
-            </button>
-          );
-        },
-      },
+      title: "Acciones",
+      key: "actions",
+      width: 150,
+      render: (text, record) => (
+        <Button onClick={() => handleButtonClick(record.id)}>Modificar</Button>
+      ),
     },
   ];
 
-  // Opciones para personalizar el tamaño de la tabla
-  const options = {
-    fixedHeader: true,
-    responsive: "standard",
-    // Tamaño máximo de altura y anchura
-    maxHeight: "400px",
-    maxWidth: "1000px",
-    customToolbar: () => {
-      return (
-        <Button variant="contained" color="info" style={{ marginRight: 10 }}>
-          <Link to="/appointment" style={{ color: "white" }}>
-            {" "}
-            Crear
-          </Link>
-        </Button>
-      );
-    },
-  };
-
-  // Función para manejar el clic del botón personalizado
   const handleButtonClick = async (id) => {
     try {
-      // Realizar la solicitud HTTP a tu backend
-      const response = await axios.post(
-        "http://tu-backend.com/api/customAction",
-        { id: id }
-      );
+      const response = await axios.post("http://tu-backend.com/api/customAction", { id });
       console.log("Respuesta del backend:", response.data);
-      // Aquí puedes manejar la respuesta según tus necesidades
+      message.success("Acción realizada con éxito");
     } catch (error) {
       console.error("Error al realizar la solicitud HTTP:", error);
+      message.error("Error al realizar la solicitud");
     }
   };
-  if (dentistJson ==  null) {
+
+  if (dentistJson === null) {
     Swal.fire({
       title: "¿Estas seguro de que tienes permisos para esta página?",
       icon: false,
@@ -162,15 +151,21 @@ export const TableAxios = () => {
     return null;
   }
 
-  // Renderizamos la tabla
   return (
-    <MUIDataTable
-      title={"Listado de citas"}
-      data={appointment}
-      columns={columns}
-      options={options}
-      className="table_container"
-    />
+    <div className="table_container">
+      <Button type="primary" style={{ marginBottom: 16 }}>
+        <Link to="/appointment" style={{ color: "white" }}>
+          Crear
+        </Link>
+      </Button>
+      <Table
+        title={() => "Listado de citas"}
+        columns={columns}
+        dataSource={appointment}
+        rowKey={(record) => record.id}
+        scroll={{ y: 400 , x: 400}}
+      />
+    </div>
   );
 };
 
