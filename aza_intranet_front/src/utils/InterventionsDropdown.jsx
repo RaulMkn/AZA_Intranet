@@ -11,7 +11,7 @@ const InterventionsDropdown = ({ onSelect }) => {
   };
 
   const [interventions, setInterventions] = useState([]);
-  const [selectedIntervention, setselectedIntervention] = useState(null);
+  const [selectedInterventions, setSelectedInterventions] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -37,7 +37,7 @@ const InterventionsDropdown = ({ onSelect }) => {
   }, []);
 
   const handleInterventionChange = (value) => {
-    setselectedIntervention(value);
+    setSelectedInterventions(value);
     onSelect && onSelect(value);
   };
 
@@ -45,14 +45,14 @@ const InterventionsDropdown = ({ onSelect }) => {
     <Select
       showSearch
       style={{ width: "210px" }}
-      placeholder="Selecciona una intervencion"
+      placeholder="Selecciona una intervención"
       optionFilterProp="children"
       onChange={handleInterventionChange}
-      value={selectedIntervention}
+      value={selectedInterventions}
       filterOption={(input, option) =>
         option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
       }
-      mode="tags"
+      mode="multiple"
     >
       {interventions.map((intervention) => (
         <Option key={intervention.id} value={intervention.id.toString()}>

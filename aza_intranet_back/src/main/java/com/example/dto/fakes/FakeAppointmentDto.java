@@ -1,9 +1,6 @@
 package com.example.dto.fakes;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -30,6 +27,7 @@ public class FakeAppointmentDto {
     @Setter
     @NoArgsConstructor
     @AllArgsConstructor
+    @ToString
     public static class PostAppointmentDto {
         private Integer id;
         private Timestamp date_time_beginning;
@@ -43,7 +41,9 @@ public class FakeAppointmentDto {
         private Integer department;
         private Integer dentist;
         private Integer patient;
-        private List<Integer> interventions;
+        private String interventions;
+
+
 
     }
 }

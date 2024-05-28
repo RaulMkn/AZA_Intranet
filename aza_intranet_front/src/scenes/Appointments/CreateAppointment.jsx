@@ -4,7 +4,7 @@ import DepartmentsDropdown from "../../utils/DepartmentsDropdown";
 import "./Appointment.css";
 import axios from "axios";
 import Swal from "sweetalert2";
-import side_eye from "../../assets/side_eye.jpeg"
+import side_eye from "../../assets/side_eye.jpeg";
 import PatientDropdown from "../../utils/PatientsDropdown";
 import InterventionsDropdown from "../../utils/InterventionsDropdown";
 import Sender from "../../../emails/api/Sender";
@@ -18,11 +18,9 @@ const CreateAppointmentPage = () => {
   var dentistJson = localStorage.getItem("Dentist");
   //console.log(dentistJson)
 
-
-
   // Convertir la cadena JSON a un objeto DentistDto
   var dentistDto = JSON.parse(dentistJson);
-  if (dentistJson ==  null) {
+  if (dentistJson == null) {
     Swal.fire({
       title: "¿Estas seguro de que tienes permisos para esta página?",
       icon: false,
@@ -47,10 +45,14 @@ const CreateAppointmentPage = () => {
     form.setFieldsValue({ patient: patientId });
   };
 
-  const handleInterventionSelected = (interventionId) => {
-    form.setFieldsValue({ interventions: interventionId });
+  const handleInterventionSelected = (interventionIds) => {
+    const interventionsArray = Array.isArray(interventionIds)
+      ? interventionIds
+      : [interventionIds];
+    form.setFieldsValue({
+      interventions: interventionsArray.map((id) => parseInt(id, 10)),
+    });
   };
-  
 
   const handleSubmit = async (values) => {
     try {
@@ -62,17 +64,18 @@ const CreateAppointmentPage = () => {
         department,
         description,
         patient,
-        interventions
+        interventions,
       } = values;
-    
+
       const state = "Pendiente";
       const invoice = "Factura Generica";
       const dentist = dentistDto.id;
       const total_price = 0;
-      const interventionsInt = interventions.map(intervention => parseInt(intervention, 10));
-      const patientInt = parseInt(patient,10);
+      const interventionsInt = interventions.map((intervention) =>
+        parseInt(intervention, 10)
+      );
+      const patientInt = parseInt(patient, 10);
 
-    
       const appointmentDto = new AppointmentDto(
         date_time_beginning,
         date_time_ending,
@@ -87,10 +90,13 @@ const CreateAppointmentPage = () => {
         patientInt,
         interventionsInt
       );
-    
+
       const formData = AppointmentDto.toFormData(appointmentDto);
-      console.log( "Appointment DTO:",appointmentDto);
-    
+      console.log("FormData contenido:");
+      formData.forEach((value, key) => {
+        console.log(`${key}: ${value}`);
+      });
+
       const response = await axios.post(
         "http://localhost:8080/intranet/DentalAesthetics/appointment",
         formData,
@@ -103,38 +109,35 @@ const CreateAppointmentPage = () => {
           crossdomain: true,
         }
       );
-    
+
       // Extraer los datos del paciente desde la respuesta
       const patientInfo = response.data.patient;
-      console.log("Patient Info",patientInfo);
-    
+      console.log("Patient Info", patientInfo);
+
       // Llamar a la función `Sender` con la información del paciente y los datos de la cita
       await Sender({ patientInfo, appointmentDto: formData });
 
-    
       Swal.fire({
         title: "Cita creada con éxito!",
         icon: "success",
       });
-    
+
       setTimeout(() => {
         window.location.href = "/appointments";
       }, 4000);
-    
     } catch (error) {
       console.error("Error al enviar datos al servidor:", error);
-    
+
       Swal.fire({
         title: "Fallo al crear la cita!",
         text: "Revise los datos del formulario o póngase en contacto con maken :(",
         icon: "error",
       });
-    
+
       //setTimeout(() => {
-        //window.location.reload();
+      //window.location.reload();
       //}, 4000);
     }
-    
   };
 
   return (
@@ -142,7 +145,6 @@ const CreateAppointmentPage = () => {
       <main className="form-container">
         <h1 className="title">Crear Cita para Paciente</h1>
         <Form form={form} onFinish={handleSubmit} layout="vertical">
-
           <div className="form-row">
             <Form.Item
               label="Fecha de Inicio"
@@ -182,7 +184,9 @@ const CreateAppointmentPage = () => {
             <Form.Item
               label="Procedimiento"
               name="interventions"
-              rules={[{ required: true, message: "Ingrese los procedimientos" }]}
+              rules={[
+                { required: true, message: "Ingrese los procedimientos" },
+              ]}
             >
               <InterventionsDropdown onSelect={handleInterventionSelected} />
             </Form.Item>
