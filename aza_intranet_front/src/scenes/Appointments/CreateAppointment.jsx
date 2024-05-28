@@ -92,11 +92,6 @@ const CreateAppointmentPage = () => {
       );
 
       const formData = AppointmentDto.toFormData(appointmentDto);
-      console.log("FormData contenido:");
-      formData.forEach((value, key) => {
-        console.log(`${key}: ${value}`);
-      });
-
       const response = await axios.post(
         "http://localhost:8080/intranet/DentalAesthetics/appointment",
         formData,
@@ -110,17 +105,30 @@ const CreateAppointmentPage = () => {
         }
       );
 
-      // Extraer los datos del paciente desde la respuesta
       const patientInfo = response.data.patient;
-      console.log("Patient Info", patientInfo);
 
-      // Llamar a la función `Sender` con la información del paciente y los datos de la cita
-      await Sender({ patientInfo, appointmentDto: formData });
-
-      Swal.fire({
-        title: "Cita creada con éxito!",
-        icon: "success",
-      });
+      try {
+        await Sender({ patient: patientInfo, appointmentDto: appointmentDto });
+        Swal.fire({
+          title: "Cita creada con éxito!",
+          icon: "success",
+        });
+        setTimeout(() => {
+          window.location.reload();
+        }, 4000);
+      } catch (error) {
+        console.error("Error al enviar el correo electrónico:", error);
+        Swal.fire({
+          title: "Fallo al crear la cita!",
+          text: "La cita se ha creado correctamente pero ha habido un problema con el envio del correo. Por favor pongase en contacto con el paciente.",
+          icon: "warning",
+          
+          
+        });
+        setTimeout(() => {
+          window.location.reload();
+        }, 4000);
+      }
 
       setTimeout(() => {
         window.location.href = "/appointments";
@@ -134,9 +142,9 @@ const CreateAppointmentPage = () => {
         icon: "error",
       });
 
-      //setTimeout(() => {
-      //window.location.reload();
-      //}, 4000);
+      setTimeout(() => {
+        window.location.reload();
+      }, 4000);
     }
   };
 
