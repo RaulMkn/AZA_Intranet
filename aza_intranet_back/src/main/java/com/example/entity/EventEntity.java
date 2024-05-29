@@ -26,7 +26,7 @@ public class EventEntity implements Serializable {
     private String title;
     private String description;
     private String location;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "dentist")
     private DentistEntity dentist;
 }

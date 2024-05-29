@@ -13,6 +13,7 @@ import InterventionsList from "./scenes/Interventions/InterventionsList"
 import CreateIntervention from "./scenes/Interventions/CreateIntervention"
 import Email from "../emails/emailTest";
 import Event from "./scenes/Events/CreateEvent";
+import EventsList from "./scenes/Events/EventsList";
 
 import DentistsList from "./scenes/Dentists/DentistsList"
 import Stats from "./scenes/Stats/Stats"
@@ -52,6 +53,7 @@ function App() {
           <Route path="/stats" element={<Stats />} />
           <Route path="/mails" element={<Email />} />
           <Route path="/event" element={<Event />} />
+          <Route path="/events" element={<EventsList />} />
 
 
         </Routes>

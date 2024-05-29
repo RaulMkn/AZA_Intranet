@@ -1,4 +1,4 @@
-class AppointmentDto {
+class EventDto {
     constructor(
       date_time_beginning,
       date_time_ending,
@@ -17,17 +17,17 @@ class AppointmentDto {
 
     }
   
-    static toFormData(appointmentDto) {
+    static toFormData(eventDto) {
       const formData = new FormData();
-      formData.append('date_time_beginning', appointmentDto.date_time_beginning);
-      formData.append('date_time_ending', appointmentDto.date_time_ending);
-      formData.append('title', appointmentDto.title);
-      formData.append('description', appointmentDto.description);
-      formData.append('location', appointmentDto.location);
-      formData.append('dentist', appointmentDto.dentist);
+      formData.append('date_time_beginning', eventDto.date_time_beginning);
+      formData.append('date_time_ending', eventDto.date_time_ending);
+      formData.append('title', eventDto.title);
+      formData.append('description', eventDto.description);
+      formData.append('location', eventDto.location);
+      formData.append('dentist', eventDto.dentist);
       return formData;
     }
   }
   
-  export default AppointmentDto;
+  export default EventDto;
   

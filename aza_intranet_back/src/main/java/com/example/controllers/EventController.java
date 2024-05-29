@@ -71,6 +71,7 @@ public class EventController {
             event.setDate_time_ending(eventDto.getDate_time_ending());
             event.setLocation(eventDto.getLocation());
             event.setDentist(dentistService.getUserById(eventDto.getDentist()));
+            eventService.createEvent(event);
                 return ResponseEntity.status(HttpStatus.OK).build();
         } catch (Exception e) {
             System.out.println("Error al crear la cita: " + e.getMessage());

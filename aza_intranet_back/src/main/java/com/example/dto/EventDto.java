@@ -5,12 +5,14 @@ import com.example.entity.DentistEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.sql.Timestamp;
 @AllArgsConstructor
 @Getter
 @Setter
+@NoArgsConstructor
 public class EventDto {
     private Integer id;
     private Timestamp date_time_beginning;

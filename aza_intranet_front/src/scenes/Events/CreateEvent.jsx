@@ -53,7 +53,7 @@ const CreateEventPage = () => {
         dentist
       );
 
-      const formData = eventDto.toFormData(eventDto);
+      const formData = EventDto.toFormData(eventDto);
       await axios.post(
         "http://localhost:8080/intranet/DentalAesthetics/event",
         formData,
@@ -82,10 +82,6 @@ const CreateEventPage = () => {
         text: "Revise los datos del formulario o póngase en contacto con maken :(",
         icon: "error",
       });
-
-      setTimeout(() => {
-        window.location.reload();
-      }, 4000);
     }
   };
 
