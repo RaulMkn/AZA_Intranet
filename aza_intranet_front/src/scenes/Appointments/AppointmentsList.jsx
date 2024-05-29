@@ -10,10 +10,6 @@ import side_eye from "../../assets/side_eye.jpeg"
 
 export const TableAxios = () => {
   const [appointment, setAppointment] = useState([]);
-  // Configuramos los hooks
-
-  // En cualquier componente donde necesites acceder al ID del usuario
-  // Recuperar los datos del DentistDto del localStorage
   var dentistJson = localStorage.getItem("Dentist");
 
   // Convertir la cadena JSON a un objeto DentistDto
@@ -118,7 +114,6 @@ export const TableAxios = () => {
     },
   ];
 
-  // Opciones para personalizar el tamaño de la tabla
   const options = {
     fixedHeader: true,
     responsive: "standard",
