@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -22,7 +23,7 @@ public class PatientDto {
     private String nif;
     private String address;
     private String gender;
-    private Timestamp birthDate;
+    private Date date_of_birth;
     private FakeDentistDto.GetDentistDto dentist;
     private List<FakeAppointmentDto.GetAppointmentDto> appointments;
 }

@@ -81,6 +81,18 @@ export const TableAxios = () => {
       label: "TELEFONO",
     },
     {
+      name: "gender",
+      label: "GENERO",
+    },
+    {
+      name: "address",
+      label: "Direccion",
+    },
+    {
+      name: "phone",
+      label: "TELEFONO",
+    },
+    {
       name: "customButton",
       label: "Acciones", // Etiqueta para la columna del botón personalizado
       options: {

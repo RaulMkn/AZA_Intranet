@@ -32,6 +32,7 @@ public class DentistEntity implements Serializable {
 
     private Integer permis;
 
+    @Temporal(TemporalType.DATE)
     private Date date_of_birth;
 
     private String nif;

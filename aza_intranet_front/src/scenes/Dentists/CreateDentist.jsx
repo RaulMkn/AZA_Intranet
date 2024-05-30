@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Form, Input, Button, Radio, Upload, message } from "antd";
+import { Form, Input, Button, Radio, Upload, message, DatePicker } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import DepartmentsDropdown from "../../utils/DepartmentsDropdown";
 import axios from "axios";
@@ -167,6 +167,15 @@ const CreateDentist = () => {
               <Radio value="0">No</Radio>
             </Radio.Group>
           </Form.Item>
+          <Form.Item
+              label="Fecha de Inicio"
+              name="date_of_birth"
+              rules={[
+                { required: true, message: "Ingrese la fecha de nacimiento" },
+              ]}
+            >
+              <DatePicker/>
+            </Form.Item>
 
           <Form.Item
             label="Género"
