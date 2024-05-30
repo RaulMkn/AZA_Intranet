@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.hibernate.annotations.ManyToAny;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -30,6 +31,14 @@ public class DentistEntity implements Serializable {
     private String job;
 
     private Integer permis;
+
+    private Date date_of_birth;
+
+    private String nif;
+
+    private String address;
+
+    private String gender;
 
     @OneToMany(mappedBy = "dentist")
     private List<AppointmentEntity> appointments;

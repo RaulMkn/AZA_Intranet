@@ -16,11 +16,11 @@ import Event from "./scenes/Events/CreateEvent";
 import EventsList from "./scenes/Events/EventsList";
 
 import DentistsList from "./scenes/Dentists/DentistsList"
-import Stats from "./scenes/Stats/Stats"
 
 import Calendar from "./scenes/Calendar/Calendar";
 
 import { useLocation } from "react-router-dom";
+import CreateDentist from "./scenes/Dentists/CreateDentist";
 
 function App() {
   // Obtener la ubicación actual utilizando el hook useLocation
@@ -50,7 +50,7 @@ function App() {
           <Route path="/intervention" element={<CreateIntervention />} />
           <Route path="/interventions" element={<InterventionsList />} />
           <Route path="/dentists" element={<DentistsList />} />
-          <Route path="/stats" element={<Stats />} />
+          <Route path="/dentist" element={<CreateDentist />} />
           <Route path="/mails" element={<Email />} />
           <Route path="/event" element={<Event />} />
           <Route path="/events" element={<EventsList />} />

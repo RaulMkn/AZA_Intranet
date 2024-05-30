@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -19,6 +20,10 @@ public class DentistDto {
     private FakePictureDto picture;
     private String job;
     private Integer permis;
+    private Date date_of_birth;
+    private String nif;
+    private String address;
+    private String gender;
     private List<FakeAppointmentDto.GetAppointmentDto> appointments;
     private FakeDepartmentDto.GetDepartmentDto department;
     private List<FakeEventDto.GetEventDto> events;

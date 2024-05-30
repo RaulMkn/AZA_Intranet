@@ -1,25 +1,15 @@
-// src/components/CreateAppointmentPage.js
-import { Form, Input, DatePicker, Select, Button } from "antd";
+import { Form, Input, Button, Radio } from "antd";
 import DepartmentsDropdown from "../../utils/DepartmentsDropdown";
-import "./Appointment.css";
 import axios from "axios";
 import Swal from "sweetalert2";
 import side_eye from "../../assets/side_eye.jpeg";
-import PatientDropdown from "../../utils/PatientsDropdown";
-import InterventionsDropdown from "../../utils/InterventionsDropdown";
-import Sender from "../../../emails/api/Sender";
-import AppointmentDto from "../../DTOs/AppointmentDto";
+import DentistDto from "../../DTOs/DentistDto";
 
-const { Option } = Select;
-
-const CreateAppointmentPage = () => {
+const CreateDentist = () => {
   const [form] = Form.useForm();
 
-  var dentistJson = localStorage.getItem("Dentist");
-  //console.log(dentistJson)
+  const dentistJson = localStorage.getItem("Dentist");
 
-  // Convertir la cadena JSON a un objeto DentistDto
-  var dentistDto = JSON.parse(dentistJson);
   if (dentistJson == null) {
     Swal.fire({
       title: "¿Estas seguro de que tienes permisos para esta página?",
@@ -37,107 +27,65 @@ const CreateAppointmentPage = () => {
     }, 4000);
     return null;
   }
+
   const handleDepartmentSelected = (departmentId) => {
     form.setFieldsValue({ department: departmentId });
-  };
-
-  const handlePatientSelected = (patientId) => {
-    form.setFieldsValue({ patient: patientId });
-  };
-
-  const handleInterventionSelected = (interventionIds) => {
-    const interventionsArray = Array.isArray(interventionIds)
-      ? interventionIds
-      : [interventionIds];
-    form.setFieldsValue({
-      interventions: interventionsArray.map((id) => parseInt(id, 10)),
-    });
   };
 
   const handleSubmit = async (values) => {
     try {
       const {
-        date_time_beginning,
-        date_time_ending,
-        priority,
-        title,
+        full_name,
+        email,
+        pass,
+        job,
+        permis,
         department,
-        description,
-        patient,
-        interventions,
+        picture,
+        date_of_birth,
+        nif,
+        address,
+        gender,
       } = values;
 
-      const state = "Pendiente";
-      const invoice = "Factura Generica";
-      const dentist = dentistDto.id;
-      const total_price = 0;
-      const interventionsInt = interventions.map((intervention) =>
-        parseInt(intervention, 10)
-      );
-      const patientInt = parseInt(patient, 10);
-
-      const appointmentDto = new AppointmentDto(
-        date_time_beginning,
-        date_time_ending,
-        priority,
-        state,
-        title,
+      const dentistDto = new DentistDto(
+        full_name,
+        email,
+        pass,
+        job,
+        permis,
         department,
-        description,
-        total_price,
-        invoice,
-        dentist,
-        patientInt,
-        interventionsInt
+        picture,
+        date_of_birth,
+        nif,
+        address,
+        gender
       );
 
-      const formData = AppointmentDto.toFormData(appointmentDto);
-      const response = await axios.post(
-        "http://localhost:8080/intranet/DentalAesthetics/appointment",
+      const formData = DentistDto.toFormData(dentistDto);
+      await axios.post(
+        "http://localhost:8080/intranet/DentalAesthetics/dentist",
         formData,
         {
           withCredentials: true,
           headers: {
-            "Content-Type": "application/json",
             Authorization: "Basic " + btoa(import.meta.env.VITE_DATABASE_AUTH),
           },
-          crossdomain: true,
         }
       );
 
-      const patientInfo = response.data.patient;
-
-      try {
-        await Sender({ patient: patientInfo, appointmentDto: appointmentDto });
-        Swal.fire({
-          title: "Cita creada con éxito!",
-          icon: "success",
-        });
-        setTimeout(() => {
-          window.location.reload();
-        }, 4000);
-      } catch (error) {
-        console.error("Error al enviar el correo electrónico:", error);
-        Swal.fire({
-          title: "Fallo al crear la cita!",
-          text: "La cita se ha creado correctamente pero ha habido un problema con el envio del correo. Por favor pongase en contacto con el paciente.",
-          icon: "warning",
-          
-          
-        });
-        setTimeout(() => {
-          window.location.reload();
-        }, 4000);
-      }
-
+      Swal.fire({
+        title: "Usuario creado con éxito!",
+        icon: "success",
+      });
       setTimeout(() => {
-        window.location.href = "/appointments";
+        window.location.reload();
       }, 4000);
     } catch (error) {
       console.error("Error al enviar datos al servidor:", error);
 
       Swal.fire({
-        title: "Fallo al crear la cita!",
+        title: "Fallo al crear el usuario!",
         text: "Revise los datos del formulario o póngase en contacto con maken :(",
         icon: "error",
       });
@@ -149,93 +97,104 @@ const CreateAppointmentPage = () => {
   };
 
   return (
-    <>
-      <main className="form-container">
-        <h1 className="title">Crear Cita para Paciente</h1>
-        <Form form={form} onFinish={handleSubmit} layout="vertical">
-          <div className="form-row">
-            <Form.Item
-              label="Fecha de Inicio"
-              name="date_time_beginning"
-              rules={[
-                { required: true, message: "Ingrese la fecha de inicio" },
-              ]}
-            >
-              <DatePicker showTime format="YYYY-MM-DD HH:mm" />
-            </Form.Item>
-            <Form.Item
-              label="Fecha de Fin"
-              name="date_time_ending"
-              rules={[{ required: true, message: "Ingrese la fecha de fin" }]}
-            >
-              <DatePicker showTime format="YYYY-MM-DD HH:mm" />
-            </Form.Item>
-          </div>
-
-          <div className="form-row">
-            <Form.Item
-              label="Paciente"
-              name="patient"
-              rules={[{ required: true, message: "Ingrese el paciente" }]}
-            >
-              <PatientDropdown onSelect={handlePatientSelected} />
-            </Form.Item>
-
-            <Form.Item
-              label="Departamento"
-              name="department"
-              rules={[{ required: true, message: "Ingrese el departamento" }]}
-            >
-              <DepartmentsDropdown onSelect={handleDepartmentSelected} />
-            </Form.Item>
-
-            <Form.Item
-              label="Procedimiento"
-              name="interventions"
-              rules={[
-                { required: true, message: "Ingrese los procedimientos" },
-              ]}
-            >
-              <InterventionsDropdown onSelect={handleInterventionSelected} />
-            </Form.Item>
-
-            <Form.Item
-              label="Prioridad"
-              name="priority"
-              rules={[{ required: true, message: "Seleccione la prioridad" }]}
-            >
-              <Select>
-                <Option value="Alta">Alta</Option>
-                <Option value="Media">Media</Option>
-                <Option value="Baja">Baja</Option>
-              </Select>
-            </Form.Item>
-          </div>
-
+    <main className="form-container">
+      <h1 className="title">Crear Nuevo Usuario</h1>
+      <Form form={form} onFinish={handleSubmit} layout="vertical">
+        <div className="form-row">
           <Form.Item
-            label="Título"
-            name="title"
-            rules={[{ required: true, message: "Ingrese el título" }]}
+            label="Nombre Completo"
+            name="full_name"
+            rules={[
+              { required: true, message: "Ingrese el nombre del usuario" },
+            ]}
           >
             <Input />
           </Form.Item>
 
           <Form.Item
-            label="Descripción"
-            name="description"
-            rules={[{ required: true, message: "Ingrese la descripción" }]}
+            label="Departamento"
+            name="department"
+            rules={[{ required: true, message: "Ingrese el departamento" }]}
+          >
+            <DepartmentsDropdown onSelect={handleDepartmentSelected} />
+          </Form.Item>
+        </div>
+        <div className="form-row">
+          <Form.Item
+            label="Puesto"
+            name="job"
+            rules={[
+              { required: true, message: "Seleccione el puesto del usuario" },
+            ]}
           >
             <Input />
           </Form.Item>
-          <Form.Item>
-            <Button type="primary" htmlType="submit">
-              Crear Cita
-            </Button>
+
+          <Form.Item
+            label="Permisos"
+            name="permis"
+            rules={[{ required: true, message: "¿Permisos de administrador?" }]}
+          >
+            <Radio.Group>
+              <Radio value="yes">Sí</Radio>
+              <Radio value="no">No</Radio>
+            </Radio.Group>
           </Form.Item>
-        </Form>
-      </main>
-    </>
+
+          <Form.Item
+            label="Genero"
+            name="gender"
+            rules={[{ required: true, message: "Seleccione el genero" }]}
+          >
+            <Radio.Group>
+              <Radio value="yes">Masculino</Radio>
+              <Radio value="no">Femenino</Radio>
+              <Radio value="no">Otro</Radio>
+            </Radio.Group>
+          </Form.Item>
+        </div>
+
+        <Form.Item
+          label="Email"
+          name="email"
+          rules={[{ required: true, message: "Ingrese el email del usuario" }]}
+        >
+          <Input />
+        </Form.Item>
+
+        <Form.Item
+          label="Contraseña"
+          name="pass"
+          rules={[{ required: true, message: "Ingrese la contraseña" }]}
+        >
+          <Input />
+        </Form.Item>
+
+        <Form.Item
+          label="Direccion"
+          name="address"
+          rules={[
+            { required: true, message: "Ingrese la direccion del usuario" },
+          ]}
+        >
+          <Input />
+        </Form.Item>
+
+        <Form.Item
+          label="DNI / NIE"
+          name="nif"
+          rules={[{ required: true, message: "Ingrese el NIF del usuario" }]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item>
+          <Button type="primary" htmlType="submit">
+            Crear Usuario
+          </Button>
+        </Form.Item>
+      </Form>
+    </main>
   );
 };
 
-export default CreateAppointmentPage;
+export default CreateDentist;

@@ -3,9 +3,11 @@ package com.example.controllers;
 import com.example.dto.LoginDto;
 import com.example.dto.DentistDto;
 import com.example.dto.PictureDto;
+import com.example.dto.fakes.FakeDentistDto;
 import com.example.entity.DentistEntity;
 import com.example.entity.PictureEntity;
 import com.example.service.DentistService;
+import com.example.service.DepartmentService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,6 +31,8 @@ public class DentistController {
 
     @Autowired
     private ModelMapper modelMapper;
+    @Autowired
+    private DepartmentService departmentService;
 
     @Transactional
     @GetMapping(path = "/dentists")
@@ -41,6 +45,7 @@ public class DentistController {
                         .map(dentistEntity -> this.modelMapper.map(dentistEntity, DentistDto.class))
                         .collect(Collectors.toList()));
     }
+
     @Transactional
     @GetMapping(path = "/dentist/id/{id}")
     public ResponseEntity<DentistDto> obtainUserById(
@@ -59,16 +64,20 @@ public class DentistController {
     @PostMapping(path = "/dentist", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Void> addUser(
             @Valid
-            @RequestPart("name") String name,
-            @RequestPart("email") String mail,
-            @RequestPart("pass") String pass,
-            @RequestPart("file") MultipartFile file
-    ) {
-        DentistEntity dentistDto = new DentistEntity();
-        dentistDto.setFull_name(name);
-        dentistDto.setEmail(mail);
-        dentistDto.setPass(pass);
-        if (!dentistService.createUser(dentistDto, file)) {
+            @RequestParam FakeDentistDto.PostDentistDto dentistDto,
+            @RequestParam("profilePicture") MultipartFile profilePicture) {
+        DentistEntity entity = new DentistEntity();
+        entity.setFull_name(dentistDto.getFull_name());
+        entity.setEmail(dentistDto.getEmail());
+        entity.setPass(dentistDto.getPass());
+        entity.setJob(dentistDto.getJob());
+        entity.setPermis(dentistDto.getPermis());
+        entity.setDepartment(departmentService.getDepartmentById(dentistDto.getDepartment()));
+        entity.setAddress(dentistDto.getAddress());
+        entity.setNif(dentistDto.getNif());
+        entity.setDate_of_birth(dentistDto.getDate_of_birth());
+        entity.setGender(dentistDto.getGender());
+        if (!dentistService.createUser(entity, profilePicture)) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         } else {
             return ResponseEntity.ok().build();

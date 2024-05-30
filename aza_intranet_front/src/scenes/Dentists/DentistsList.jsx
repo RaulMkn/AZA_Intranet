@@ -3,78 +3,41 @@ import MUIDataTable from "mui-datatables";
 import axios from "axios";
 import Button from "@mui/material/Button";
 import Swal from "sweetalert2";
+import { Link } from "react-router-dom";
 import side_eye from "../../assets/side_eye.jpeg";
 
 export const TableAxios = () => {
   var dentistJson = localStorage.getItem("Dentist");
   console.log(dentistJson);
   var dentistDto = JSON.parse(dentistJson);
-  //1 - configuramos Los hooks
+
   const [dentist, setDentist] = useState([]);
 
   const fetchData = async () => {
     try {
-      // Realiza la solicitud GET a la URL de la API
       const response = await axios.get(
         "http://localhost:8080/intranet/DentalAesthetics/dentists",
         {
-          withCredentials: true, // Utiliza credenciales de autenticación
+          withCredentials: true,
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Basic " + btoa(import.meta.env.VITE_DATABASE_AUTH), // Agrega encabezados necesarios
+            Authorization: "Basic " + btoa(import.meta.env.VITE_DATABASE_AUTH),
           },
-          crossdomain: true, // Permite solicitudes a diferentes dominios
+          crossdomain: true,
         }
       );
       console.log(response.data);
       const dentists = response.data;
-
-      await Promise.all(
-        dentists.map(async (dentist) => {
-          try {
-            // Hacemos una solicitud para cada id de cita
-            const detailResponse = await axios.get(
-              `http://localhost:8080/intranet/DentalAesthetics/departments/id/${dentist.department}`,
-              {
-                withCredentials: true,
-                headers: {
-                  "Content-Type": "application/json",
-                  Authorization: "Basic " + btoa("maken:yuki"),
-                },
-                crossdomain: true,
-              }
-            );
-
-            dentist.departmentDetails = detailResponse.data;
-
-            // Aquí puedes manejar la respuesta de cada detalle de la cita, por ejemplo:
-            console.log("Detalles de la cita:", detailResponse.data);
-          } catch (detailError) {
-            console.error("Error al obtener detalles de la cita:", detailError);
-          }
-        })
-      );
       setDentist(dentists);
     } catch (error) {
-      // Manejo de errores en caso de que la solicitud falle
       console.error("Error al obtener datos de usuarios:", error);
     }
   };
 
   useEffect(() => {
-    fetchData(); // Llama a la función para obtener datos cuando el componente se monta
+    fetchData();
   }, []);
 
-  // Opciones para personalizar el tamaño de la tabla
-  const options = {
-    // Establece la anchura máxima de la tabla
-    fixedHeader: true,
-    // Establece la altura máxima de la tabla
-    responsive: "standard",
-    // Agregar contenido personalizado encima de la tabla
-  };
-
-  //3 - Definimos las columnas
   const columns = [
     {
       name: "full_name",
@@ -105,7 +68,7 @@ export const TableAxios = () => {
     },
     {
       name: "permis",
-      label: "ADMIN?",
+      label: "¿ADMIN?",
       options: {
         customBodyRender: (value) => {
           if (value === 1) {
@@ -143,6 +106,23 @@ export const TableAxios = () => {
       },
     },
   ];
+
+  const options = {
+    fixedHeader: true,
+    responsive: "standard",
+    maxHeight: "400px",
+    maxWidth: "1000px",
+    customToolbar: () => {
+      return (
+        <Button variant="contained" color="info" style={{ marginRight: 10 }}>
+          <Link to="/dentist" style={{ color: "white" }}>
+            {" "}
+            Crear
+          </Link>
+        </Button>
+      );
+    },
+  };
 
   const handleButtonClick = async (id) => {
     try {
