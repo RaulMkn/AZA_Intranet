@@ -1,4 +1,6 @@
-import { Form, Input, Button, Radio } from "antd";
+import { useState } from "react";
+import { Form, Input, Button, Radio, Upload, message } from "antd";
+import { UploadOutlined } from "@ant-design/icons";
 import DepartmentsDropdown from "../../utils/DepartmentsDropdown";
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -7,12 +9,14 @@ import DentistDto from "../../DTOs/DentistDto";
 
 const CreateDentist = () => {
   const [form] = Form.useForm();
+  const [imageFile, setImageFile] = useState(null);
+  const [error, setError] = useState(null);
 
   const dentistJson = localStorage.getItem("Dentist");
 
   if (dentistJson == null) {
     Swal.fire({
-      title: "¿Estas seguro de que tienes permisos para esta página?",
+      title: "¿Estás seguro de que tienes permisos para esta página?",
       icon: false,
       text: "Yo creo que no, pero contacta con maken",
       imageUrl: side_eye,
@@ -32,6 +36,25 @@ const CreateDentist = () => {
     form.setFieldsValue({ department: departmentId });
   };
 
+  const handleChange = (info) => {
+    if (info.file.status === "done" || info.file.status === "uploading") {
+      setImageFile(info.file.originFileObj);
+      setError(null);
+    }
+    if (info.file.status === "error") {
+      setError("Error al subir el archivo. Intente nuevamente.");
+    }
+  };
+
+  const beforeUpload = (file) => {
+    const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
+    if (!isJpgOrPng) {
+      message.error("Solo puede subir archivos JPG/PNG.");
+      return Upload.LIST_IGNORE;
+    }
+    return isJpgOrPng;
+  };
+
   const handleSubmit = async (values) => {
     try {
       const {
@@ -41,7 +64,6 @@ const CreateDentist = () => {
         job,
         permis,
         department,
-        picture,
         date_of_birth,
         nif,
         address,
@@ -55,14 +77,19 @@ const CreateDentist = () => {
         job,
         permis,
         department,
-        picture,
+        imageFile,
         date_of_birth,
         nif,
         address,
         gender
       );
 
-      const formData = DentistDto.toFormData(dentistDto);
+      const formData = new FormData();
+      formData.append("dentistDto", JSON.stringify(dentistDto));
+      if (imageFile) {
+        formData.append("profilePicture", imageFile);
+      }
+
       await axios.post(
         "http://localhost:8080/intranet/DentalAesthetics/dentist",
         formData,
@@ -136,20 +163,20 @@ const CreateDentist = () => {
             rules={[{ required: true, message: "¿Permisos de administrador?" }]}
           >
             <Radio.Group>
-              <Radio value="yes">Sí</Radio>
-              <Radio value="no">No</Radio>
+              <Radio value="1">Sí</Radio>
+              <Radio value="0">No</Radio>
             </Radio.Group>
           </Form.Item>
 
           <Form.Item
-            label="Genero"
+            label="Género"
             name="gender"
-            rules={[{ required: true, message: "Seleccione el genero" }]}
+            rules={[{ required: true, message: "Seleccione el género" }]}
           >
             <Radio.Group>
-              <Radio value="yes">Masculino</Radio>
-              <Radio value="no">Femenino</Radio>
-              <Radio value="no">Otro</Radio>
+              <Radio value="masculino">Masculino</Radio>
+              <Radio value="femenino">Femenino</Radio>
+              <Radio value="otro">Otro</Radio>
             </Radio.Group>
           </Form.Item>
         </div>
@@ -171,10 +198,10 @@ const CreateDentist = () => {
         </Form.Item>
 
         <Form.Item
-          label="Direccion"
+          label="Dirección"
           name="address"
           rules={[
-            { required: true, message: "Ingrese la direccion del usuario" },
+            { required: true, message: "Ingrese la dirección del usuario" },
           ]}
         >
           <Input />
@@ -187,6 +214,18 @@ const CreateDentist = () => {
         >
           <Input />
         </Form.Item>
+
+        <Form.Item label="Inserte una imagen suya">
+          <Upload
+            beforeUpload={beforeUpload}
+            onChange={handleChange}
+            showUploadList={false}
+          >
+            <Button icon={<UploadOutlined />}>Seleccionar archivo</Button>
+          </Upload>
+          {error && <p style={{ color: "red" }}>{error}</p>}
+        </Form.Item>
+
         <Form.Item>
           <Button type="primary" htmlType="submit">
             Crear Usuario

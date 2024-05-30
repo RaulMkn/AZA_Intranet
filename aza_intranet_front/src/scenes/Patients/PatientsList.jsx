@@ -42,7 +42,11 @@ export const TableAxios = () => {
 
   // Opciones para personalizar el tamaño de la tabla
   const options = {
-    // Establece la anchura máxima de la tabla
+    selectableRows: 'none', // Desactiva la opción de selección de filas
+    viewColumns: false,     // Desactiva la opción de mostrar/ocultar columnas
+    filter: false,          // Desactiva la opción de filtrar
+    print: false,           // Desactiva la opción de imprimir
+    download: false,        // Desactiva la opción de descargar
     fixedHeader: true,
     // Establece la altura máxima de la tabla
     responsive: "standard",
@@ -92,15 +96,37 @@ export const TableAxios = () => {
 
   const handleButtonClick = async (id) => {
     try {
-      // Realizar la solicitud HTTP a tu backend
-      const response = await axios.post(
-        "http://tu-backend.com/api/customAction",
-        { id: id }
+      await axios.delete(
+        `http://localhost:8080/intranet/DentalAesthetics/dentist/id/${id}`,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Basic " + btoa(import.meta.env.VITE_DATABASE_AUTH),
+          },
+          crossdomain: true,
+        }
       );
-      console.log("Respuesta del backend:", response.data);
-      // Aquí puedes manejar la respuesta según tus necesidades
+
+      Swal.fire({
+        title: "Usuario eliminado con éxito!",
+        icon: "success",
+      });
+      setTimeout(() => {
+        window.location.reload();
+      }, 4000);
     } catch (error) {
-      console.error("Error al realizar la solicitud HTTP:", error);
+      console.error("Error al enviar datos al servidor:", error);
+
+      Swal.fire({
+        title: "Fallo al eliminar el usuario!",
+        text: "Pongase en contacto con maken :(",
+        icon: "error",
+      });
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 4000);
     }
   };
   if (dentistJson == null) {

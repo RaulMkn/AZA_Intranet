@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 import "./Appointment.css";
 import Swal from "sweetalert2";
 import side_eye from "../../assets/side_eye.jpeg"
+import { DeleteOutlined } from "@ant-design/icons";
+
 
 
 export const TableAxios = () => {
@@ -69,21 +71,6 @@ export const TableAxios = () => {
       label: "Precio Total",
     },
     {
-      name: "dentist",
-      label: "Dentista",
-      options: {
-        customBodyRender: (value) => {
-          return (
-            value && (
-              <div>
-                <p>{value.full_name}</p>
-              </div>
-            )
-          );
-        },
-      },
-    },
-    {
       name: "patient",
       label: "Paciente",
       options: {
@@ -99,22 +86,41 @@ export const TableAxios = () => {
       },
     },
     {
-      name: "customButton",
-      label: "Acciones", // Etiqueta para la columna del botón personalizado
-      color: "red",
+      name: "dentist",
+      label: "Dentista",
       options: {
-        customBodyRender: (tableMeta) => {
+        customBodyRender: (value) => {
           return (
-            <button onClick={() => handleButtonClick(tableMeta.rowData[0])}>
-              Modificar
-            </button>
+            value && (
+              <div>
+                <p>{value.full_name}</p>
+              </div>
+            )
           );
+        },
+      },
+    },
+    {
+      name: "customButton",
+      label: "Acciones",
+      options: {
+        customBodyRender: (value, tableMeta) => {
+            return (
+              <Button onClick={() => handleButtonClick(tableMeta.rowData[0])}>
+                <DeleteOutlined />
+              </Button>
+            );
         },
       },
     },
   ];
 
   const options = {
+    selectableRows: 'none', // Desactiva la opción de selección de filas
+    viewColumns: false,     // Desactiva la opción de mostrar/ocultar columnas
+    filter: false,          // Desactiva la opción de filtrar
+    print: false,           // Desactiva la opción de imprimir
+    download: false,        // Desactiva la opción de descargar
     fixedHeader: true,
     responsive: "standard",
     // Tamaño máximo de altura y anchura
@@ -135,15 +141,37 @@ export const TableAxios = () => {
   // Función para manejar el clic del botón personalizado
   const handleButtonClick = async (id) => {
     try {
-      // Realizar la solicitud HTTP a tu backend
-      const response = await axios.post(
-        "http://tu-backend.com/api/customAction",
-        { id: id }
+      await axios.delete(
+        `http://localhost:8080/intranet/DentalAesthetics/appointment/id/${id}`,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Basic " + btoa(import.meta.env.VITE_DATABASE_AUTH),
+          },
+          crossdomain: true,
+        }
       );
-      console.log("Respuesta del backend:", response.data);
-      // Aquí puedes manejar la respuesta según tus necesidades
+
+      Swal.fire({
+        title: "Cita eliminada con éxito!",
+        icon: "success",
+      });
+      setTimeout(() => {
+        window.location.reload();
+      }, 4000);
     } catch (error) {
-      console.error("Error al realizar la solicitud HTTP:", error);
+      console.error("Error al enviar datos al servidor:", error);
+
+      Swal.fire({
+        title: "Fallo al eliminar la cita!",
+        text: "Pongase en contacto con maken :(",
+        icon: "error",
+      });
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 4000);
     }
   };
   if (dentistJson ==  null) {

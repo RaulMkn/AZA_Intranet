@@ -41,7 +41,7 @@ function App() {
 
         <MenuList darkTheme={darkTheme} />
         <div className="toggle-theme-btn">
-          <Button onClick={toggleTheme}>
+          <Button onClick={toggleTheme} style={{ display: 'flex', justifyContent: 'center', alignItems: "center" }}>
             {darkTheme ? <HiOutlineSun /> : <HiOutlineMoon />}
           </Button>
         </div>

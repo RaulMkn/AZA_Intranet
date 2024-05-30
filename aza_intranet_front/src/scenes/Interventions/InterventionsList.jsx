@@ -10,38 +10,38 @@ export const TableAxios = () => {
   var dentistJson = localStorage.getItem("Dentist");
   console.log(dentistJson);
   var dentistDto = JSON.parse(dentistJson);
-  //1 - configuramos Los hooks
   const [intervention, setIntervention] = useState([]);
 
   const fetchData = async () => {
     try {
-      // Realiza la solicitud GET a la URL de la API
       const response = await axios.get(
         "http://localhost:8080/intranet/DentalAesthetics/interventions",
         {
-          withCredentials: true, // Utiliza credenciales de autenticación
+          withCredentials: true,
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Basic " + btoa(import.meta.env.VITE_DATABASE_AUTH), // Agrega encabezados necesarios
+            Authorization: "Basic " + btoa(import.meta.env.VITE_DATABASE_AUTH),
           },
-          crossdomain: true, // Permite solicitudes a diferentes dominios
+          crossdomain: true,
         }
       );
       console.log(response.data);
       setIntervention(response.data);
     } catch (error) {
-      // Manejo de errores en caso de que la solicitud falle
       console.error("Error al obtener datos de usuarios:", error);
     }
   };
 
   useEffect(() => {
-    fetchData(); // Llama a la función para obtener datos cuando el componente se monta
+    fetchData();
   }, []);
 
-  // Opciones para personalizar el tamaño de la tabla
   const options = {
-    // Establece la anchura máxima de la tabla
+    selectableRows: "none", // Desactiva la opción de selección de filas
+    viewColumns: false, // Desactiva la opción de mostrar/ocultar columnas
+    filter: false, // Desactiva la opción de filtrar
+    print: false, // Desactiva la opción de imprimir
+    download: false, // Desactiva la opción de descargar
     fixedHeader: true,
     // Establece la altura máxima de la tabla
     responsive: "standard",
@@ -58,7 +58,6 @@ export const TableAxios = () => {
     },
   };
 
-  //3 - Definimos las columnas
   const columns = [
     {
       name: "full_name",
@@ -85,7 +84,7 @@ export const TableAxios = () => {
     },
     {
       name: "customButton",
-      label: "Acciones", // Etiqueta para la columna del botón personalizado
+      label: "Acciones",
       options: {
         customBodyRender: (tableMeta) => {
           return (
@@ -101,15 +100,37 @@ export const TableAxios = () => {
 
   const handleButtonClick = async (id) => {
     try {
-      // Realizar la solicitud HTTP a tu backend
-      const response = await axios.post(
-        "http://tu-backend.com/api/customAction",
-        { id: id }
+      await axios.delete(
+        `http://localhost:8080/intranet/DentalAesthetics/dentist/id/${id}`,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Basic " + btoa(import.meta.env.VITE_DATABASE_AUTH),
+          },
+          crossdomain: true,
+        }
       );
-      console.log("Respuesta del backend:", response.data);
-      // Aquí puedes manejar la respuesta según tus necesidades
+
+      Swal.fire({
+        title: "Usuario eliminado con éxito!",
+        icon: "success",
+      });
+      setTimeout(() => {
+        window.location.reload();
+      }, 4000);
     } catch (error) {
-      console.error("Error al realizar la solicitud HTTP:", error);
+      console.error("Error al enviar datos al servidor:", error);
+
+      Swal.fire({
+        title: "Fallo al eliminar el usuario!",
+        text: "Pongase en contacto con maken :(",
+        icon: "error",
+      });
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 4000);
     }
   };
 
