@@ -5,6 +5,8 @@ import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import side_eye from "../../assets/side_eye.jpeg";
+import { DeleteOutlined } from "@ant-design/icons";
+
 
 export const TableAxios = () => {
   var dentistJson = localStorage.getItem("Dentist");
@@ -89,7 +91,7 @@ export const TableAxios = () => {
         customBodyRender: (tableMeta) => {
           return (
             <button onClick={() => handleButtonClick(tableMeta.rowData[0])}>
-              Modificar
+              <DeleteOutlined/>
             </button>
           );
         },
