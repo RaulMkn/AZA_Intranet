@@ -17,6 +17,21 @@ export const TableAxios = () => {
   // Convertir la cadena JSON a un objeto DentistDto
   var dentistDto = JSON.parse(dentistJson);
   console.log(dentistDto);
+
+  const formater = {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false
+  };
+  const formatTimestamp = (timestamp) => {
+    const date = new Date(timestamp);
+    return date.toLocaleString('es-ES', formater);
+  };
+
   const fetchData = async () => {
     try {
       const response = await axios.get(
@@ -49,10 +64,32 @@ export const TableAxios = () => {
     {
       name: "date_time_beginning",
       label: "Fecha y Hora de Inicio",
+      options: {
+        customBodyRender: (value) => {
+          return (
+            value && (
+              <div>
+                <p>{formatTimestamp(value)}</p>
+              </div>
+            )
+          );
+        },
+      },
     },
     {
       name: "date_time_ending",
       label: "Fecha y Hora de Fin",
+      options: {
+        customBodyRender: (value) => {
+          return (
+            value && (
+              <div>
+                <p>{formatTimestamp(value)}</p>
+              </div>
+            )
+          );
+        },
+      },
     },
     {
       name: "priority",

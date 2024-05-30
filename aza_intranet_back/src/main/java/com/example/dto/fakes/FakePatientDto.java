@@ -21,7 +21,7 @@ public class FakePatientDto {
         private String nif;
         private String address;
         private String gender;
-        private Timestamp birthDate;
+        private Date birthDate;
     }
 
 

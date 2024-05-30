@@ -87,7 +87,7 @@ public class PatientController {
         entity.setNif(patientDto.getNif());
         entity.setAddress(patientDto.getAddress());
         entity.setGender(patientDto.getGender());
-        entity.setBirthDate(patientDto.getBirthDate());
+        entity.setDate_of_birth(patientDto.getDate_of_birth());
         entity.setDentist(dentistService.getUserById(patientDto.getDentistId()));
         entity.setAppointments(null);
         if (!patientService.createPatient(entity, patientDto.getDentistId())) {

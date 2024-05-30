@@ -26,7 +26,7 @@ const CreatePatient = () => {
         nif,
         address,
         gender,
-        birthDate,
+        date_of_birth,
       } = values;
 
       // Crea una instancia de PatientDto con los valores del formulario
@@ -38,7 +38,7 @@ const CreatePatient = () => {
         nif,
         address,
         gender,
-        birthDate
+        date_of_birth
       );
 
       // Convierte el objeto PatientDto en FormData
@@ -159,7 +159,7 @@ const CreatePatient = () => {
             </Form.Item>
             <Form.Item
               label="Fecha de nacimiento"
-              name="birthDate"
+              name="date_of_birth"
               rules={[
                 { required: true, message: "Ingrese la fecha de nacimiento" },
               ]}

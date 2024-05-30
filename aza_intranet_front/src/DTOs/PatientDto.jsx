@@ -1,5 +1,5 @@
 class PatientDto {
-    constructor(full_name, email, phone, dentist, nif, address, gender, birthDate) {
+    constructor(full_name, email, phone, dentist, nif, address, gender, date_of_birth) {
       this.full_name = full_name;
       this.email = email;
       this.phone = phone;
@@ -7,7 +7,7 @@ class PatientDto {
       this.nif = nif;
       this.address = address;
       this.gender = gender;
-      this.birthDate = birthDate;
+      this.birthDate = date_of_birth;
     }
   
     static toFormData(patientDto) {
@@ -19,7 +19,7 @@ class PatientDto {
       formData.append('nif', patientDto.nif);
       formData.append('address', patientDto.address);
       formData.append('gender', patientDto.gender);
-      formData.append('birthDate', patientDto.birthDate);
+      formData.append('birthDate', patientDto.date_of_birth);
       return formData;
     }
   }

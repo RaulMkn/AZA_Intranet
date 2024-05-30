@@ -100,7 +100,7 @@ public class AppointmentController {
         sendPatient.setAddress(patient.getAddress());
         sendPatient.setFull_name(patient.getFull_name());
         sendPatient.setPhone(patient.getPhone());
-        sendPatient.setBirthDate(patient.getBirthDate());
+        sendPatient.setBirthDate(patient.getDate_of_birth());
         return sendPatient;
     }
 
