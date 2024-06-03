@@ -7,7 +7,7 @@ import Swal from "sweetalert2";
 import side_eye from "../../assets/side_eye.jpeg";
 import PatientDropdown from "../../utils/PatientsDropdown";
 import InterventionsDropdown from "../../utils/InterventionsDropdown";
-import Sender from "../../../emails/api/Sender";
+//import Sender from "../../../emails/api/Sender";
 import AppointmentDto from "../../DTOs/AppointmentDto";
 
 const { Option } = Select;
@@ -106,7 +106,8 @@ const CreateAppointmentPage = () => {
       );
 
       const patientInfo = response.data.patient;
-
+      console.log(patientInfo);
+      /*
       try {
         await Sender({ patient: patientInfo, appointmentDto: appointmentDto });
         Swal.fire({
@@ -128,8 +129,11 @@ const CreateAppointmentPage = () => {
         setTimeout(() => {
           window.location.reload();
         }, 4000);
-      }
-
+      }*/
+      Swal.fire({
+        title: "Cita creada con éxito!",
+        icon: "success",
+      });
       setTimeout(() => {
         window.location.href = "/appointments";
       }, 4000);

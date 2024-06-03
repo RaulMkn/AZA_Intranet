@@ -1,5 +1,5 @@
 import "./App.css";
-//import RegisterForm from "./scenes/register/RegisterForm";
+import RegisterForm from "./scenes/register/RegisterForm";
 import Sidebar from "./scenes/global/sidebar/Sidebar";
 import LoginForm from "./scenes/login/LoginForm";
 import { Route, Routes } from "react-router-dom";
@@ -38,7 +38,7 @@ function App() {
         <Routes>
           <Route path="/home" element={<Calendar />} />
           <Route path="/login" element={<LoginForm />} />
-          {/*<Route path="/register" element={<RegisterForm */}
+          <Route path="/register" element={<RegisterForm />} />
           <Route path="/sideBar" element={<Sidebar />} />
           <Route path="/appointment" element={<CreateAppointmentPage />} />
           <Route path="/patient" element={<CreatePatient />} />

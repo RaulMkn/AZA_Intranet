@@ -2,6 +2,7 @@ import { useState } from "react";
 import { FaUser, FaLock } from "react-icons/fa";
 import Swal from "sweetalert2";
 import axios from "axios";
+import "./LoginForm.css";
 import LoginDto from "../../DTOs/LoginDto";
 
 const LoginForm = () => {
