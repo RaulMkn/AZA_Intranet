@@ -5,7 +5,6 @@ import DepartmentsDropdown from "../../utils/DepartmentsDropdown";
 import axios from "axios";
 import Swal from "sweetalert2";
 import side_eye from "../../assets/side_eye.jpeg";
-import DentistDto from "../../DTOs/DentistDto";
 
 const CreateDentist = () => {
   const [form] = Form.useForm();
@@ -70,24 +69,20 @@ const CreateDentist = () => {
         gender,
       } = values;
 
-      const dentistDto = new DentistDto(
-        full_name,
-        email,
-        pass,
-        job,
-        permis,
-        department,
-        imageFile,
-        date_of_birth,
-        nif,
-        address,
-        gender
-      );
-
       const formData = new FormData();
-      formData.append("dentistDto", JSON.stringify(dentistDto));
+      formData.append("full_name", full_name);
+      formData.append("email",email);
+      formData.append("pass", pass);
+      formData.append("job",job);
+      formData.append("permis",permis);
+      formData.append("department",department);
+      formData.append("date_of_birth", date_of_birth);
+      formData.append("nif",nif);
+      formData.append("address",address);
+      formData.append("gender",gender);
+      formData.append("",);
       if (imageFile) {
-        formData.append("profilePicture", imageFile);
+        formData.append("file", imageFile);
       }
 
       await axios.post(
