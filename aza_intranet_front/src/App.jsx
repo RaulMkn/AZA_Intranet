@@ -25,7 +25,7 @@ function App() {
   // Obtener la ubicación actual utilizando el hook useLocation
   const location = useLocation();
 
-  const isLoginOrRegister = location.pathname === "/login" || location.pathname === "/register";
+  const isLoginOrRegister = location.pathname === "/login" || location.pathname === "/register" || location.pathname === "/";
 
   return (
     <div className="container">
@@ -38,6 +38,7 @@ function App() {
         <Routes>
           <Route path="/home" element={<Calendar />} />
           <Route path="/login" element={<LoginForm />} />
+          <Route path="/" element={<LoginForm />} />
           <Route path="/register" element={<RegisterForm />} />
           <Route path="/sideBar" element={<Sidebar />} />
           <Route path="/appointment" element={<CreateAppointmentPage />} />

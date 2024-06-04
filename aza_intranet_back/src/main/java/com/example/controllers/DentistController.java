@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -64,20 +65,29 @@ public class DentistController {
     @PostMapping(path = "/dentist", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Void> addUser(
             @Valid
-            @RequestParam FakeDentistDto.PostDentistDto dentistDto,
-            @RequestParam("profilePicture") MultipartFile profilePicture) {
+            @RequestPart("full_name") String name,
+            @RequestPart("email") String email,
+            @RequestPart("pass") String pass,
+            @RequestPart("job") String job,
+            @RequestPart("permis") int permis,
+            @RequestPart("department") int department,
+            @RequestPart("address") String address,
+            @RequestPart("nif") String nif,
+            @RequestPart("date_of_birth") Date date_of_birth,
+            @RequestPart("gender") String gender,
+            @RequestPart("file") MultipartFile file) {
         DentistEntity entity = new DentistEntity();
-        entity.setFull_name(dentistDto.getFull_name());
-        entity.setEmail(dentistDto.getEmail());
-        entity.setPass(dentistDto.getPass());
-        entity.setJob(dentistDto.getJob());
-        entity.setPermis(dentistDto.getPermis());
-        entity.setDepartment(departmentService.getDepartmentById(dentistDto.getDepartment()));
-        entity.setAddress(dentistDto.getAddress());
-        entity.setNif(dentistDto.getNif());
-        entity.setDate_of_birth(dentistDto.getDate_of_birth());
-        entity.setGender(dentistDto.getGender());
-        if (!dentistService.createUser(entity, profilePicture)) {
+        entity.setFull_name(name);
+        entity.setEmail(email);
+        entity.setPass(pass);
+        entity.setJob(job);
+        entity.setPermis(permis);
+        entity.setDepartment(departmentService.getDepartmentById(department));
+        entity.setAddress(address);
+        entity.setNif(nif);
+        entity.setDate_of_birth(date_of_birth);
+        entity.setGender(gender);
+        if (!dentistService.createUser(entity, file)) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         } else {
             return ResponseEntity.ok().build();

@@ -79,7 +79,7 @@ public class DentistService {
     }
 
     @Transactional
-    private PictureEntity getPicture(MultipartFile picture, Session session) throws IOException {
+    public PictureEntity getPicture(MultipartFile picture, Session session) throws IOException {
         PictureEntity pictureEntity = new PictureEntity();
         pictureEntity.setImg_name(picture.getOriginalFilename());
         pictureEntity.setImg(picture.getBytes());
