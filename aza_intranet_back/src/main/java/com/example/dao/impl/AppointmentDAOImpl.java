@@ -14,7 +14,7 @@ public class AppointmentDAOImpl implements AppointmentDAO {
     @Transactional
     @Override
     public List<AppointmentEntity> getAllAppointmentsFromDatabase(Session session) {
-        String hql = "SELECT ap FROM AppointmentEntity ap WHERE ap.deleted != 0";
+        String hql = "SELECT ap FROM AppointmentEntity ap WHERE ap.deleted != 1";
         return session.createQuery(hql, AppointmentEntity.class).list();
     }
 

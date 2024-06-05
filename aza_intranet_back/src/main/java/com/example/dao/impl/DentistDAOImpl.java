@@ -13,7 +13,7 @@ public class DentistDAOImpl implements DentistDAO {
     @Transactional
     @Override
     public List<DentistEntity> getAllUsersFromDatabase(Session session) {
-        String hql ="SELECT us FROM DentistEntity us WHERE us.deleted != 0";
+        String hql ="SELECT us FROM DentistEntity us WHERE us.deleted != 1";
         return session.createQuery(hql, DentistEntity.class).list();
     }
 

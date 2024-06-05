@@ -11,7 +11,7 @@ import java.util.List;
 public class EventDAOImpl implements EventDAO {
     @Override
     public List<EventEntity> getEventsFromDatabase(Session session) {
-        String hql = "SELECT ev FROM EventEntity ev WHERE ev.deleted != 0";
+        String hql = "SELECT ev FROM EventEntity ev WHERE ev.deleted != 1";
         return session.createQuery(hql, EventEntity.class).list();
     }
 
