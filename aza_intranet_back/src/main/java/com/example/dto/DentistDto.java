@@ -19,7 +19,7 @@ public class DentistDto {
     private String pass;
     private FakePictureDto picture;
     private String job;
-    private Integer permis;
+    private Integer permits;
     private Date date_of_birth;
     private String nif;
     private String address;
