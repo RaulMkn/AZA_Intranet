@@ -20,7 +20,7 @@ public class PatientDAOImpl implements PatientDAO {
     @Transactional
     @Override
     public List<PatientEntity> getPatientsFromDatabase(Session session) {
-        String hql = "SELECT pt FROM PatientEntity pt";
+        String hql = "SELECT pt FROM PatientEntity pt WHERE pt.deleted != 0";
         return session.createQuery(hql, PatientEntity.class).list();
     }
 

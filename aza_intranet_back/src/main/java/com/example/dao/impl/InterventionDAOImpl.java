@@ -21,7 +21,7 @@ public class InterventionDAOImpl implements InterventionDAO {
     @Transactional
     @Override
     public List<InterventionEntity> getInterventionsFromDatabase(Session session) {
-        String hql = "SELECT itv FROM InterventionEntity itv";
+        String hql = "SELECT itv FROM InterventionEntity itv WHERE itv.deleted != 0";
         return session.createQuery(hql, InterventionEntity.class).list();
     }
 

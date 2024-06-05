@@ -12,7 +12,7 @@ public class DepartmentDAOImpl implements DepartmentDAO {
     @Transactional
     @Override
     public List<DepartmentEntity> getAllDepartmentsFromDatabase(Session session) {
-        String hql = "SELECT dp FROM DepartmentEntity dp";
+        String hql = "SELECT dp FROM DepartmentEntity dp WHERE dp.deleted != 0";
         return session.createQuery(hql, DepartmentEntity.class).list();
     }
     @Transactional
