@@ -21,6 +21,7 @@ Este proyecto es una aplicación de intranet desarrollada para los alumnos del M
 - Hibernate ORM
 - React 18
 - Vite
+- PostgreSQL
 
 ## Instalación
 
