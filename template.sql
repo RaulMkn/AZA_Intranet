@@ -126,14 +126,15 @@ CREATE TABLE appointments_interventions
 
 -- DML --
 -- Insertar datos de prueba en la tabla 'patient'
-INSERT INTO patient (address, date_of_birth, email, full_name, gender, nif, phone)
+INSERT INTO patient (address, date_of_birth, email, full_name, gender, nif, phone, dentist)
 SELECT 'Dirección ' || generate_series,
        CURRENT_DATE - INTERVAL '20 years' * random(),
        'paciente' || generate_series || '@example.com',
        'Paciente ' || generate_series,
        CASE WHEN random() < 0.5 THEN 'Male' ELSE 'Female' END,
        'NIF' || generate_series,
-       600000000 + generate_series
+       600000000 + generate_series,
+       generate_series
 FROM generate_series(1, 50);
 
 -- Insertar datos de prueba en la tabla 'department'
@@ -159,8 +160,8 @@ SELECT 'Dirección ' || generate_series,
        'Job ' || generate_series,
        'NIF' || generate_series,
        'password' || generate_series,
-       (SELECT id FROM department ORDER BY random() LIMIT 1),
-       (SELECT id FROM picture ORDER BY random() LIMIT 1)
+       generate_series,
+       generate_series
 FROM generate_series(1, 50);
 
 -- Insertar datos de prueba en la tabla 'payment'
@@ -173,12 +174,12 @@ SELECT 100000000 + generate_series,
        'Proveedor ' || generate_series,
        'Servicio ' || generate_series,
        CASE WHEN random() < 0.5 THEN 'Paid' ELSE 'Pending' END,
-       (SELECT id FROM dentist ORDER BY random() LIMIT 1)
+       generate_series
 FROM generate_series(1, 50);
 
 -- Insertar datos de prueba en la tabla 'appointment'
 INSERT INTO appointment (date_time_beginning, date_time_ending, description, invoice, priority, state, title,
-                         total_price, patient, payment, department)
+                         total_price, patient, payment, department, dentist)
 SELECT CURRENT_TIMESTAMP + INTERVAL '1 day' * random(),
        CURRENT_TIMESTAMP + INTERVAL '2 days' * random(),
        'Descripción ' || generate_series,
@@ -187,9 +188,10 @@ SELECT CURRENT_TIMESTAMP + INTERVAL '1 day' * random(),
        CASE WHEN random() < 0.5 THEN 'Confirmed' ELSE 'Pending' END,
        'Título ' || generate_series,
        random() * 500,
-       (SELECT id FROM patient ORDER BY random() LIMIT 1),
-       (SELECT id FROM payment ORDER BY random() LIMIT 1),
-       (SELECT id FROM department ORDER BY random() LIMIT 1)
+       generate_series,
+       generate_series,
+       generate_series,
+       generate_series
 FROM generate_series(1, 50);
 
 -- Insertar datos de prueba en la tabla 'event'
@@ -199,20 +201,19 @@ SELECT CURRENT_TIMESTAMP + INTERVAL '1 day' * random(),
        'Descripción ' || generate_series,
        'Ubicación ' || generate_series,
        'Evento ' || generate_series,
-       (SELECT id FROM dentist ORDER BY random() LIMIT 1)
+       generate_series
 FROM generate_series(1, 50);
 
 -- Insertar datos de prueba en la tabla 'intervention'
 INSERT INTO intervention (full_name, price, department)
 SELECT 'Intervención ' || generate_series,
        random() * 1000,
-       (SELECT id FROM department ORDER BY random() LIMIT 1)
+       generate_series
 FROM generate_series(1, 50);
 
 -- Insertar datos de prueba en la tabla 'appointments_interventions'
 INSERT INTO appointments_interventions (appointment, intervention)
-SELECT (SELECT id FROM appointment ORDER BY random() LIMIT 1),
-       (SELECT id FROM intervention ORDER BY random() LIMIT 1)
+SELECT generate_series, generate_series
 FROM generate_series(1, 50);
 
 
