@@ -19,22 +19,41 @@ public class AppointmentEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     @Temporal(TemporalType.TIMESTAMP)
     private Timestamp date_time_beginning;
+
     @Temporal(TemporalType.TIMESTAMP)
     private Timestamp date_time_ending;
+
     private String priority;
+
     private String state;
+
     private String title;
+
     private String description;
+
     private BigDecimal total_price;
+
     private String invoice;
+
+    private int deleted;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Timestamp created_at;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Timestamp updated_at;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "department")
     private DepartmentEntity department;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "dentist")
     private DentistEntity dentist;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "patient")
     private PatientEntity patient;

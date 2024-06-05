@@ -5,9 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.ManyToAny;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -30,7 +30,7 @@ public class DentistEntity implements Serializable {
 
     private String job;
 
-    private Integer permis;
+    private Integer permits;
 
     @Temporal(TemporalType.DATE)
     private Date date_of_birth;
@@ -40,6 +40,14 @@ public class DentistEntity implements Serializable {
     private String address;
 
     private String gender;
+
+    private int deleted;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Timestamp created_at;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Timestamp updated_at;
 
     @OneToMany(mappedBy = "dentist")
     private List<AppointmentEntity> appointments;

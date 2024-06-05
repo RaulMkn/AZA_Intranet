@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Getter
@@ -24,6 +25,14 @@ public class InterventionEntity implements Serializable {
     private String full_name;
 
     private BigDecimal price;
+
+    private int deleted;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Timestamp created_at;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Timestamp updated_at;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "department")

@@ -15,7 +15,7 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "payments")
+@Table(name = "payment")
 public class PaymentEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,13 +33,21 @@ public class PaymentEntity implements Serializable {
     private String state;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "responsible_dentist")
-    private DentistEntity responsible_dentist;
+    @JoinColumn(name = "dentist")
+    private DentistEntity dentist;
 
     private String comment;
 
     private String payment_receipt;
 
     private String bank_extract;
+
+    private int deleted;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Timestamp created_at;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Timestamp updated_at;
 
 }

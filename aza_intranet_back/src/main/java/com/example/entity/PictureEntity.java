@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Setter
@@ -26,6 +27,14 @@ public class PictureEntity implements Serializable {
     private byte[] img;
 
     private String img_type;
+
+    private int deleted;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Timestamp created_at;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Timestamp updated_at;
 
 
     @OneToMany(mappedBy = "picture", fetch = FetchType.EAGER)

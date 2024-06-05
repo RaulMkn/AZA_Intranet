@@ -2,10 +2,7 @@ package com.example.controllers;
 
 import com.example.dto.LoginDto;
 import com.example.dto.DentistDto;
-import com.example.dto.PictureDto;
-import com.example.dto.fakes.FakeDentistDto;
 import com.example.entity.DentistEntity;
-import com.example.entity.PictureEntity;
 import com.example.service.DentistService;
 import com.example.service.DepartmentService;
 import org.modelmapper.ModelMapper;
@@ -81,7 +78,7 @@ public class DentistController {
         entity.setEmail(email);
         entity.setPass(pass);
         entity.setJob(job);
-        entity.setPermis(permis);
+        entity.setPermits(permis);
         entity.setDepartment(departmentService.getDepartmentById(department));
         entity.setAddress(address);
         entity.setNif(nif);

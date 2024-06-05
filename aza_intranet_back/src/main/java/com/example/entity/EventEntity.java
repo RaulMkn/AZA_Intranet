@@ -19,13 +19,27 @@ public class EventEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     @Temporal(TemporalType.TIMESTAMP)
     private Timestamp date_time_beginning;
+
     @Temporal(TemporalType.TIMESTAMP)
     private Timestamp date_time_ending;
+
     private String title;
+
     private String description;
+
     private String location;
+
+    private int deleted;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Timestamp created_at;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Timestamp updated_at;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "dentist")
     private DentistEntity dentist;
