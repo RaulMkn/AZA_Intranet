@@ -4,39 +4,23 @@ import DepartmentsDropdown from "../../utils/DepartmentsDropdown";
 import "./Appointment.css";
 import axios from "axios";
 import Swal from "sweetalert2";
-import side_eye from "../../assets/side_eye.jpeg";
 import PatientDropdown from "../../utils/PatientsDropdown";
 import InterventionsDropdown from "../../utils/InterventionsDropdown";
 //import Sender from "../../../emails/api/Sender";
 import AppointmentDto from "../../DTOs/AppointmentDto";
+import { checkPermissionsAndRedirect } from "../../utils/CheckPermissions";
+import { useEffect } from "react";
 
 const { Option } = Select;
 
 const CreateAppointmentPage = () => {
   const [form] = Form.useForm();
-
   var dentistJson = localStorage.getItem("Dentist");
-  //console.log(dentistJson)
-
-  // Convertir la cadena JSON a un objeto DentistDto
   var dentistDto = JSON.parse(dentistJson);
-  if (dentistJson == null) {
-    Swal.fire({
-      title: "¿Estas seguro de que tienes permisos para esta página?",
-      icon: false,
-      text: "Yo creo que no, pero contacta con maken",
-      imageUrl: side_eye,
-      imageWidth: 400,
-      imageHeight: 300,
-      imageAlt: "Ojo Lateral Boombastico ;-;",
-      showCancelButton: false,
-      showConfirmButton: false,
-    });
-    setTimeout(() => {
-      window.location.href = "/login";
-    }, 4000);
-    return null;
-  }
+  useEffect(() => {
+    checkPermissionsAndRedirect(dentistDto);
+  },);
+  
   const handleDepartmentSelected = (departmentId) => {
     form.setFieldsValue({ department: departmentId });
   };

@@ -5,12 +5,18 @@ import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
 import "./Appointment.css";
 import Swal from "sweetalert2";
-import side_eye from "../../assets/side_eye.jpeg"
 import { DeleteOutlined } from "@ant-design/icons";
+import { checkPermissionsAndRedirect } from "../../utils/CheckPermissions";
 
 
 
 export const TableAxios = () => {
+  useEffect(() => {
+    var dentistJson = localStorage.getItem("Dentist");
+    var dentistDto = JSON.parse(dentistJson);
+    checkPermissionsAndRedirect(dentistDto);
+  }, []);
+  
   const [appointment, setAppointment] = useState([]);
   var dentistJson = localStorage.getItem("Dentist");
 
@@ -19,17 +25,17 @@ export const TableAxios = () => {
   console.log(dentistDto);
 
   const formater = {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-    hour12: false
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false,
   };
   const formatTimestamp = (timestamp) => {
     const date = new Date(timestamp);
-    return date.toLocaleString('es-ES', formater);
+    return date.toLocaleString("es-ES", formater);
   };
 
   const fetchData = async () => {
@@ -48,7 +54,7 @@ export const TableAxios = () => {
 
       // Setear el estado con los datos de las citas
       setAppointment(response.data);
-      console.log(response.data)
+      console.log(response.data);
     } catch (error) {
       console.error("Error al obtener datos de usuarios:", error);
     }
@@ -56,7 +62,7 @@ export const TableAxios = () => {
 
   useEffect(() => {
     fetchData();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Definimos las columnas
@@ -141,23 +147,23 @@ export const TableAxios = () => {
       name: "customButton",
       label: "Acciones",
       options: {
-        customBodyRender: (value, tableMeta) => {
-            return (
-              <Button onClick={() => handleButtonClick(tableMeta.rowData[0])}>
-                <DeleteOutlined />
-              </Button>
-            );
+        customBodyRender: (value) => {
+          return (
+            <Button onClick={() => handleButtonClick(value)}>
+              <DeleteOutlined />
+            </Button>
+          );
         },
       },
     },
   ];
 
   const options = {
-    selectableRows: 'none', // Desactiva la opción de selección de filas
-    viewColumns: false,     // Desactiva la opción de mostrar/ocultar columnas
-    filter: false,          // Desactiva la opción de filtrar
-    print: false,           // Desactiva la opción de imprimir
-    download: false,        // Desactiva la opción de descargar
+    selectableRows: "none", // Desactiva la opción de selección de filas
+    viewColumns: false, // Desactiva la opción de mostrar/ocultar columnas
+    filter: false, // Desactiva la opción de filtrar
+    print: false, // Desactiva la opción de imprimir
+    download: false, // Desactiva la opción de descargar
     fixedHeader: true,
     responsive: "standard",
     // Tamaño máximo de altura y anchura
@@ -176,10 +182,12 @@ export const TableAxios = () => {
   };
 
   // Función para manejar el clic del botón personalizado
-  const handleButtonClick = async (id) => {
+  const handleButtonClick = async (appointment, setAppointment) => {
+    appointment.deleted = 1;
     try {
-      await axios.delete(
-        `http://localhost:8080/intranet/DentalAesthetics/appointment/id/${id}`,
+      const response = axios.put(
+        `http://localhost:8080/intranet/DentalAesthetics/appointment/id/${appointment.id}`,
+        appointment,
         {
           withCredentials: true,
           headers: {
@@ -189,6 +197,7 @@ export const TableAxios = () => {
           crossdomain: true,
         }
       );
+      setAppointment(response.data);
 
       Swal.fire({
         title: "Cita eliminada con éxito!",
@@ -211,23 +220,6 @@ export const TableAxios = () => {
       }, 4000);
     }
   };
-  if (dentistJson ==  null) {
-    Swal.fire({
-      title: "¿Estas seguro de que tienes permisos para esta página?",
-      icon: false,
-      text: "Yo creo que no, pero contacta con maken",
-      imageUrl: side_eye,
-      imageWidth: 400,
-      imageHeight: 300,
-      imageAlt: "Ojo Lateral Boombastico ;-;",
-      showCancelButton: false,
-      showConfirmButton: false,
-    });
-    setTimeout(() => {
-      window.location.href = "/login";
-    }, 4000);
-    return null;
-  }
 
   // Renderizamos la tabla
   return (

@@ -4,14 +4,16 @@ import axios from "axios";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
-import side_eye from "../../assets/side_eye.jpeg";
 import { DeleteOutlined } from "@ant-design/icons";
-
+import { checkAdminPermissionsAndRedirect } from "../../utils/CheckPermissions";
 
 export const TableAxios = () => {
   var dentistJson = localStorage.getItem("Dentist");
   console.log(dentistJson);
   var dentistDto = JSON.parse(dentistJson);
+  useEffect(() => {
+    checkAdminPermissionsAndRedirect(dentistDto);
+  });
   const [intervention, setIntervention] = useState([]);
 
   const fetchData = async () => {
@@ -91,7 +93,7 @@ export const TableAxios = () => {
         customBodyRender: (tableMeta) => {
           return (
             <button onClick={() => handleButtonClick(tableMeta.rowData[0])}>
-              <DeleteOutlined/>
+              <DeleteOutlined />
             </button>
           );
         },
@@ -135,24 +137,6 @@ export const TableAxios = () => {
       }, 4000);
     }
   };
-
-  if (dentistJson == null || dentistDto.permis == 0) {
-    Swal.fire({
-      title: "¿Estas seguro de que tienes permisos para esta página?",
-      icon: false,
-      text: "Yo creo que no, pero contacta con maken",
-      imageUrl: side_eye,
-      imageWidth: 400,
-      imageHeight: 300,
-      imageAlt: "Ojo Lateral Boombastico ;-;",
-      showCancelButton: false,
-      showConfirmButton: false,
-    });
-    setTimeout(() => {
-      window.location.href = "/login";
-    }, 4000);
-    return null;
-  }
   return (
     <>
       <MUIDataTable

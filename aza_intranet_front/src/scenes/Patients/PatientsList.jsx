@@ -1,18 +1,19 @@
 import { useState, useEffect } from "react";
 import MUIDataTable from "mui-datatables";
 import axios from "axios";
-import Button from '@mui/material/Button';
-import { Link } from "react-router-dom"; 
+import Button from "@mui/material/Button";
+import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
-import side_eye from "../../assets/side_eye.jpeg"
 import { DeleteOutlined } from "@ant-design/icons";
-
-
-
+import { checkPermissionsAndRedirect } from "../../utils/CheckPermissions";
 
 export const TableAxios = () => {
-  var dentistJson = localStorage.getItem("Dentist");
-  console.log(dentistJson)
+  var dentistJson = localStorage.getItem("Dentist" );
+  var dentistDto = JSON.parse(dentistJson);
+
+  useEffect(() => {
+    checkPermissionsAndRedirect(dentistDto);
+  });
   //1 - configuramos Los hooks
   const [patient, setPatients] = useState([]);
 
@@ -44,23 +45,22 @@ export const TableAxios = () => {
 
   // Opciones para personalizar el tamaño de la tabla
   const options = {
-    selectableRows: 'none', // Desactiva la opción de selección de filas
-    viewColumns: false,     // Desactiva la opción de mostrar/ocultar columnas
-    filter: false,          // Desactiva la opción de filtrar
-    print: false,           // Desactiva la opción de imprimir
-    download: false,        // Desactiva la opción de descargar
+    selectableRows: "none", // Desactiva la opción de selección de filas
+    viewColumns: false, // Desactiva la opción de mostrar/ocultar columnas
+    filter: false, // Desactiva la opción de filtrar
+    print: false, // Desactiva la opción de imprimir
+    download: false, // Desactiva la opción de descargar
     fixedHeader: true,
     // Establece la altura máxima de la tabla
     responsive: "standard",
     // Agregar contenido personalizado encima de la tabla
     customToolbar: () => {
       return (
-        <Button
-          variant="contained"
-          color="info"
-          style={{ marginRight: 10 }}
-        >
-      <Link to="/patient" style={{color: "white"}}> Crear</Link>
+        <Button variant="contained" color="info" style={{ marginRight: 10 }}>
+          <Link to="/patient" style={{ color: "white" }}>
+            {" "}
+            Crear
+          </Link>
         </Button>
       );
     },
@@ -99,7 +99,7 @@ export const TableAxios = () => {
         customBodyRender: (tableMeta) => {
           return (
             <button onClick={() => handleButtonClick(tableMeta.rowData[0])}>
-              <DeleteOutlined/>
+              <DeleteOutlined />
             </button>
           );
         },
@@ -143,23 +143,6 @@ export const TableAxios = () => {
       }, 4000);
     }
   };
-  if (dentistJson == null) {
-    Swal.fire({
-      title: "¿Estas seguro de que tienes permisos para esta página?",
-      icon: false,
-      text: "Yo creo que no, pero contacta con maken",
-      imageUrl: side_eye,
-      imageWidth: 400,
-      imageHeight: 300,
-      imageAlt: "Ojo Lateral Boombastico ;-;",
-      showCancelButton: false,
-      showConfirmButton: false,
-    });
-    setTimeout(() => {
-      window.location.href = "/login";
-    }, 4000);
-    return null;
-  }
 
   //4 - renderizamos la datatable
   return (

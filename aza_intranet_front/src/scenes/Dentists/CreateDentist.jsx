@@ -4,32 +4,18 @@ import { UploadOutlined } from "@ant-design/icons";
 import DepartmentsDropdown from "../../utils/DepartmentsDropdown";
 import axios from "axios";
 import Swal from "sweetalert2";
-import side_eye from "../../assets/side_eye.jpeg";
-
+import { checkAdminPermissionsAndRedirect } from "../../utils/CheckPermissions";
+import { useEffect } from "react";
 const CreateDentist = () => {
   const [form] = Form.useForm();
   const [imageFile, setImageFile] = useState(null);
   const [error, setError] = useState(null);
 
-  const dentistJson = localStorage.getItem("Dentist");
-
-  if (dentistJson == null) {
-    Swal.fire({
-      title: "¿Estás seguro de que tienes permisos para esta página?",
-      icon: false,
-      text: "Yo creo que no, pero contacta con maken",
-      imageUrl: side_eye,
-      imageWidth: 400,
-      imageHeight: 300,
-      imageAlt: "Ojo Lateral Boombastico ;-;",
-      showCancelButton: false,
-      showConfirmButton: false,
-    });
-    setTimeout(() => {
-      window.location.href = "/login";
-    }, 4000);
-    return null;
-  }
+  useEffect(() => {
+    var dentistJson = localStorage.getItem("Dentist");
+    var dentistDto = JSON.parse(dentistJson);
+    checkAdminPermissionsAndRedirect(dentistDto);
+  }, []);
 
   const handleDepartmentSelected = (departmentId) => {
     form.setFieldsValue({ department: departmentId });

@@ -3,12 +3,15 @@ import DepartmentDropDown from "../../utils/DepartmentsDropdown";
 import Swal from "sweetalert2";
 import InterventionDto from "../../DTOs/InterventionDto";
 import axios from "axios";
-import side_eye from "../../assets/side_eye.jpeg";
+import { checkAdminPermissionsAndRedirect } from "../../utils/CheckPermissions";
+import { useEffect } from "react";
 
 const CreateIntervention = () => {
-  var dentistJson = localStorage.getItem("Dentist");
-  console.log(dentistJson);
-  var dentistDto = JSON.parse(dentistJson);
+  useEffect(() => {
+    var dentistJson = localStorage.getItem("Dentist");
+    var dentistDto = JSON.parse(dentistJson);
+    checkAdminPermissionsAndRedirect(dentistDto);
+  }, []);
 
   const [form] = Form.useForm();
 
@@ -53,24 +56,6 @@ const CreateIntervention = () => {
       });
     }
   };
-  if (dentistJson == null || dentistDto.permis == 0) {
-    Swal.fire({
-      title: "¿Estas seguro de que tienes permisos para esta página?",
-      icon: false,
-      text: "Yo creo que no, pero contacta con maken",
-      imageUrl: side_eye,
-      imageWidth: 400,
-      imageHeight: 300,
-      imageAlt: "Ojo Lateral Boombastico ;-;",
-      showCancelButton: false,
-      showConfirmButton: false,
-    });
-    setTimeout(() => {
-      window.location.href = "/login";
-    }, 4000);
-    return null;
-  }
-
   return (
     <>
       <div className="form-container">

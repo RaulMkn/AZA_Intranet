@@ -4,13 +4,16 @@ import axios from "axios";
 import Button from "@mui/material/Button";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
-import side_eye from "../../assets/side_eye.jpeg";
+import { checkAdminPermissionsAndRedirect } from "../../utils/CheckPermissions";
 import { DeleteOutlined } from "@ant-design/icons";
 
 export const TableAxios = () => {
   var dentistJson = localStorage.getItem("Dentist");
-  console.log(dentistJson);
   var dentistDto = JSON.parse(dentistJson);
+
+  useEffect(() => {
+    checkAdminPermissionsAndRedirect(dentistDto);
+  });
 
   const [dentist, setDentist] = useState([]);
 
@@ -160,23 +163,6 @@ export const TableAxios = () => {
       }, 4000);
     }
   };
-  if (dentistJson == null || dentistDto.permis == 0) {
-    Swal.fire({
-      title: "¿Estas seguro de que tienes permisos para esta página?",
-      icon: false,
-      text: "Yo creo que no, pero contacta con maken",
-      imageUrl: side_eye,
-      imageWidth: 400,
-      imageHeight: 300,
-      imageAlt: "Ojo Lateral Boombastico ;-;",
-      showCancelButton: false,
-      showConfirmButton: false,
-    });
-    setTimeout(() => {
-      window.location.href = "/login";
-    }, 4000);
-    return null;
-  }
 
   //4 - renderizamos la datatable
   return (
