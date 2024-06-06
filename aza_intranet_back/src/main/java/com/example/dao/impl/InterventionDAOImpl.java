@@ -35,4 +35,14 @@ public class InterventionDAOImpl implements InterventionDAO {
             return false;
         }
     }
+
+    @Override
+    public boolean deleteInterventionFromDatabase(Session session, InterventionEntity intervention) {
+        try{
+            session.remove(intervention);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
 }

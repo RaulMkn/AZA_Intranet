@@ -1,5 +1,6 @@
 package com.example.controllers;
 
+import com.example.dto.AppointmentDto;
 import com.example.dto.LoginDto;
 import com.example.dto.DentistDto;
 import com.example.entity.DentistEntity;
@@ -110,5 +111,18 @@ public class DentistController {
             DentistEntity id = dentistService.getUserByEmail(loginDto);
             return ResponseEntity.ok(this.modelMapper.map(id, DentistDto.class));
         }
+    }
+
+    @DeleteMapping(path = "/dentist/id/{id}")
+    public ResponseEntity<AppointmentDto> deleteAppointment(
+            @PathVariable("id") int id
+    ) {
+        boolean appointment = dentistService.deleteUser(id);
+        if (appointment) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+
     }
 }

@@ -1,15 +1,15 @@
 class DentistDto {
-    constructor(full_name, email, pass, picture, job, permis, date_of_birth, nif, address, gender) {
+    constructor(full_name, email, pass, picture, job, permits, date_of_birth, nif, address, gender) {
       this.full_name = full_name;
       this.email = email;
       this.pass = pass;
       this.picture = picture;
       this.job = job;
-      this.permis = permis;
-      this.permis = date_of_birth;
-      this.permis = nif;
-      this.permis = address;
-      this.permis = gender;
+      this.permits = permits;
+      this.date_of_birth = date_of_birth;
+      this.nif = nif;
+      this.address = address;
+      this.gender = gender;
     }
   
     static toFormData(dentistDto) {
@@ -19,7 +19,7 @@ class DentistDto {
       formData.append('pass', dentistDto.pass);
       formData.append('image', dentistDto.image);
       formData.append('job', dentistDto.job);
-      formData.append('permis', dentistDto.permis);
+      formData.append('permits', dentistDto.permits);
       formData.append('date_of_birth', dentistDto.date_of_birth);
       formData.append('nif', dentistDto.nif);
       formData.append('address', dentistDto.address);

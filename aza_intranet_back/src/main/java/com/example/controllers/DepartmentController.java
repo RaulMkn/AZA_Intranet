@@ -1,6 +1,7 @@
 package com.example.controllers;
 
 import com.example.configuration.exceptionHandler.ResponseStatusException;
+import com.example.dto.DentistDto;
 import com.example.dto.DepartmentDto;
 import com.example.entity.DepartmentEntity;
 import com.example.service.DepartmentService;
@@ -61,6 +62,19 @@ public class DepartmentController {
         } else {
             return ResponseEntity.ok().build();
         }
+    }
+@Transactional
+    @DeleteMapping(path = "/appointment/id/{id}")
+    public ResponseEntity<Void> deleteAppointment(
+            @PathVariable("id") int id
+    ) {
+        boolean appointment = departmentService.deleteDepartmentFromDatabase(id);
+        if (appointment) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+
     }
 
 }

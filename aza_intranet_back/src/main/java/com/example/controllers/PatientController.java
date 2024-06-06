@@ -97,5 +97,19 @@ public class PatientController {
         }
     }
 
+    @Transactional
+    @DeleteMapping(path = "/appointment/id/{id}")
+    public ResponseEntity<Void> deleteAppointment(
+            @PathVariable("id") int id
+    ) {
+        boolean patient = patientService.deletePatient(id);
+        if (patient) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+
+    }
+
 
 }

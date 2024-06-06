@@ -41,4 +41,14 @@ public class PatientDAOImpl implements PatientDAO {
         return session.createQuery(hql, String.class).setParameter("id", id).uniqueResult();
 
     }
+
+    @Override
+    public boolean deletePatientFromDatabase(Session session, PatientEntity patient) {
+        try{
+            session.remove(patient);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
 }

@@ -5,6 +5,7 @@ import com.example.configuration.exceptionHandler.ResponseStatusException;
 import com.example.dao.EventDAO;
 import com.example.dao.impl.EventDAOImpl;
 import com.example.entity.EventEntity;
+import jdk.jfr.Event;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,6 +35,7 @@ public class EventService {
         }
     }
 
+    @Transactional
     public boolean createEvent(EventEntity event) throws ResponseStatusException {
         try (Session session = HibernateConfiguration.getSessionFactory().openSession()) {
             session.beginTransaction();
@@ -47,6 +49,27 @@ public class EventService {
             return persistSuccess;
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error realizando la conexión con Base de datos", e);
+        }
+    }
+
+    @Transactional
+    public boolean deleteEvent(int id) {
+        try (Session session = HibernateConfiguration.getSessionFactory().openSession()) {
+            session.beginTransaction();
+            EventEntity event = this.getEventsById(id);
+            if (event == null) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No se ha encontrado el evento con id -> " + id);
+            }
+            boolean success = eventDAO.deleteEventFromDatabase(session, event);
+            if (success) {
+                session.getTransaction().commit();
+            } else {
+                session.getTransaction().rollback();
+            }
+            return success;
+
+        } catch (Exception e) {
+            return false;
         }
     }
 }

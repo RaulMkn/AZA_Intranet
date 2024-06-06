@@ -13,4 +13,6 @@ public interface DepartmentDAO {
     boolean persistDepartmentToDatabase(DepartmentEntity departmentAttached, Session session);
 
     DepartmentEntity getDepartmentPartialInfoFromDatabase(Session session, Integer id);
+
+    boolean removeDepartmentFromDatabase(Session session, DepartmentEntity department);
 }

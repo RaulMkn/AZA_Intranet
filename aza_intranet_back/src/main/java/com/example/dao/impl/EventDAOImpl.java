@@ -30,4 +30,14 @@ public class EventDAOImpl implements EventDAO {
             return false;
         }
     }
+
+    @Override
+    public boolean deleteEventFromDatabase(Session session, EventEntity event) {
+        try{
+            session.remove(event);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
 }

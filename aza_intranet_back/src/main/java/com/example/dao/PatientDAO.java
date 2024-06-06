@@ -13,4 +13,6 @@ public interface PatientDAO {
     boolean persistPatientToDatabase(PatientEntity patientAttached, Session session);
 
     String getPatientNameFromDatabaseById(Session session, int id);
+
+    boolean deletePatientFromDatabase(Session session, PatientEntity patient);
 }

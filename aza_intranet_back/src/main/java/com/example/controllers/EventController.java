@@ -72,11 +72,25 @@ public class EventController {
             event.setLocation(eventDto.getLocation());
             event.setDentist(dentistService.getUserById(eventDto.getDentist()));
             eventService.createEvent(event);
-                return ResponseEntity.status(HttpStatus.OK).build();
+            return ResponseEntity.status(HttpStatus.OK).build();
         } catch (Exception e) {
-            System.out.println("Error al crear la cita: " + e.getMessage());
-            System.out.println("Datos de la cita fallida: " + eventDto);
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error creando la cita", e);
+            System.out.println("Error al crear el evento: " + e.getMessage());
+            System.out.println("Datos del evento fallido: " + eventDto);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error creando el evento", e);
+        }
+
+    }
+
+    @Transactional
+    @DeleteMapping(path = "/event/id/{id}")
+    public ResponseEntity<Void> deleteAppointment(
+            @PathVariable("id") int id
+    ) {
+        boolean event = eventService.deleteEvent(id);
+        if (event) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
         }
 
     }

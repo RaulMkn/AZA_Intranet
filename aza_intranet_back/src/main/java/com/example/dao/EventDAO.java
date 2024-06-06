@@ -11,4 +11,6 @@ public interface EventDAO {
     EventEntity getEventsFromDatabaseById(Session session, Integer id);
 
     boolean persistEventToDatabase(EventEntity eventAttached, Session session);
+
+    boolean deleteEventFromDatabase(Session session, EventEntity event);
 }

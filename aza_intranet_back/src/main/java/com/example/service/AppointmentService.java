@@ -83,12 +83,12 @@ public class AppointmentService {
             return entities;
         }
     }
+    @Transactional
 
     public boolean deleteAppointmentFromDatabase(int id) {
-        AppointmentService appointmentService = new AppointmentService();
         try (Session session = HibernateConfiguration.getSessionFactory().openSession()) {
             session.beginTransaction();
-            AppointmentEntity appointment = appointmentService.getAppointmentById(id);
+            AppointmentEntity appointment = this.getAppointmentById(id);
             if (appointment == null) {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No se ha encontrado el appoiment con id -> " + id);
             }

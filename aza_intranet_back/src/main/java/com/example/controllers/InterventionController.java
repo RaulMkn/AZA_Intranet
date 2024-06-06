@@ -28,6 +28,7 @@ public class InterventionController {
     private ModelMapper map;
     @Autowired
     private DepartmentService departmentService;
+
     @Transactional
     @GetMapping(path = "/interventions")
     public ResponseEntity<List<InterventionDto>> obtainDepartments(
@@ -36,9 +37,10 @@ public class InterventionController {
                 interventionService
                         .getInterventions()
                         .stream()
-                        .map(intEn ->this.map.map(intEn,InterventionDto.class))
+                        .map(intEn -> this.map.map(intEn, InterventionDto.class))
                         .collect(Collectors.toList()));
     }
+
     @Transactional
     @PostMapping(path = "/intervention")
     public ResponseEntity<Void> createIntervention(
@@ -54,6 +56,20 @@ public class InterventionController {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         } else {
             return ResponseEntity.ok().build();
+        }
+
+    }
+
+    @Transactional
+    @DeleteMapping(path = "/appointment/id/{id}")
+    public ResponseEntity<Void> deleteAppointment(
+            @PathVariable("id") int id
+    ) {
+        boolean intervention = interventionService.deleteIntervention(id);
+        if (intervention) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
         }
 
     }

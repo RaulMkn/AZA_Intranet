@@ -11,4 +11,6 @@ public interface InterventionDAO {
     List<InterventionEntity> getInterventionsFromDatabase(Session session);
 
     boolean persistInterventionToDatabase(InterventionEntity intervention, Session session);
+
+    boolean deleteInterventionFromDatabase(Session session, InterventionEntity intervention);
 }

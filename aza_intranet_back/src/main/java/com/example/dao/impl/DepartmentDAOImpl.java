@@ -39,4 +39,13 @@ public class DepartmentDAOImpl implements DepartmentDAO {
         return session.createQuery(hql, DepartmentEntity.class).setParameter("id", id).uniqueResult();
 
     }
+
+    @Override
+    public boolean removeDepartmentFromDatabase(Session session, DepartmentEntity department) {
+        try{
+            session.remove(department);
+            return true;
+        }catch (Exception e){
+            return false;
+        }    }
 }

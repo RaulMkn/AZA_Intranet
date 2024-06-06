@@ -1,11 +1,13 @@
 package com.example.service;
 
 import com.example.configuration.HibernateConfiguration;
+import com.example.configuration.exceptionHandler.ResponseStatusException;
 import com.example.dao.PatientDAO;
 import com.example.dao.impl.PatientDAOImpl;
 import com.example.entity.PatientEntity;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -63,6 +65,27 @@ public class PatientService {
         try(Session session = HibernateConfiguration.getSessionFactory().openSession()){
             session.beginTransaction();
             return patientDAO.getPatientNameFromDatabaseById(session, id);
+        }
+    }
+
+    @Transactional
+    public boolean deletePatient(int id) {
+        try (Session session = HibernateConfiguration.getSessionFactory().openSession()) {
+            session.beginTransaction();
+            PatientEntity patient = this.getPatientId(id);
+            if (patient == null) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No se ha encontrado el paciente con id -> " + id);
+            }
+            boolean success = patientDAO.deletePatientFromDatabase(session, patient);
+            if (success) {
+                session.getTransaction().commit();
+            } else {
+                session.getTransaction().rollback();
+            }
+            return success;
+
+        } catch (Exception e) {
+            return false;
         }
     }
 }

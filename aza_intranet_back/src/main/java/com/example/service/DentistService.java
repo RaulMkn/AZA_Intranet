@@ -1,6 +1,7 @@
 package com.example.service;
 
 import com.example.configuration.HibernateConfiguration;
+import com.example.configuration.exceptionHandler.ResponseStatusException;
 import com.example.dao.PictureDAO;
 import com.example.dao.impl.DentistDAOImpl;
 import com.example.dao.impl.PictureDAOImpl;
@@ -12,6 +13,7 @@ import com.example.configuration.utils.ImageUtils;
 import com.example.configuration.utils.Security;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -96,10 +98,14 @@ public class DentistService {
     }
 
     @Transactional
-    public boolean deleteUser(DentistEntity user) {
+    public boolean deleteUser(int id) {
         try (Session session = HibernateConfiguration.getSessionFactory().openSession()) {
             session.beginTransaction();
-            boolean success = dentistDAO.deleteUserFromDatabase(session, user);
+            DentistEntity dentist = this.getUserById(id);
+            if (dentist == null) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No se ha encontrado el dentista con id -> " + id);
+            }
+            boolean success = dentistDAO.deleteUserFromDatabase(session, dentist);
             if (success) {
                 session.getTransaction().commit();
             } else {

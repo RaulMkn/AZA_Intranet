@@ -5,25 +5,20 @@ import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
 import "./Appointment.css";
 import Swal from "sweetalert2";
-import { DeleteOutlined } from "@ant-design/icons";
+import {
+  DeleteOutlined,
+  //CloseOutlined
+} from "@ant-design/icons";
 import { checkPermissionsAndRedirect } from "../../utils/CheckPermissions";
 
-
-
 export const TableAxios = () => {
-  useEffect(() => {
-    var dentistJson = localStorage.getItem("Dentist");
-    var dentistDto = JSON.parse(dentistJson);
-    checkPermissionsAndRedirect(dentistDto);
-  }, []);
-  
-  const [appointment, setAppointment] = useState([]);
   var dentistJson = localStorage.getItem("Dentist");
-
-  // Convertir la cadena JSON a un objeto DentistDto
   var dentistDto = JSON.parse(dentistJson);
-  console.log(dentistDto);
+  useEffect(() => {
+    checkPermissionsAndRedirect(dentistDto);
+  });
 
+  const [appointment, setAppointment] = useState([]);
   const formater = {
     year: "numeric",
     month: "2-digit",
@@ -144,15 +139,21 @@ export const TableAxios = () => {
       },
     },
     {
-      name: "customButton",
+      name: "id",
       label: "Acciones",
       options: {
         customBodyRender: (value) => {
+          console.log(value)
+          //if (value.permits == 1) {
           return (
             <Button onClick={() => handleButtonClick(value)}>
               <DeleteOutlined />
             </Button>
           );
+          //} else{
+          // return (
+          //<CloseOutlined />
+          //  )
         },
       },
     },
@@ -182,12 +183,10 @@ export const TableAxios = () => {
   };
 
   // Función para manejar el clic del botón personalizado
-  const handleButtonClick = async (appointment, setAppointment) => {
-    appointment.deleted = 1;
+  const handleButtonClick = async (id) => {
     try {
-      const response = axios.put(
-        `http://localhost:8080/intranet/DentalAesthetics/appointment/id/${appointment.id}`,
-        appointment,
+      axios.delete(
+        `http://localhost:8080/intranet/DentalAesthetics/appointment/id/${id}`,
         {
           withCredentials: true,
           headers: {
@@ -197,8 +196,6 @@ export const TableAxios = () => {
           crossdomain: true,
         }
       );
-      setAppointment(response.data);
-
       Swal.fire({
         title: "Cita eliminada con éxito!",
         icon: "success",
@@ -217,7 +214,7 @@ export const TableAxios = () => {
 
       setTimeout(() => {
         window.location.reload();
-      }, 4000);
+      }, 114000);
     }
   };
 
