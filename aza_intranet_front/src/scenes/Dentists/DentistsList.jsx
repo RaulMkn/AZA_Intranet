@@ -71,7 +71,7 @@ export const TableAxios = () => {
       },
     },
     {
-      name: "permis",
+      name: "permits",
       label: "¿ADMIN?",
       options: {
         customBodyRender: (value) => {
@@ -92,12 +92,12 @@ export const TableAxios = () => {
       },
     },
     {
-      name: "customButton",
+      name: "id",
       label: "Acciones",
       options: {
-        customBodyRender: (value, tableMeta) => {
+        customBodyRender: (value) => {
           return (
-            <Button onClick={() => handleButtonClick(tableMeta.rowData[0])}>
+            <Button onClick={() => handleButtonClick(value)}>
               <DeleteOutlined />
             </Button>
           );

@@ -1,25 +1,30 @@
 import { useState, useEffect } from "react";
-import { Table, Button, message } from "antd";
+import { Button } from "@mui/material";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { checkPermissionsAndRedirect } from "../../utils/CheckPermissions";
+import Swal from "sweetalert2";
+import MUIDataTable from "mui-datatables";
 
 export const TableAxios = () => {
   const dentistJson = localStorage.getItem("Dentist");
   const dentistDto = JSON.parse(dentistJson);
+
   useEffect(() => {
     checkPermissionsAndRedirect(dentistDto);
   });
 
-  const [appointment, setAppointment] = useState([]);
+  const [appointments, setAppointments] = useState([]);
+
   const createButton = (
-    <Button type="primary">
-      <Link to="/appointment" style={{ color: "white" }}>
+    <Button variant="contained" color="primary">
+      <Link to="/appointment" style={{ color: "white", textDecoration: "none" }}>
         Crear
       </Link>
     </Button>
   );
-  const options = {
+
+  const date_options = {
     year: "numeric",
     month: "2-digit",
     day: "2-digit",
@@ -28,9 +33,10 @@ export const TableAxios = () => {
     second: "2-digit",
     hour12: false,
   };
+
   const formatTimestamp = (timestamp) => {
     const date = new Date(timestamp);
-    return date.toLocaleString("es-ES", options);
+    return date.toLocaleString("es-ES", date_options);
   };
 
   const fetchData = async () => {
@@ -47,7 +53,7 @@ export const TableAxios = () => {
         }
       );
 
-      setAppointment(response.data);
+      setAppointments(response.data);
       console.log(response.data);
     } catch (error) {
       console.error("Error al obtener datos de usuarios:", error);
@@ -59,106 +65,122 @@ export const TableAxios = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const handleDeleteClick = async (id) => {
+    try {
+      await axios.delete(
+        `http://localhost:8080/intranet/DentalAesthetics/event/id/${id}`,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Basic " + btoa(import.meta.env.VITE_DATABASE_AUTH),
+          },
+          crossdomain: true,
+        }
+      );
+      Swal.fire({
+        title: "Evento eliminado con éxito!",
+        icon: "success",
+      });
+      setTimeout(() => {
+        fetchData(); // Fetch the data again to update the table
+      }, 4000);
+    } catch (error) {
+      console.error("Error al enviar datos al servidor:", error);
+
+      Swal.fire({
+        title: "Fallo al eliminar el evento!",
+        text: "Póngase en contacto con el soporte.",
+        icon: "error",
+      });
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 4000);
+    }
+  };
+
   const columns = [
     {
-      title: "Fecha y Hora de Inicio",
-      dataIndex: "date_time_beginning",
-      key: "date_time_beginning",
-      render: (date_time_beginning) => (
-        <div>{formatTimestamp(date_time_beginning)}</div>
-      ),
-      width: 150,
+      name: "date_time_beginning",
+      label: "Fecha y Hora de Inicio",
+      options: {
+        customBodyRender: (value) => formatTimestamp(value),
+        width: 150,
+      },
     },
     {
-      title: "Fecha y Hora de Fin",
-      dataIndex: "date_time_ending",
-      key: "date_time_ending",
-      render: (date_time_ending) => (
-        <div>{formatTimestamp(date_time_ending)}</div>
-      ),
-      width: 150,
+      name: "date_time_ending",
+      label: "Fecha y Hora de Fin",
+      options: {
+        customBodyRender: (value) => formatTimestamp(value),
+        width: 150,
+      },
     },
     {
-      title: "Prioridad",
-      dataIndex: "priority",
-      key: "priority",
-      width: 150,
+      name: "priority",
+      label: "Prioridad",
+      options: { width: 150 },
     },
     {
-      title: "Estado",
-      dataIndex: "state",
-      key: "state",
-      width: 150,
+      name: "state",
+      label: "Estado",
+      options: { width: 150 },
     },
     {
-      title: "Título",
-      dataIndex: "title",
-      key: "title",
-      width: 150,
+      name: "title",
+      label: "Título",
+      options: { width: 150 },
     },
     {
-      title: "Precio Total",
-      dataIndex: "total_price",
-      key: "total_price",
-      width: 150,
+      name: "total_price",
+      label: "Precio Total",
+      options: { width: 150 },
     },
     {
-      title: "Dentista",
-      dataIndex: "dentist",
-      key: "dentist",
-      width: 150,
-      render: (dentist) => <div>{dentist?.full_name}</div>,
+      name: "dentist",
+      label: "Dentista",
+      options: {
+        customBodyRender: (dentist) => (dentist ? dentist.full_name : ""),
+        width: 150,
+      },
     },
     {
-      title: "Paciente",
-      dataIndex: "patient",
-      key: "patient",
-      width: 150,
-      render: (patient) => <div>{patient?.full_name}</div>,
+      name: "patient",
+      label: "Paciente",
+      options: {
+        customBodyRender: (patient) => (patient ? patient.full_name : ""),
+        width: 150,
+      },
     },
     {
-      title: "Acciones",
-      key: "actions",
-      width: 150,
-      render: (text, record) => (
-        <Button onClick={() => handleButtonClick(record.id)}>Modificar</Button>
-      ),
-    },
-    {
-      title: "Acciones",
-      key: "actions",
-      width: 150,
-      render: () => createButton,
+      name: "id",
+      label: "Acciones",
+      options: {
+        customBodyRender: (value) => {
+          return (
+            <Button onClick={() => handleDeleteClick(value)}>Eliminar</Button>
+          );
+        },
+        width: 150,
+      },
     },
   ];
 
-  const handleButtonClick = async (id) => {
-    try {
-      const response = await axios.post(
-        "http://tu-backend.com/api/customAction",
-        { id }
-      );
-      console.log("Respuesta del backend:", response.data);
-      message.success("Acción realizada con éxito");
-    } catch (error) {
-      console.error("Error al realizar la solicitud HTTP:", error);
-      message.error("Error al realizar la solicitud");
-    }
+  const options = {
+    filterType: "checkbox",
+    responsive: "vertical",
+    selectableRows: "none",
+    customToolbar: () => createButton,
   };
 
   return (
     <div className="table_container">
-      <Button type="primary" style={{ marginBottom: 16 }}>
-        <Link to="/appointment" style={{ color: "white" }}>
-          Crear
-        </Link>
-      </Button>
-      <Table
+      <MUIDataTable
+        title={"Lista de Citas"}
+        data={appointments}
         columns={columns}
-        dataSource={appointment}
-        rowKey={(record) => record.id}
-        scroll={{ y: 400, x: 400 }}
-        style={{ background: "transparent" }}
+        options={options}
       />
     </div>
   );

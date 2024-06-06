@@ -185,7 +185,7 @@ export const TableAxios = () => {
   // Función para manejar el clic del botón personalizado
   const handleButtonClick = async (id) => {
     try {
-      axios.delete(
+      await axios.delete(
         `http://localhost:8080/intranet/DentalAesthetics/appointment/id/${id}`,
         {
           withCredentials: true,
@@ -201,7 +201,7 @@ export const TableAxios = () => {
         icon: "success",
       });
       setTimeout(() => {
-        window.location.reload();
+        fetchData();
       }, 4000);
     } catch (error) {
       console.error("Error al enviar datos al servidor:", error);
@@ -214,7 +214,7 @@ export const TableAxios = () => {
 
       setTimeout(() => {
         window.location.reload();
-      }, 114000);
+      }, 4000);
     }
   };
 

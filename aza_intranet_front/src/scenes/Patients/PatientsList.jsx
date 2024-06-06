@@ -93,12 +93,12 @@ export const TableAxios = () => {
       label: "TELEFONO",
     },
     {
-      name: "customButton",
+      name: "id",
       label: "Acciones", // Etiqueta para la columna del botón personalizado
       options: {
-        customBodyRender: (tableMeta) => {
+        customBodyRender: (value) => {
           return (
-            <button onClick={() => handleButtonClick(tableMeta.rowData[0])}>
+            <button onClick={() => handleButtonClick(value)}>
               <DeleteOutlined />
             </button>
           );
@@ -123,7 +123,7 @@ export const TableAxios = () => {
       );
 
       Swal.fire({
-        title: "Usuario eliminado con éxito!",
+        title: "Paciente eliminado con éxito!",
         icon: "success",
       });
       setTimeout(() => {
@@ -133,7 +133,7 @@ export const TableAxios = () => {
       console.error("Error al enviar datos al servidor:", error);
 
       Swal.fire({
-        title: "Fallo al eliminar el usuario!",
+        title: "Fallo al eliminar el paciente!",
         text: "Pongase en contacto con maken :(",
         icon: "error",
       });
