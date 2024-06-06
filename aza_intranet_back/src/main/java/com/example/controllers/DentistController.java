@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -65,24 +67,30 @@ public class DentistController {
             @RequestPart("full_name") String name,
             @RequestPart("email") String email,
             @RequestPart("pass") String pass,
+            @RequestPart("file") MultipartFile file,
             @RequestPart("job") String job,
-            @RequestPart("permis") int permis,
-            @RequestPart("department") int department,
+            @RequestPart("permits") String permits,
+            @RequestPart("department") String department,
             @RequestPart("address") String address,
             @RequestPart("nif") String nif,
-            @RequestPart("date_of_birth") Date date_of_birth,
-            @RequestPart("gender") String gender,
-            @RequestPart("file") MultipartFile file) {
+            @RequestPart("date_of_birth") String date_of_birth,
+            @RequestPart("gender") String gender
+    ) throws ParseException {
         DentistEntity entity = new DentistEntity();
         entity.setFull_name(name);
         entity.setEmail(email);
         entity.setPass(pass);
         entity.setJob(job);
-        entity.setPermits(permis);
-        entity.setDepartment(departmentService.getDepartmentById(department));
+        entity.setPermits(Integer.parseInt(permits));
+        entity.setDepartment(departmentService.getDepartmentById(Integer.parseInt(department)));
         entity.setAddress(address);
         entity.setNif(nif);
-        entity.setDate_of_birth(date_of_birth);
+
+        String dateFormat = "yyyy-MM-DD";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat);
+        Date date = simpleDateFormat.parse(date_of_birth);
+        entity.setDate_of_birth(date);
+
         entity.setGender(gender);
         if (!dentistService.createUser(entity, file)) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
