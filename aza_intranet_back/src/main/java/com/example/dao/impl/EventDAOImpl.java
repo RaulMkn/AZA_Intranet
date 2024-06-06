@@ -1,9 +1,12 @@
 package com.example.dao.impl;
 
 import com.example.dao.EventDAO;
+import com.example.entity.AppointmentEntity;
+import com.example.entity.DentistEntity;
 import com.example.entity.EventEntity;
 import org.hibernate.Session;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -39,5 +42,13 @@ public class EventDAOImpl implements EventDAO {
         }catch (Exception e){
             return false;
         }
+    }
+
+
+    @Transactional
+    @Override
+    public List<EventEntity> getEventsFromDatabaseByDentistId(Session session, DentistEntity id) {
+        String hql = "SELECT ev FROM EventEntity ev WHERE ev.dentist = :id";
+        return session.createQuery(hql, EventEntity.class).setParameter("id", id).list();
     }
 }

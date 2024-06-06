@@ -8,31 +8,48 @@ import esLocale from "@fullcalendar/core/locales/es";
 import { checkPermissionsAndRedirect } from "../../utils/CheckPermissions";
 
 function Calendar() {
-  var dentistJson = localStorage.getItem("Dentist");
-  var dentistDto = JSON.parse(dentistJson);
-  const [eventos, setEventos] = useState([]);
+  const dentistJson = localStorage.getItem("Dentist");
+  const dentistDto = JSON.parse(dentistJson);
+  const [events, setEvents] = useState([]);
 
   useEffect(() => {
     checkPermissionsAndRedirect(dentistDto);
-  });
+  }, [dentistDto]);
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/intranet/DentalAesthetics/appointments")
+      .get(`http://localhost:8080/intranet/DentalAesthetics/appointments/dentistId/${dentistDto.id}`)
       .then((response) => {
-        const formattedEvents = response.data.map((evento) => ({
-          title: evento.title,
-          start: evento.date_time_beginning,
-          end: evento.date_time_ending,
-          description: evento.description,
-          patient: evento.patient,
+        const formattedAppointments = response.data.map((appointment) => ({
+          title: appointment.title,
+          start: appointment.date_time_beginning,
+          end: appointment.date_time_ending,
+          description: appointment.description,
+          patient: appointment.patient,
+          backgroundColor: "green", // Color para las citas
         }));
-        setEventos(formattedEvents);
+        setEvents((prevEvents) => [...prevEvents, ...formattedAppointments]);
+      })
+      .catch((error) => {
+        console.error("Error al obtener citas:", error);
+      });
+
+    axios
+      .get(`http://localhost:8080/intranet/DentalAesthetics/events/dentistId/${dentistDto.id}`)
+      .then((response) => {
+        const formattedEvents = response.data.map((event) => ({
+          title: event.title,
+          start: event.date_time_beginning,
+          end: event.date_time_ending,
+          description: event.description,
+          backgroundColor: "blue", // Color para los eventos
+        }));
+        setEvents((prevEvents) => [...prevEvents, ...formattedEvents]);
       })
       .catch((error) => {
         console.error("Error al obtener eventos:", error);
       });
-  }, []); // Se ejecuta solo al montar el componente
+  }, [dentistDto]);
 
   const eventMouseEnter = ({ el, event }) => {
     el.classList.add("relative");
@@ -44,9 +61,11 @@ function Calendar() {
         <div><strong>Descripcion:</strong> ${
           event.extendedProps.description
         }</div>
-        <div><strong>Paciente:</strong> ${
-          event.extendedProps.patient.full_name
-        }</div>
+        ${
+          event.extendedProps.patient
+            ? `<div><strong>Paciente:</strong> ${event.extendedProps.patient.full_name}</div>`
+            : ""
+        }
         <div><strong>Inicio:</strong> ${new Date(
           event.start
         ).toLocaleTimeString()}</div>
@@ -81,7 +100,7 @@ function Calendar() {
           }}
           initialView="timeGridDay"
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-          events={eventos}
+          events={events}
           eventMouseEnter={eventMouseEnter}
           eventMouseLeave={eventMouseLeave}
           height={"83vh"}

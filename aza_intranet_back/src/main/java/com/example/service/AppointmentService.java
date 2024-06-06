@@ -47,7 +47,7 @@ public class AppointmentService {
                 return entity;
             }
         }
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No se ha podido encontrar el Appoiment con identificador -> " +id );
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No se ha podido encontrar el Appoiment con identificador -> " + id);
     }
 
     public boolean createAppointment(AppointmentEntity entity) throws ResponseStatusException {
@@ -55,7 +55,7 @@ public class AppointmentService {
             session.beginTransaction();
             AppointmentEntity appointmentAttached = session.merge(entity);
             BigDecimal total_price = BigDecimal.ZERO;
-            for (InterventionEntity intervention : appointmentAttached.getInterventions()){
+            for (InterventionEntity intervention : appointmentAttached.getInterventions()) {
                 total_price = total_price.add(intervention.getPrice());
             }
             appointmentAttached.setTotal_price(total_price);
@@ -71,20 +71,21 @@ public class AppointmentService {
         }
     }
 
+    @Transactional
     public List<AppointmentEntity> getAppointmentByDentistId(int id) {
         DentistService dentistService = new DentistService();
         try (Session session = HibernateConfiguration.getSessionFactory().openSession()) {
             session.beginTransaction();
             DentistEntity dentist = dentistService.getUserById(id);
             List<AppointmentEntity> entities = appointmentDAO.getAppointmentFromDatabaseByDentistId(session, dentist);
-            for (AppointmentEntity appointment : entities){
+            for (AppointmentEntity appointment : entities) {
                 appointment.getInterventions().size();
             }
             return entities;
         }
     }
-    @Transactional
 
+    @Transactional
     public boolean deleteAppointmentFromDatabase(int id) {
         try (Session session = HibernateConfiguration.getSessionFactory().openSession()) {
             session.beginTransaction();

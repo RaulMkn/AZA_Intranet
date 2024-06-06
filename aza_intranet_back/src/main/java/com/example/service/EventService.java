@@ -4,6 +4,8 @@ import com.example.configuration.HibernateConfiguration;
 import com.example.configuration.exceptionHandler.ResponseStatusException;
 import com.example.dao.EventDAO;
 import com.example.dao.impl.EventDAOImpl;
+import com.example.entity.AppointmentEntity;
+import com.example.entity.DentistEntity;
 import com.example.entity.EventEntity;
 import jdk.jfr.Event;
 import org.hibernate.Session;
@@ -70,6 +72,16 @@ public class EventService {
 
         } catch (Exception e) {
             return false;
+        }
+    }
+
+    @Transactional
+    public List<EventEntity> getEventsByDentistId(int id) {
+        DentistService dentistService = new DentistService();
+        try (Session session = HibernateConfiguration.getSessionFactory().openSession()) {
+            session.beginTransaction();
+            DentistEntity dentist = dentistService.getUserById(id);
+            return eventDAO.getEventsFromDatabaseByDentistId(session, dentist);
         }
     }
 }

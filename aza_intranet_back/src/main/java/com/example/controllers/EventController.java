@@ -59,6 +59,20 @@ public class EventController {
     }
 
     @Transactional
+    @GetMapping(path = "/event/dentistId/{id}")
+    public ResponseEntity<EventDto> obtainEventsByDentistId(@PathVariable("id") int id) throws ResponseStatusException {
+
+        List<EventEntity> event = eventService.getEventsByDentistId(id);
+        if (event != null) {
+            return ResponseEntity.ok(this.map.map(event, EventDto.class));
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+
+
+    }
+
+    @Transactional
     @PostMapping(path = "/event")
     public ResponseEntity<Void> addEvent(
             @Valid @RequestBody FakeEventDto.PostEventDto eventDto
@@ -83,7 +97,7 @@ public class EventController {
 
     @Transactional
     @DeleteMapping(path = "/event/id/{id}")
-    public ResponseEntity<Void> deleteAppointment(
+    public ResponseEntity<Void> deleteEvent(
             @PathVariable("id") int id
     ) {
         boolean event = eventService.deleteEvent(id);
