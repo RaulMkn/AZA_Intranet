@@ -12,18 +12,21 @@ import java.util.List;
 
 @Component
 public class EventDAOImpl implements EventDAO {
+    @Transactional
     @Override
     public List<EventEntity> getEventsFromDatabase(Session session) {
         String hql = "SELECT ev FROM EventEntity ev WHERE ev.deleted != 1";
         return session.createQuery(hql, EventEntity.class).list();
     }
 
+    @Transactional
     @Override
     public EventEntity getEventsFromDatabaseById(Session session, Integer id) {
         String hql = "SELECT ev FROM EventEntity ev WHERE ev.id = :id";
         return session.createQuery(hql, EventEntity.class).setParameter("id", id).uniqueResult();
     }
 
+    @Transactional
     @Override
     public boolean persistEventToDatabase(EventEntity eventAttached, Session session) {
         try {
@@ -34,12 +37,13 @@ public class EventDAOImpl implements EventDAO {
         }
     }
 
+    @Transactional
     @Override
     public boolean deleteEventFromDatabase(Session session, EventEntity event) {
-        try{
+        try {
             session.remove(event);
             return true;
-        }catch (Exception e){
+        } catch (Exception e) {
             return false;
         }
     }

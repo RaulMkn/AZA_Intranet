@@ -43,12 +43,13 @@ public class AppointmentDAOImpl implements AppointmentDAO {
         return session.createQuery(hql, AppointmentEntity.class).setParameter("id", id).list();
     }
 
+    @Transactional
     @Override
     public boolean deleteAppointmentFromDatabase(Session session, AppointmentEntity appointment) {
-        try{
+        try {
             session.remove(appointment);
             return true;
-        } catch (Exception e){
+        } catch (Exception e) {
             return false;
         }
     }

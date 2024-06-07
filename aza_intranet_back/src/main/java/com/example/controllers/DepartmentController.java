@@ -63,13 +63,14 @@ public class DepartmentController {
             return ResponseEntity.ok().build();
         }
     }
-@Transactional
-    @DeleteMapping(path = "/appointment/id/{id}")
+
+    @Transactional
+    @DeleteMapping(path = "/department/id/{id}")
     public ResponseEntity<Void> deleteAppointment(
             @PathVariable("id") int id
     ) {
-        boolean appointment = departmentService.deleteDepartmentFromDatabase(id);
-        if (appointment) {
+        boolean department = departmentService.deleteDepartmentFromDatabase(id);
+        if (department) {
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.notFound().build();

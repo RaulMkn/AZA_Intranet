@@ -38,7 +38,7 @@ public class AppointmentService {
             return appointments;
         }
     }
-
+    @Transactional
     public AppointmentEntity getAppointmentById(int id) throws ResponseStatusException {
         try (Session session = HibernateConfiguration.getSessionFactory().openSession()) {
             session.beginTransaction();
@@ -49,7 +49,7 @@ public class AppointmentService {
         }
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No se ha podido encontrar el Appoiment con identificador -> " + id);
     }
-
+    @Transactional
     public boolean createAppointment(AppointmentEntity entity) throws ResponseStatusException {
         try (Session session = HibernateConfiguration.getSessionFactory().openSession()) {
             session.beginTransaction();

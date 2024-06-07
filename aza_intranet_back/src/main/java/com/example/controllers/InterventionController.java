@@ -61,7 +61,7 @@ public class InterventionController {
     }
 
     @Transactional
-    @DeleteMapping(path = "/appointment/id/{id}")
+    @DeleteMapping(path = "/intervention/id/{id}")
     public ResponseEntity<Void> deleteAppointment(
             @PathVariable("id") int id
     ) {
