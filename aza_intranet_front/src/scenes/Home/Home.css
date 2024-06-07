@@ -1,0 +1,33 @@
+/* Home.css */
+.card-container {
+    width: auto;
+    margin: auto;
+    margin-top: 50px;
+    background: transparent; /* Color de fondo más claro */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+    border-radius: 10px; /* Bordes redondeados */
+    padding: 20px;
+    
+  }
+  
+  .avatar {
+    display: block;
+    margin: 20px auto; /* Centrar el avatar horizontalmente */
+    border: 2px solid #e8e8e8; /* Borde alrededor del avatar */
+  }
+  .description-container{
+    display: flex;
+    justify-content: space-evenly;
+  }
+  
+  .descriptions {
+    margin-top: 20px;
+  }
+  
+  .loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  

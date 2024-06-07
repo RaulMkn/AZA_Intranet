@@ -61,6 +61,7 @@ function Calendar() {
           console.error("Error al obtener eventos:", error);
         });
     }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const eventClick = (info) => {
