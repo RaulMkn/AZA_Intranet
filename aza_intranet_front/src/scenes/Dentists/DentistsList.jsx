@@ -6,6 +6,8 @@ import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
 import { checkAdminPermissionsAndRedirect } from "../../utils/CheckPermissions";
 import { DeleteOutlined } from "@ant-design/icons";
+import { Avatar } from 'antd';
+
 
 export const TableAxios = () => {
   var dentistJson = localStorage.getItem("Dentist");
@@ -43,6 +45,23 @@ export const TableAxios = () => {
   }, []);
 
   const columns = [
+    {
+      name: "picture",
+      label: "AVATAR",
+      options: {
+        customBodyRender: (value) => {
+          return (
+            value && (
+              <Avatar
+              src={`data:${value.img_type};base64,${value.img}`}
+              size={70}
+              style={{ marginTop: '20px' }}
+            />
+            )
+          );
+        },
+      }
+    },
     {
       name: "full_name",
       label: "NOMBRE",

@@ -72,7 +72,7 @@ function Calendar() {
             center: "title",
             right: 'dayGridMonth,timeGridWeek,timeGridDay'
           }}
-          initialView='timeGridDay'
+          initialView='timeGridWeek'
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
           events={eventos}
           eventMouseEnter={eventMouseEnter}

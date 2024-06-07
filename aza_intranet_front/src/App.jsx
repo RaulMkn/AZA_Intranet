@@ -15,6 +15,7 @@ import Event from "./scenes/Events/CreateEvent";
 import EventsList from "./scenes/Events/EventsList";
 
 import DentistsList from "./scenes/Dentists/DentistsList"
+import HomeProfile from "./scenes/Home/HomeProfile"
 
 import Calendar from "./scenes/Calendar/Calendar";
 
@@ -36,7 +37,7 @@ function App() {
       )}
       <main className="main">
         <Routes>
-          <Route path="/home" element={<Calendar />} />
+          <Route path="/home" element={<HomeProfile />} />
           <Route path="/login" element={<LoginForm />} />
           <Route path="/" element={<LoginForm />} />
           <Route path="/register" element={<RegisterForm />} />
