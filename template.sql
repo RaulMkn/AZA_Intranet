@@ -120,8 +120,8 @@ CREATE TABLE intervention
 -- Crear tabla intermedia appointments_interventions (relacion many2many)
 CREATE TABLE appointments_interventions
 (
-    appointment  INTEGER REFERENCES appointment (id) ON DELETE CASCADE,
-    intervention INTEGER REFERENCES intervention (id) ON DELETE CASCADE
+    appointment  INTEGER REFERENCES appointment (id) ON DELETE SET NULL,
+    intervention INTEGER REFERENCES intervention (id) ON DELETE SET NULL
 );
 
 -- DML --
