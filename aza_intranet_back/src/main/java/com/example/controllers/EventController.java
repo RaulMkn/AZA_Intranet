@@ -60,11 +60,13 @@ public class EventController {
 
     @Transactional
     @GetMapping(path = "/event/dentistId/{id}")
-    public ResponseEntity<EventDto> obtainEventsByDentistId(@PathVariable("id") int id) throws ResponseStatusException {
+    public ResponseEntity<List<EventDto>> obtainEventsByDentistId(
+            @PathVariable("id") int id) throws ResponseStatusException {
 
-        List<EventEntity> event = eventService.getEventsByDentistId(id);
-        if (event != null) {
-            return ResponseEntity.ok(this.map.map(event, EventDto.class));
+        List<EventEntity> events = eventService.getEventsByDentistId(id);
+        if (events != null) {
+            return ResponseEntity.ok(events.stream()
+                    .map(evEnt -> this.map.map(evEnt, EventDto.class)).collect(Collectors.toList()));
         } else {
             return ResponseEntity.notFound().build();
         }

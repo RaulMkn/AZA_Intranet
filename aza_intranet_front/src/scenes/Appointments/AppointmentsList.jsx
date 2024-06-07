@@ -64,7 +64,7 @@ export const TableAxios = () => {
   const columns = [
     {
       name: "date_time_beginning",
-      label: "Fecha y Hora de Inicio",
+      label: "Inicio",
       options: {
         customBodyRender: (value) => {
           return (
@@ -79,7 +79,7 @@ export const TableAxios = () => {
     },
     {
       name: "date_time_ending",
-      label: "Fecha y Hora de Fin",
+      label: "Final",
       options: {
         customBodyRender: (value) => {
           return (

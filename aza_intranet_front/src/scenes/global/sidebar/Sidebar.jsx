@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button, Layout } from "antd";
 import MenuList from "./MenuList";
 import { HiOutlineSun, HiOutlineMoon } from "react-icons/hi";
-import { FireFilled } from "@ant-design/icons";
+import { LeftCircleFilled, RightCircleFilled } from "@ant-design/icons";
 import "./Sidebar.css";
 
 function App() {
@@ -35,7 +35,9 @@ function App() {
       >
         <div className="logo" onClick={toggleMenu}>
           <div className="logo-icon">
-            <FireFilled />
+            {collapsed ? <RightCircleFilled /> : <LeftCircleFilled />}
+
+
           </div>
         </div>
 

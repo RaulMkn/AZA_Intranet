@@ -14,11 +14,11 @@ export const TableAxios = () => {
     checkPermissionsAndRedirect(dentistDto);
   });
 
-  const [appointments, setAppointments] = useState([]);
+  const [events, setEvents] = useState([]);
 
   const createButton = (
     <Button variant="contained" color="primary">
-      <Link to="/appointment" style={{ color: "white", textDecoration: "none" }}>
+      <Link to="/event" style={{ color: "white", textDecoration: "none" }}>
         Crear
       </Link>
     </Button>
@@ -42,7 +42,7 @@ export const TableAxios = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/intranet/DentalAesthetics/appointment/dentistId/${dentistDto.id}`,
+        `http://localhost:8080/intranet/DentalAesthetics/event/dentistId/${dentistDto.id}`,
         {
           withCredentials: true,
           headers: {
@@ -53,10 +53,10 @@ export const TableAxios = () => {
         }
       );
 
-      setAppointments(response.data);
+      setEvents(response.data);
       console.log(response.data);
     } catch (error) {
-      console.error("Error al obtener datos de usuarios:", error);
+      console.error("Error al obtener los eventos:", error);
     }
   };
 
@@ -103,7 +103,7 @@ export const TableAxios = () => {
   const columns = [
     {
       name: "date_time_beginning",
-      label: "Fecha y Hora de Inicio",
+      label: "Inicio",
       options: {
         customBodyRender: (value) => formatTimestamp(value),
         width: 150,
@@ -111,47 +111,21 @@ export const TableAxios = () => {
     },
     {
       name: "date_time_ending",
-      label: "Fecha y Hora de Fin",
+      label: "Final",
       options: {
         customBodyRender: (value) => formatTimestamp(value),
         width: 150,
       },
     },
     {
-      name: "priority",
-      label: "Prioridad",
-      options: { width: 150 },
-    },
-    {
-      name: "state",
-      label: "Estado",
-      options: { width: 150 },
-    },
-    {
       name: "title",
-      label: "Título",
+      label: "Titulo",
       options: { width: 150 },
     },
     {
-      name: "total_price",
-      label: "Precio Total",
+      name: "description",
+      label: "Descripcion",
       options: { width: 150 },
-    },
-    {
-      name: "dentist",
-      label: "Dentista",
-      options: {
-        customBodyRender: (dentist) => (dentist ? dentist.full_name : ""),
-        width: 150,
-      },
-    },
-    {
-      name: "patient",
-      label: "Paciente",
-      options: {
-        customBodyRender: (patient) => (patient ? patient.full_name : ""),
-        width: 150,
-      },
     },
     {
       name: "id",
@@ -168,9 +142,15 @@ export const TableAxios = () => {
   ];
 
   const options = {
+    selectableRows: "none", // Desactiva la opción de selección de filas
+    viewColumns: false, // Desactiva la opción de mostrar/ocultar columnas
+    filter: false, // Desactiva la opción de filtrar
+    print: false, // Desactiva la opción de imprimir
+    download: false, // Desactiva la opción de descargar
+    fixedHeader: true,
+    // Establece la altura máxima de la tabla
+    responsive: "standard",
     filterType: "checkbox",
-    responsive: "vertical",
-    selectableRows: "none",
     customToolbar: () => createButton,
   };
 
@@ -178,7 +158,7 @@ export const TableAxios = () => {
     <div className="table_container">
       <MUIDataTable
         title={"Lista de Citas"}
-        data={appointments}
+        data={events}
         columns={columns}
         options={options}
       />

@@ -60,7 +60,7 @@ const MenuList = ({ darkTheme }) => {
         <Link to="/calendar">Calendario</Link>
       </Menu.Item>
 
-      {dentistDto.permis && dentistDto.permis === 1 && (
+      {dentistDto.permits && dentistDto.permits === 1 && (
         <Menu.SubMenu
           key="subtasks"
           icon={<SettingOutlined />}
@@ -72,8 +72,8 @@ const MenuList = ({ darkTheme }) => {
           <Menu.Item key="Dentists Ops">
             <Link to="dentists">Dentistas</Link>
           </Menu.Item>
-          <Menu.Item key="Stats Ops">
-            <Link to="stats">Estadisticas</Link>
+          <Menu.Item key="Events Ops">
+            <Link to="events">Eventos</Link>
           </Menu.Item>
         </Menu.SubMenu>
       )}

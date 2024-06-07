@@ -37,9 +37,7 @@ body {
   min-width: 320px;
   min-height: 100vh;
   background-color: white;
-  background: url("./assets/aza_intranet_logo_sin_fondo.png") top no-repeat,
-    url("./assets/background2.jpg") center no-repeat;
-  background-size: cover;
+  background: url("./assets/background2.jpg") no-repeat;
   background-position: center;
 }
 
