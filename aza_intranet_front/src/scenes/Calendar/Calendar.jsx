@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import FullCalendar from "@fullcalendar/react";
-import dayGridPlugin from '@fullcalendar/daygrid';
-import timeGridPlugin from '@fullcalendar/timegrid';
-import interactionPlugin from '@fullcalendar/interaction';
+import dayGridPlugin from "@fullcalendar/daygrid";
+import timeGridPlugin from "@fullcalendar/timegrid";
+import interactionPlugin from "@fullcalendar/interaction";
 import axios from "axios";
 import esLocale from "@fullcalendar/core/locales/es";
 import { checkPermissionsAndRedirect } from "../../utils/CheckPermissions";
@@ -12,24 +12,48 @@ function Calendar() {
   const dentistJson = localStorage.getItem("Dentist");
   const dentistDto = dentistJson ? JSON.parse(dentistJson) : null;
   const [eventos, setEventos] = useState([]);
+  const [appointments, setAppointments] = useState([]);
 
   useEffect(() => {
     if (dentistDto) {
       checkPermissionsAndRedirect(dentistDto);
-    } 
+    }
   }, [dentistDto]);
 
   useEffect(() => {
     if (dentistDto) {
       axios
-        .get(`http://localhost:8080/intranet/DentalAesthetics/appointment/dentistId/${dentistDto.id}`)
+        .get(
+          `http://localhost:8080/intranet/DentalAesthetics/appointment/dentistId/${dentistDto.id}`
+        )
+        .then((response) => {
+          const formattedAppointments = response.data.map((evento) => ({
+            title: evento.title,
+            start: evento.date_time_beginning,
+            end: evento.date_time_ending,
+            description: evento.description,
+            patient: evento.patient,
+            backgroundColor: "#9999ff",
+            borderColor: "#9999ff",
+          }));
+          setAppointments(formattedAppointments);
+        })
+        .catch((error) => {
+          console.error("Error al obtener citas:", error);
+        });
+
+      axios
+        .get(
+          `http://localhost:8080/intranet/DentalAesthetics/event/dentistId/${dentistDto.id}`
+        )
         .then((response) => {
           const formattedEvents = response.data.map((evento) => ({
             title: evento.title,
             start: evento.date_time_beginning,
             end: evento.date_time_ending,
             description: evento.description,
-            patient: evento.patient,
+            backgroundColor: "#ff9999",
+            borderColor: "#ff9999",
           }));
           setEventos(formattedEvents);
         })
@@ -40,14 +64,28 @@ function Calendar() {
   }, []);
 
   const eventClick = (info) => {
+    let patientInfo = "";
+    if (
+      info.event.extendedProps.patient &&
+      info.event.extendedProps.patient.full_name
+    ) {
+      patientInfo = `<div><strong>Paciente:</strong> ${info.event.extendedProps.patient.full_name}</div>`;
+    }
+
     Swal.fire({
-      icon: "info",
+      icon: "none",
       title: `${info.event.title}`,
       html: `
-        <div><strong>Descripción:</strong> ${info.event.extendedProps.description}</div>
-        <div><strong>Paciente:</strong> ${info.event.extendedProps.patient.full_name}</div>
-        <div><strong>Inicio:</strong> ${new Date(info.event.start).toLocaleTimeString()}</div>
-        <div><strong>Final:</strong> ${new Date(info.event.end).toLocaleTimeString()}</div>
+        <div><strong>Descripción:</strong> ${
+          info.event.extendedProps.description
+        }</div>
+        ${patientInfo}
+        <div><strong>Inicio:</strong> ${new Date(
+          info.event.start
+        ).toLocaleTimeString()}</div>
+        <div><strong>Final:</strong> ${new Date(
+          info.event.end
+        ).toLocaleTimeString()}</div>
       `,
     });
   };
@@ -66,11 +104,11 @@ function Calendar() {
         headerToolbar={{
           left: "prev,next today",
           center: "title",
-          right: 'dayGridMonth,timeGridWeek,timeGridDay'
+          right: "dayGridMonth,timeGridWeek,timeGridDay",
         }}
-        initialView='timeGridWeek'
+        initialView="timeGridWeek"
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-        events={eventos}
+        events={eventos.concat(appointments)}
         eventClick={eventClick}
         height={"83vh"}
         weekends={false}
