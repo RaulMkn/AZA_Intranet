@@ -1,13 +1,9 @@
 /* Home.css */
 .card-container {
-    width: auto;
-    margin: auto;
-    margin-top: 50px;
     background: transparent; /* Color de fondo más claro */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra ligera */
     border-radius: 10px; /* Bordes redondeados */
     padding: 20px;
-    margin-top: 0;
     
   }
   

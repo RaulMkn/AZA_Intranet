@@ -70,60 +70,55 @@ const CreateEventPage = () => {
   };
 
   return (
-    <>
-      <main className="form-container">
-        <h1 className="title">Crear Evento</h1>
-        <Form form={form} onFinish={handleSubmit} layout="vertical">
-          <div className="form-row">
-            <Form.Item
-              label="Fecha de Inicio"
-              name="date_time_beginning"
-              rules={[
-                { required: true, message: "Ingrese la fecha de inicio" },
-              ]}
-            >
-              <DatePicker showTime format="YYYY-MM-DD HH:mm" />
-            </Form.Item>
-            <Form.Item
-              label="Fecha de Fin"
-              name="date_time_ending"
-              rules={[{ required: true, message: "Ingrese la fecha de fin" }]}
-            >
-              <DatePicker showTime format="YYYY-MM-DD HH:mm" />
-            </Form.Item>
-          </div>
+    <Form form={form} onFinish={handleSubmit} layout="vertical">
+      <h1 className="title">Crear Evento</h1>
 
-          <Form.Item
-            label="Título"
-            name="title"
-            rules={[{ required: true, message: "Ingrese el título" }]}
-          >
-            <Input />
-          </Form.Item>
+      <div className="form-row">
+        <Form.Item
+          label="Fecha de Inicio"
+          name="date_time_beginning"
+          rules={[{ required: true, message: "Ingrese la fecha de inicio" }]}
+        >
+          <DatePicker showTime format="YYYY-MM-DD HH:mm" />
+        </Form.Item>
+        <Form.Item
+          label="Fecha de Fin"
+          name="date_time_ending"
+          rules={[{ required: true, message: "Ingrese la fecha de fin" }]}
+        >
+          <DatePicker showTime format="YYYY-MM-DD HH:mm" />
+        </Form.Item>
+      </div>
 
-          <Form.Item
-            label="Descripción"
-            name="description"
-            rules={[{ required: true, message: "Ingrese la descripción" }]}
-          >
-            <Input />
-          </Form.Item>
+      <Form.Item
+        label="Título"
+        name="title"
+        rules={[{ required: true, message: "Ingrese el título" }]}
+      >
+        <Input />
+      </Form.Item>
 
-          <Form.Item
-            label="Ubicacion"
-            name="location"
-            rules={[{ required: true, message: "Ingrese la ubicacion" }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item>
-            <Button type="primary" htmlType="submit">
-              Crear Evento
-            </Button>
-          </Form.Item>
-        </Form>
-      </main>
-    </>
+      <Form.Item
+        label="Descripción"
+        name="description"
+        rules={[{ required: true, message: "Ingrese la descripción" }]}
+      >
+        <Input />
+      </Form.Item>
+
+      <Form.Item
+        label="Ubicacion"
+        name="location"
+        rules={[{ required: true, message: "Ingrese la ubicacion" }]}
+      >
+        <Input />
+      </Form.Item>
+      <Form.Item>
+        <Button type="primary" htmlType="submit">
+          Crear Evento
+        </Button>
+      </Form.Item>
+    </Form>
   );
 };
 

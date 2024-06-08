@@ -69,7 +69,7 @@ export const TableAxios = () => {
           return (
             value && (
               <div>
-                <p>{formatTimestamp(value)}</p>
+                <p style={{ width: "150px" }}>{formatTimestamp(value)}</p>
               </div>
             )
           );
@@ -84,7 +84,7 @@ export const TableAxios = () => {
           return (
             value && (
               <div>
-                <p>{formatTimestamp(value)}</p>
+                <p style={{ width: "150px" }}>{formatTimestamp(value)}</p>
               </div>
             )
           );
@@ -142,7 +142,7 @@ export const TableAxios = () => {
       label: "Acciones",
       options: {
         customBodyRender: (value) => {
-          console.log(value)
+          console.log(value);
           //if (value.permits == 1) {
           return (
             <Button onClick={() => handleButtonClick(value)}>
@@ -199,7 +199,7 @@ export const TableAxios = () => {
         title: "Cita eliminada con éxito!",
         icon: "success",
       });
-        fetchData();
+      fetchData();
     } catch (error) {
       console.error("Error al enviar datos al servidor:", error);
 

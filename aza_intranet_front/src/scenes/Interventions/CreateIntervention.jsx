@@ -57,10 +57,10 @@ const CreateIntervention = () => {
     }
   };
   return (
-    <>
-      <div className="form-container">
-        <h1 className="title">Crear Intervencion</h1>
+
         <Form form={form} onFinish={handleSubmit} layout="vertical">
+                  <h1 className="title">Crear Intervencion</h1>
+
           <Form.Item
             label="Nombre"
             name="full_name"
@@ -102,8 +102,6 @@ const CreateIntervention = () => {
             </Button>
           </Form.Item>
         </Form>
-      </div>
-    </>
   );
 };
 

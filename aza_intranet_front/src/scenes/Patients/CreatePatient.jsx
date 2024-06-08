@@ -13,7 +13,7 @@ const CreatePatient = () => {
   useEffect(() => {
     checkPermissionsAndRedirect(dentistDto);
   });
-   const [form] = Form.useForm();
+  const [form] = Form.useForm();
 
   const handleDentistSelect = (dentistId) => {
     form.setFieldsValue({ dentist: dentistId });
@@ -61,7 +61,8 @@ const CreatePatient = () => {
       Swal.fire({
         title: "Paciente creado con éxito!",
         icon: "success",
-      }); setTimeout(() => {
+      });
+      setTimeout(() => {
         window.location.href = "/patients";
       }, 4000);
     } catch (error) {
@@ -76,105 +77,98 @@ const CreatePatient = () => {
   };
 
   return (
-    <>
-      <div className="form-container">
-        <h1 className="title">Crear Paciente</h1>
-        <Form form={form} onFinish={handleSubmit} layout="vertical">
-          <div className="form-row">
-            <Form.Item
-              label="Nombre Completo"
-              name="full_name"
-              rules={[
-                { required: true, message: "Ingrese el nombre del paciente" },
-              ]}
-            >
-              <Input />
-            </Form.Item>
-            <Form.Item
-              label="DNI/NIE"
-              name="nif"
-              rules={[
-                { required: true, message: "Ingrese el DNI/NIE del paciente" },
-              ]}
-            >
-              <Input />
-            </Form.Item>
+    <Form form={form} onFinish={handleSubmit} layout="vertical">
+      <h1 className="title">Crear Paciente</h1>
 
-            <Form.Item
-              label="Direccion"
-              name="address"
-              rules={[
-                {
-                  required: true,
-                  message: "Ingrese la direccion del paciente",
-                },
-              ]}
-            >
-              <Input />
-            </Form.Item>
-          </div>
-          <div className="form-row">
-            <Form.Item
-              label="Genero"
-              name="gender"
-              rules={[
-                { required: true, message: "Ingrese el genero del paciente" },
-              ]}
-            >
-              <Radio.Group>
-                <Radio value="masculino">Masculino</Radio>
-                <Radio value="femenino">Femenino</Radio>
-                <Radio value="femenino">Otro</Radio>
-              </Radio.Group>
-            </Form.Item>
-          </div>
-          <div className="form-row">
-            <Form.Item
-              label="Email"
-              name="email"
-              rules={[
-                { required: true, message: "Ingrese el email del paciente" },
-              ]}
-            >
-              <Input />
-            </Form.Item>
-            <Form.Item
-              label="Fecha de nacimiento"
-              name="date_of_birth"
-              rules={[
-                { required: true, message: "Ingrese la fecha de nacimiento" },
-              ]}
-            >
-              <DatePicker format="YYYY-MM-DD" />
-            </Form.Item>
-          </div>
-          <div className="form-row">
-            <Form.Item
-              label="Telefono"
-              name="phone"
-              rules={[
-                { required: true, message: "Ingrese el numero de telefono" },
-              ]}
-            >
-              <Input />
-            </Form.Item>
+      <div className="form-row">
+        <Form.Item
+          label="Nombre Completo"
+          name="full_name"
+          rules={[
+            { required: true, message: "Ingrese el nombre del paciente" },
+          ]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          label="DNI/NIE"
+          name="nif"
+          rules={[
+            { required: true, message: "Ingrese el DNI/NIE del paciente" },
+          ]}
+        >
+          <Input />
+        </Form.Item>
 
-            <Form.Item
-              label="Dentista"
-              name="dentist"
-              rules={[{ required: true, message: "Seleccione un dentista" }]}
-            >
-              <DentistDropDown onSelect={handleDentistSelect} />
-            </Form.Item>
-          </div>
-          <Form.Item>
-            <Button type="primary" htmlType="submit">
-              Crear Paciente
-            </Button>
-          </Form.Item>
-        </Form>
+        <Form.Item
+          label="Direccion"
+          name="address"
+          rules={[
+            {
+              required: true,
+              message: "Ingrese la direccion del paciente",
+            },
+          ]}
+        >
+          <Input />
+        </Form.Item>
       </div>
-    </>
+      <div className="form-row">
+        <Form.Item
+          label="Genero"
+          name="gender"
+          rules={[
+            { required: true, message: "Ingrese el genero del paciente" },
+          ]}
+        >
+          <Radio.Group>
+            <Radio value="masculino">Masculino</Radio>
+            <Radio value="femenino">Femenino</Radio>
+            <Radio value="femenino">Otro</Radio>
+          </Radio.Group>
+        </Form.Item>
+      </div>
+      <div className="form-row">
+        <Form.Item
+          label="Email"
+          name="email"
+          rules={[{ required: true, message: "Ingrese el email del paciente" }]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          label="Fecha de nacimiento"
+          name="date_of_birth"
+          rules={[
+            { required: true, message: "Ingrese la fecha de nacimiento" },
+          ]}
+        >
+          <DatePicker format="YYYY-MM-DD" />
+        </Form.Item>
+      </div>
+      <div className="form-row">
+        <Form.Item
+          label="Telefono"
+          name="phone"
+          rules={[{ required: true, message: "Ingrese el numero de telefono" }]}
+        >
+          <Input />
+        </Form.Item>
+
+        <Form.Item
+          label="Dentista"
+          name="dentist"
+          rules={[{ required: true, message: "Seleccione un dentista" }]}
+        >
+          <DentistDropDown onSelect={handleDentistSelect} />
+        </Form.Item>
+      </div>
+      <Form.Item>
+        <Button type="primary" htmlType="submit">
+          Crear Paciente
+        </Button>
+      </Form.Item>
+    </Form>
   );
 };
 

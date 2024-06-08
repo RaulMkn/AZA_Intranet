@@ -4,7 +4,6 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import axios from "axios";
-import esLocale from "@fullcalendar/core/locales/es";
 import { checkPermissionsAndRedirect } from "../../utils/CheckPermissions";
 import Swal from "sweetalert2";
 
@@ -92,31 +91,20 @@ function Calendar() {
   };
 
   return (
-    <div
-      style={{
-        width: "1050px",
-        height: "90vh",
-        color: "black",
-        marginLeft: "9%",
-        marginRight: "0",
-      }}
-    >
       <FullCalendar
         headerToolbar={{
           left: "prev,next today",
           center: "title",
           right: "dayGridMonth,timeGridWeek,timeGridDay",
         }}
-        initialView="timeGridWeek"
+        style={{background:'transparent'}}
+        initialView="dayGridMonth"
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
         events={eventos.concat(appointments)}
         eventClick={eventClick}
-        height={"83vh"}
-        weekends={false}
-        locale={esLocale}
+        height={"auto"}
         firstDay={1}
       />
-    </div>
   );
 }
 

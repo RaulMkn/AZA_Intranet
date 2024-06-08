@@ -38,35 +38,12 @@
     width: 100%;
   }
   .table_container {
-    width: 78%;
-    margin-left: 18%;
     margin-top: 0%;
     background-color: transparent !important;
     font-weight: bolder !important; /* Aplicar negrita */
   }
   /* Cambiar el color del texto de las columnas con !important */
   .table_container th {
-    background-color: transparent !important;
-  }
-  
-  .table_container2 {
-    background-color: transparent !important;
-    font-weight: bolder !important; /* Aplicar negrita */
-  }
-  /* Cambiar el color del texto de las columnas con !important */
-  .table_container2 th {
-    background-color: transparent !important;
-  }
-  
-  .table_container3 {
-    width: 95%;
-    margin-left: 12%;
-    margin-top: 0%;
-    background-color: transparent !important;
-    font-weight: bolder !important; /* Aplicar negrita */
-  }
-  /* Cambiar el color del texto de las columnas con !important */
-  .table_container3 th {
     background-color: transparent !important;
   }
   

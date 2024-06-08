@@ -2,9 +2,8 @@
 
 .sidebar {
     color: #fff;
-    height: 100vh;
+    min-height: 100vh;
     position: sticky; /* Hace que la barra lateral sea fija para que se estire por toda la página */
-    left: 0 !important; /* Ajusta la posición a la izquierda */
     top: 0; /* Ajusta la posición en la parte superior */
     background-color: #001529; /* Color de fondo para la barra lateral */
 }
@@ -34,6 +33,7 @@
     gap: 15px;
     font-size: 1rem;
     position: relative;
+    overflow-y:'auto';
 }
 
 .toggle-theme-btn {

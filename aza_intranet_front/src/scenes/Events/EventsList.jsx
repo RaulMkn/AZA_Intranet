@@ -7,7 +7,6 @@ import Swal from "sweetalert2";
 import MUIDataTable from "mui-datatables";
 import { DeleteOutlined } from "@ant-design/icons";
 
-
 export const TableAxios = () => {
   const dentistJson = localStorage.getItem("Dentist");
   const dentistDto = JSON.parse(dentistJson);
@@ -84,7 +83,7 @@ export const TableAxios = () => {
         title: "Evento eliminado con éxito!",
         icon: "success",
       });
-        fetchData();
+      fetchData();
     } catch (error) {
       console.error("Error al enviar datos al servidor:", error);
 
@@ -156,16 +155,13 @@ export const TableAxios = () => {
   };
 
   return (
-    <div className="table_container">
-      <MUIDataTable
-        title={"Lista de Eventos"}
-        data={events}
-        columns={columns}
-        options={options}
-        className="table_container"
-
-      />
-    </div>
+    <MUIDataTable
+      title={"Lista de Eventos"}
+      data={events}
+      columns={columns}
+      options={options}
+      className="table_container"
+    />
   );
 };
 

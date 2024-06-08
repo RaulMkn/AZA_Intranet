@@ -134,15 +134,13 @@ export const TableAxios = () => {
     }
   };
   return (
-    <>
       <MUIDataTable
         title={"Listado de intervenciones"}
         data={intervention}
         columns={columns}
         options={options}
-        className="table_container2"
+        className="table_container"
       />
-    </>
   );
 };
 export default TableAxios;

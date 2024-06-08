@@ -183,15 +183,13 @@ export const TableAxios = () => {
 
   //4 - renderizamos la datatable
   return (
-    <>
       <MUIDataTable
         title={"Listado de Dentistas"}
         data={dentist}
         columns={columns}
         options={options}
-        className="table_container3"
+        className="table_container"
       />
-    </>
   );
 };
 export default TableAxios;

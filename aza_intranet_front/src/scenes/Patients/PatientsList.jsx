@@ -117,9 +117,7 @@ export const TableAxios = () => {
         title: "Paciente eliminado con éxito!",
         icon: "success",
       });
-      setTimeout(() => {
-        window.location.reload();
-      }, 4000);
+        fetchData();
     } catch (error) {
       console.error("Error al enviar datos al servidor:", error);
 
@@ -137,15 +135,13 @@ export const TableAxios = () => {
 
   //4 - renderizamos la datatable
   return (
-    <>
       <MUIDataTable
         title={"Listado de pacientes"}
         data={patient}
         columns={columns}
         options={options}
-        className="table_container2"
+        className="table_container"
       />
-    </>
   );
 };
 export default TableAxios;

@@ -33,7 +33,7 @@ const Home = () => {
   const labelStyle = { fontSize: "16px", fontWeight: "bold" }; // Personaliza el tamaño y estilo del label
 
   return (
-    <Card title="Tus datos personales" className="card-container">
+    <Card title="Tus datos personales" className="card-container" style={{height:'100vh'}}>
       <div
         style={{
           display: "flex",
@@ -42,7 +42,7 @@ const Home = () => {
         }}
       >
         {" "}
-        <Row gutter={16} style={{ alignItems: "center", gap: "40px" }}>
+        <Row gutter={16} style={{ alignItems: "center", gap: "40px", height: "fit-content" }}>
           <Col style={{ height: "fit-content" }}>
             <Statistic
               title="Total de ventas"
@@ -57,7 +57,7 @@ const Home = () => {
           </Col>
           <Avatar
             src={`data:${dentist.picture.img_type};base64,${dentist.picture.img}`}
-            size={148}
+            size={200}
             className="avatar"
           />
           <Col style={{ height: "fit-content" }}>

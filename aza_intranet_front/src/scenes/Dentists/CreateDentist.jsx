@@ -104,9 +104,10 @@ const CreateDentist = () => {
   };
 
   return (
-    <main className="form-container">
-      <h1 className="title">Crear Nuevo Usuario</h1>
+      
       <Form form={form} onFinish={handleSubmit} layout="vertical">
+              <h1 className="title">Crear Nuevo Usuario</h1>
+
         <div className="form-row">
           <Form.Item
             label="Nombre Completo"
@@ -224,7 +225,6 @@ const CreateDentist = () => {
           </Button>
         </Form.Item>
       </Form>
-    </main>
   );
 };
 
