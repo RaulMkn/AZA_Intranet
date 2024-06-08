@@ -11,7 +11,6 @@ import CreatePatient from "./scenes/Patients/CreatePatient";
 import PatientsList from "./scenes/Patients/PatientsList";
 import InterventionsList from "./scenes/Interventions/InterventionsList";
 import CreateIntervention from "./scenes/Interventions/CreateIntervention";
-import Email from "../emails/emailTest";
 import Event from "./scenes/Events/CreateEvent";
 import EventsList from "./scenes/Events/EventsList";
 
@@ -69,7 +68,6 @@ function App() {
           <Route path="/interventions" element={<InterventionsList />} />
           <Route path="/dentists" element={<DentistsList />} />
           <Route path="/dentist" element={<CreateDentist />} />
-          <Route path="/mails" element={<Email />} />
           <Route path="/event" element={<Event />} />
           <Route path="/events" element={<EventsList />} />
         </Routes>

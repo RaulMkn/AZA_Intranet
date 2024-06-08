@@ -5,7 +5,6 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import PatientDropdown from "../../utils/PatientsDropdown";
 import InterventionsDropdown from "../../utils/InterventionsDropdown";
-//import Sender from "../../../emails/api/Sender";
 import AppointmentDto from "../../DTOs/AppointmentDto";
 import { checkPermissionsAndRedirect } from "../../utils/CheckPermissions";
 import { useEffect } from "react";
@@ -90,29 +89,7 @@ const CreateAppointmentPage = () => {
 
       const patientInfo = response.data.patient;
       console.log(patientInfo);
-      /*
-      try {
-        await Sender({ patient: patientInfo, appointmentDto: appointmentDto });
-        Swal.fire({
-          title: "Cita creada con éxito!",
-          icon: "success",
-        });
-        setTimeout(() => {
-          window.location.reload();
-        }, 4000);
-      } catch (error) {
-        console.error("Error al enviar el correo electrónico:", error);
-        Swal.fire({
-          title: "Fallo al crear la cita!",
-          text: "La cita se ha creado correctamente pero ha habido un problema con el envio del correo. Por favor pongase en contacto con el paciente.",
-          icon: "warning",
-          
-          
-        });
-        setTimeout(() => {
-          window.location.reload();
-        }, 4000);
-      }*/
+      
       Swal.fire({
         title: "Cita creada con éxito!",
         icon: "success",

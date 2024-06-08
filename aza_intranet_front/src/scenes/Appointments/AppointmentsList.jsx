@@ -48,7 +48,6 @@ export const TableAxios = () => {
 
       // Setear el estado con los datos de las citas
       setAppointment(response.data);
-      console.log(response.data);
     } catch (error) {
       console.error("Error al obtener datos de usuarios:", error);
     }
@@ -142,17 +141,12 @@ export const TableAxios = () => {
       label: "Acciones",
       options: {
         customBodyRender: (value) => {
-          console.log(value);
-          //if (value.permits == 1) {
+
           return (
             <Button onClick={() => handleButtonClick(value)}>
               <DeleteOutlined />
             </Button>
           );
-          //} else{
-          // return (
-          //<CloseOutlined />
-          //  )
         },
       },
     },

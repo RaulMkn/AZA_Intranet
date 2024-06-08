@@ -7,7 +7,7 @@ class PatientDto {
       this.nif = nif;
       this.address = address;
       this.gender = gender;
-      this.birthDate = date_of_birth;
+      this.date_of_birth = date_of_birth;
     }
   
     static toFormData(patientDto) {
@@ -19,7 +19,7 @@ class PatientDto {
       formData.append('nif', patientDto.nif);
       formData.append('address', patientDto.address);
       formData.append('gender', patientDto.gender);
-      formData.append('birthDate', patientDto.date_of_birth);
+      formData.append('date_of_birth', patientDto.date_of_birth);
       return formData;
     }
   }

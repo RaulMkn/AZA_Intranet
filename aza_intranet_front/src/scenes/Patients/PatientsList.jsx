@@ -80,6 +80,10 @@ export const TableAxios = () => {
       label: "GENERO",
     },
     {
+      name: "date_of_birth",
+      label: "Fecha de Nacimiento",
+    },
+    {
       name: "address",
       label: "Direccion",
     },

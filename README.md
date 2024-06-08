@@ -15,12 +15,12 @@ Intranet creada para la gestion interna de una clinica dental.
 Este proyecto es una aplicación de intranet desarrollada para los alumnos del MEDAC Fuenlabrada, que proporciona gestion de citas y de pacientes, manejo de inventario y estadisticas de venta. La aplicación está construida utilizando Java y React y se encuentra todavia en fase de desarrollo.
 
 ## Principales Tecnologías Utilizadas
-
 - Java JDK 17
 - Spring Framework
 - Hibernate ORM
 - React 18
 - Vite
+- ANT Design
 - PostgreSQL
 
 ## Instalación

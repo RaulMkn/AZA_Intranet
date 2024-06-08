@@ -122,9 +122,9 @@ const CreatePatient = () => {
           ]}
         >
           <Radio.Group>
-            <Radio value="masculino">Masculino</Radio>
-            <Radio value="femenino">Femenino</Radio>
-            <Radio value="femenino">Otro</Radio>
+            <Radio value="Masculino">Masculino</Radio>
+            <Radio value="Femenino">Femenino</Radio>
+            <Radio value="Otro">Otro</Radio>
           </Radio.Group>
         </Form.Item>
       </div>
