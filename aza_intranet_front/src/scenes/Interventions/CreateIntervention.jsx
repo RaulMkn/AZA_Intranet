@@ -57,51 +57,52 @@ const CreateIntervention = () => {
     }
   };
   return (
+    <Form form={form} onFinish={handleSubmit} layout="vertical">
+      <h1 className="title">Crear Intervencion</h1>
 
-        <Form form={form} onFinish={handleSubmit} layout="vertical">
-                  <h1 className="title">Crear Intervencion</h1>
+      <Form.Item
+        label="Nombre"
+        name="full_name"
+        rules={[
+          {
+            required: true,
+            message: "Ingrese el nombre de la intervencion",
+          },
+        ]}
+      >
+        <Input />
+      </Form.Item>
 
-          <Form.Item
-            label="Nombre"
-            name="full_name"
-            rules={[
-              {
-                required: true,
-                message: "Ingrese el nombre de la intervencion",
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item>
+      <Form.Item
+        type="number"
+        label="Precio"
+        name="price"
+        rules={[
+          {
+            required: true,
+            message: "Ingrese el precio de la intervencion",
+          },
+        ]}
+      >
+        <Input />
+      </Form.Item>
 
-          <Form.Item
-            type="number"
-            label="Precio"
-            name="price"
-            rules={[
-              {
-                required: true,
-                message: "Ingrese el precio de la intervencion",
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item>
+      <Form.Item
+        label="Departamento"
+        name="department"
+        rules={[{ required: true, message: "Seleccione un departamento" }]}
+      >
+        <DepartmentDropDown onSelect={handleDepartmentSelected} />
+      </Form.Item>
 
-          <Form.Item
-            label="Departamento"
-            name="department"
-            rules={[{ required: true, message: "Seleccione un departamento" }]}
-          >
-            <DepartmentDropDown onSelect={handleDepartmentSelected} />
-          </Form.Item>
-
-          <Form.Item>
-            <Button type="primary" htmlType="submit">
-              Crear Intervencion
-            </Button>
-          </Form.Item>
-        </Form>
+      <div className="form-row">
+        <Form.Item>
+          <Button type="primary" htmlType="submit">
+            Crear Intervencion
+          </Button>
+        </Form.Item>
+      </div>
+    </Form>
   );
 };
 

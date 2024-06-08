@@ -1,5 +1,7 @@
 /* Appointment.css */
 
+
+
 .title {
     color: #1890ff;
     margin-bottom: 20px;
@@ -17,7 +19,7 @@
   
   .form-row {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: center;
     gap: 20px;
   }
   
@@ -34,9 +36,7 @@
     width: 100%;
   }
   
-  .ant-btn {
-    width: 100%;
-  }
+ 
   .table_container {
     margin-top: 0%;
     background-color: transparent !important;

@@ -104,110 +104,105 @@ const CreateDentist = () => {
   };
 
   return (
-      
-      <Form form={form} onFinish={handleSubmit} layout="vertical">
-              <h1 className="title">Crear Nuevo Usuario</h1>
+    <Form form={form} onFinish={handleSubmit} layout="vertical">
+      <h1 className="title">Crear Nuevo Usuario</h1>
 
-        <div className="form-row">
-          <Form.Item
-            label="Nombre Completo"
-            name="full_name"
-            rules={[
-              { required: true, message: "Ingrese el nombre del usuario" },
-            ]}
-          >
-            <Input />
-          </Form.Item>
+      <div className="form-row">
+        <Form.Item
+          label="Nombre Completo"
+          name="full_name"
+          rules={[{ required: true, message: "Ingrese el nombre del usuario" }]}
+        >
+          <Input />
+        </Form.Item>
 
-          <Form.Item
-            label="Email"
-            name="email"
-            rules={[
-              { required: true, message: "Ingrese el email del usuario" },
-            ]}
-          >
-            <Input />
-          </Form.Item>
+        <Form.Item
+          label="Email"
+          name="email"
+          rules={[{ required: true, message: "Ingrese el email del usuario" }]}
+        >
+          <Input />
+        </Form.Item>
 
-          <Form.Item
-            label="Contraseña"
-            name="pass"
-            rules={[{ required: true, message: "Ingrese la contraseña" }]}
-          >
-            <Input />
-          </Form.Item>
-        </div>
-        <div className="form-row">
-          <Form.Item
-            label="Departamento"
-            name="department"
-            rules={[{ required: true, message: "Ingrese el departamento" }]}
-          >
-            <DepartmentsDropdown onSelect={handleDepartmentSelected} />
-          </Form.Item>
-          <Form.Item
-            label="Puesto"
-            name="job"
-            rules={[
-              { required: true, message: "Seleccione el puesto del usuario" },
-            ]}
-          >
-            <Input />
-          </Form.Item>
+        <Form.Item
+          label="Contraseña"
+          name="pass"
+          rules={[{ required: true, message: "Ingrese la contraseña" }]}
+        >
+          <Input />
+        </Form.Item>
+      </div>
+      <div className="form-row">
+        <Form.Item
+          label="Departamento"
+          name="department"
+          rules={[{ required: true, message: "Ingrese el departamento" }]}
+        >
+          <DepartmentsDropdown onSelect={handleDepartmentSelected} />
+        </Form.Item>
+        <Form.Item
+          label="Puesto"
+          name="job"
+          rules={[
+            { required: true, message: "Seleccione el puesto del usuario" },
+          ]}
+        >
+          <Input />
+        </Form.Item>
 
-          <Form.Item
-            label="Permisos"
-            name="permits"
-            rules={[{ required: true, message: "¿Permisos de administrador?" }]}
-          >
-            <Radio.Group>
-              <Radio value="1">Sí</Radio>
-              <Radio value="0">No</Radio>
-            </Radio.Group>
-          </Form.Item>
-        </div>
-        <div className="form-row">
-          <Form.Item
-            label="Fecha de Nacimiento"
-            name="date_of_birth"
-            rules={[
-              { required: true, message: "Ingrese la fecha de nacimiento" },
-            ]}
-          >
-            <DatePicker format="YYYY-MM-DD" />
-          </Form.Item>
+        <Form.Item
+          label="Permisos"
+          name="permits"
+          rules={[{ required: true, message: "¿Permisos de administrador?" }]}
+        >
+          <Radio.Group>
+            <Radio value="1">Sí</Radio>
+            <Radio value="0">No</Radio>
+          </Radio.Group>
+        </Form.Item>
+      </div>
+      <div className="form-row">
+        <Form.Item
+          label="Fecha de Nacimiento"
+          name="date_of_birth"
+          rules={[
+            { required: true, message: "Ingrese la fecha de nacimiento" },
+          ]}
+        >
+          <DatePicker format="YYYY-MM-DD" />
+        </Form.Item>
 
-          <Form.Item
-            label="Género"
-            name="gender"
-            rules={[{ required: true, message: "Seleccione el género" }]}
-          >
-            <Radio.Group>
-              <Radio value="Masculino">Masculino</Radio>
-              <Radio value="Femenino">Femenino</Radio>
-              <Radio value="Otro">Otro</Radio>
-            </Radio.Group>
-          </Form.Item>
-        </div>
-        <div className="form-row">
-          <Form.Item
-            label="Dirección"
-            name="address"
-            rules={[
-              { required: true, message: "Ingrese la dirección del usuario" },
-            ]}
-          >
-            <Input />
-          </Form.Item>
+        <Form.Item
+          label="Género"
+          name="gender"
+          rules={[{ required: true, message: "Seleccione el género" }]}
+        >
+          <Radio.Group>
+            <Radio value="Masculino">Masculino</Radio>
+            <Radio value="Femenino">Femenino</Radio>
+            <Radio value="Otro">Otro</Radio>
+          </Radio.Group>
+        </Form.Item>
+      </div>
+      <div className="form-row">
+        <Form.Item
+          label="Dirección"
+          name="address"
+          rules={[
+            { required: true, message: "Ingrese la dirección del usuario" },
+          ]}
+        >
+          <Input />
+        </Form.Item>
 
-          <Form.Item
-            label="DNI / NIE"
-            name="nif"
-            rules={[{ required: true, message: "Ingrese el NIF del usuario" }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item label="Inserte una foto de perfil">
+        <Form.Item
+          label="DNI / NIE"
+          name="nif"
+          rules={[{ required: true, message: "Ingrese el NIF del usuario" }]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item label="Inserte una foto de perfil">
           <Upload
             beforeUpload={beforeUpload}
             onChange={handleChange}
@@ -217,14 +212,15 @@ const CreateDentist = () => {
           </Upload>
           {error && <p style={{ color: "red" }}>{error}</p>}
         </Form.Item>
-        </div>
-
+      </div>
+      <div className="form-row">
         <Form.Item>
           <Button type="primary" htmlType="submit">
             Crear Usuario
           </Button>
         </Form.Item>
-      </Form>
+      </div>
+    </Form>
   );
 };
 
