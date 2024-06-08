@@ -9,7 +9,6 @@ import { checkAdminPermissionsAndRedirect } from "../../utils/CheckPermissions";
 
 export const TableAxios = () => {
   var dentistJson = localStorage.getItem("Dentist");
-  console.log(dentistJson);
   var dentistDto = JSON.parse(dentistJson);
   useEffect(() => {
     checkAdminPermissionsAndRedirect(dentistDto);
@@ -29,7 +28,6 @@ export const TableAxios = () => {
           crossdomain: true,
         }
       );
-      console.log(response.data);
       setIntervention(response.data);
     } catch (error) {
       console.error("Error al obtener datos de usuarios:", error);
@@ -105,7 +103,7 @@ export const TableAxios = () => {
   const handleButtonClick = async (id) => {
     try {
       await axios.delete(
-        `http://localhost:8080/intranet/DentalAesthetics/dentist/id/${id}`,
+        `http://localhost:8080/intranet/DentalAesthetics/intervention/id/${id}`,
         {
           withCredentials: true,
           headers: {
@@ -120,9 +118,7 @@ export const TableAxios = () => {
         title: "Intervencion eliminada con éxito!",
         icon: "success",
       });
-      setTimeout(() => {
-        window.location.reload();
-      }, 4000);
+        fetchData();
     } catch (error) {
       console.error("Error al enviar datos al servidor:", error);
 
@@ -134,7 +130,7 @@ export const TableAxios = () => {
 
       setTimeout(() => {
         window.location.reload();
-      }, 4000);
+      }, 3000);
     }
   };
   return (

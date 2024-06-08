@@ -200,9 +200,7 @@ export const TableAxios = () => {
         title: "Cita eliminada con éxito!",
         icon: "success",
       });
-      setTimeout(() => {
         fetchData();
-      }, 4000);
     } catch (error) {
       console.error("Error al enviar datos al servidor:", error);
 

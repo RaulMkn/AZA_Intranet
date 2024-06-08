@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/intranet/DentalAesthetics")
-@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true", allowedHeaders = "*", methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.DELETE})
+@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true", allowedHeaders = "*", methods = {RequestMethod.POST, RequestMethod.PUT, RequestMethod.GET, RequestMethod.DELETE})
 public class InterventionController {
     @Autowired
     InterventionService interventionService;
@@ -62,7 +62,7 @@ public class InterventionController {
 
     @Transactional
     @DeleteMapping(path = "/intervention/id/{id}")
-    public ResponseEntity<Void> deleteAppointment(
+    public ResponseEntity<Void> deleteIntervention(
             @PathVariable("id") int id
     ) {
         boolean intervention = interventionService.deleteIntervention(id);

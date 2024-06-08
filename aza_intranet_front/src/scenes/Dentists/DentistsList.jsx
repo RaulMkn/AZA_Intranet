@@ -165,9 +165,7 @@ export const TableAxios = () => {
         title: "Usuario eliminado con éxito!",
         icon: "success",
       });
-      setTimeout(() => {
-        window.location.reload();
-      }, 4000);
+        fetchData();
     } catch (error) {
       console.error("Error al enviar datos al servidor:", error);
 

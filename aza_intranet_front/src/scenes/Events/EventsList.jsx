@@ -84,9 +84,7 @@ export const TableAxios = () => {
         title: "Evento eliminado con éxito!",
         icon: "success",
       });
-      setTimeout(() => {
-        fetchData(); // Fetch the data again to update the table
-      }, 4000);
+        fetchData();
     } catch (error) {
       console.error("Error al enviar datos al servidor:", error);
 

@@ -102,7 +102,7 @@ export const TableAxios = () => {
   const handleButtonClick = async (id) => {
     try {
       await axios.delete(
-        `http://localhost:8080/intranet/DentalAesthetics/dentist/id/${id}`,
+        `http://localhost:8080/intranet/DentalAesthetics/patient/id/${id}`,
         {
           withCredentials: true,
           headers: {
