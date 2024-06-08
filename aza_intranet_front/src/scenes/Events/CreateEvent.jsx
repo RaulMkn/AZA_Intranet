@@ -51,7 +51,7 @@ const CreateEventPage = () => {
         }
       );
       Swal.fire({
-        title: "Cita creada con exito!",
+        title: "Evento creado con exito!",
         icon: "success",
       });
 
@@ -62,7 +62,7 @@ const CreateEventPage = () => {
       console.error("Error al enviar datos al servidor:", error);
 
       Swal.fire({
-        title: "Fallo al crear la cita!",
+        title: "Fallo al crear el evento!",
         text: "Revise los datos del formulario o póngase en contacto con maken :(",
         icon: "error",
       });

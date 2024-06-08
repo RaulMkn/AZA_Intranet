@@ -7,6 +7,7 @@ import {
   UserOutlined,
   SettingOutlined,
   RollbackOutlined,
+  TeamOutlined,
 } from "@ant-design/icons";
 import Swal from "sweetalert2";
 
@@ -72,12 +73,11 @@ const MenuList = ({ darkTheme }) => {
           <Menu.Item key="Dentists Ops">
             <Link to="dentists">Dentistas</Link>
           </Menu.Item>
-          <Menu.Item key="Events Ops">
-            <Link to="events">Eventos</Link>
-          </Menu.Item>
         </Menu.SubMenu>
       )}
-
+      <Menu.Item key="Events Ops" icon={<TeamOutlined />}>
+        <Link to="events">Eventos</Link>
+      </Menu.Item>
       <Menu.Item key={"progress"} icon={<ContactsOutlined />}>
         <Link to="/appointments">Citas</Link>
       </Menu.Item>
@@ -87,7 +87,9 @@ const MenuList = ({ darkTheme }) => {
       </Menu.Item>
 
       <Menu.Item icon={<RollbackOutlined />}>
-        <Button onClick={logOut}><b>Cerrar Sesión</b></Button>
+        <Button onClick={logOut}>
+          <b>Cerrar Sesión</b>
+        </Button>
       </Menu.Item>
     </Menu>
   );

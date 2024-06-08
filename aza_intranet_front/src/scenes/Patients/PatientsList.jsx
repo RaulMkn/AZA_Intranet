@@ -14,36 +14,31 @@ export const TableAxios = () => {
   useEffect(() => {
     checkPermissionsAndRedirect(dentistDto);
   });
-  //1 - configuramos Los hooks
   const [patient, setPatients] = useState([]);
 
   const fetchData = async () => {
     try {
-      // Realiza la solicitud GET a la URL de la API
       const response = await axios.get(
         "http://localhost:8080/intranet/DentalAesthetics/patients",
         {
-          withCredentials: true, // Utiliza credenciales de autenticación
+          withCredentials: true,
           headers: {
             "Content-Type": "application/json",
             Authorization: "Basic " + btoa(import.meta.env.VITE_DATABASE_AUTH),
           },
-          crossdomain: true, // Permite solicitudes a diferentes dominios
+          crossdomain: true,
         }
       );
-      console.log(response.data);
       setPatients(response.data);
     } catch (error) {
-      // Manejo de errores en caso de que la solicitud falle
       console.error("Error al obtener datos de usuarios:", error);
     }
   };
 
   useEffect(() => {
-    fetchData(); // Llama a la función para obtener datos cuando el componente se monta
+    fetchData();
   }, []);
 
-  // Opciones para personalizar el tamaño de la tabla
   const options = {
     selectableRows: "none", // Desactiva la opción de selección de filas
     viewColumns: false, // Desactiva la opción de mostrar/ocultar columnas
@@ -87,10 +82,6 @@ export const TableAxios = () => {
     {
       name: "address",
       label: "Direccion",
-    },
-    {
-      name: "phone",
-      label: "TELEFONO",
     },
     {
       name: "id",

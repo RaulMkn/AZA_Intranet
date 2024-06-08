@@ -45,7 +45,7 @@ const Home = () => {
         <Descriptions.Item label="NIF">{dentist.nif}</Descriptions.Item>
         <Descriptions.Item label="Permisos">{dentist.permits}</Descriptions.Item>
         <Descriptions.Item label="Dirección">{dentist.address}</Descriptions.Item>
-        <Descriptions.Item label="Total Precio de Citas">{totalAppointmentsPrice}</Descriptions.Item>
+        <Descriptions.Item label="Total Ventas">{totalAppointmentsPrice}€</Descriptions.Item>
         <Descriptions.Item label="Número de Pacientes">{totalPatients}</Descriptions.Item>
         <Descriptions.Item label="Eventos Pendientes">{upcomingEventsCount}</Descriptions.Item>
       </Descriptions>

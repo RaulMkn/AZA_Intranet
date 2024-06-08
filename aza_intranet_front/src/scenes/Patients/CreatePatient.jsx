@@ -16,13 +16,11 @@ const CreatePatient = () => {
    const [form] = Form.useForm();
 
   const handleDentistSelect = (dentistId) => {
-    // Establece el valor del dentista seleccionado en el formulario
     form.setFieldsValue({ dentist: dentistId });
   };
 
   const handleSubmit = async (values) => {
     try {
-      // Accede directamente a los valores del formulario desde el objeto 'values'
       const {
         full_name,
         email,
@@ -34,7 +32,6 @@ const CreatePatient = () => {
         date_of_birth,
       } = values;
 
-      // Crea una instancia de PatientDto con los valores del formulario
       const patientDto = new PatientDto(
         full_name,
         email,
@@ -46,11 +43,9 @@ const CreatePatient = () => {
         date_of_birth
       );
 
-      // Convierte el objeto PatientDto en FormData
       const formData = PatientDto.toFormData(patientDto);
       console.log(patientDto);
 
-      // Realiza la solicitud POST a la API
       await axios.post(
         "http://localhost:8080/intranet/DentalAesthetics/patient",
         formData,
@@ -63,7 +58,6 @@ const CreatePatient = () => {
           crossdomain: true,
         }
       );
-      // Muestra un mensaje de éxito al usuario
       Swal.fire({
         title: "Paciente creado con éxito!",
         icon: "success",
@@ -73,7 +67,6 @@ const CreatePatient = () => {
     } catch (error) {
       console.error("Error al enviar datos al servidor:", error);
 
-      // Muestra un mensaje de error al usuario
       Swal.fire({
         title: "Fallo al crear la cita!",
         text: "Revise los datos del formulario o póngase en contacto con maken :(",

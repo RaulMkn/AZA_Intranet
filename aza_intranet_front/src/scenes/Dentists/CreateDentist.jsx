@@ -1,19 +1,19 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Form, Input, Button, Radio, Upload, message, DatePicker } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import DepartmentsDropdown from "../../utils/DepartmentsDropdown";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { checkAdminPermissionsAndRedirect } from "../../utils/CheckPermissions";
-import { useEffect } from "react";
+
 const CreateDentist = () => {
   const [form] = Form.useForm();
   const [imageFile, setImageFile] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    var dentistJson = localStorage.getItem("Dentist");
-    var dentistDto = JSON.parse(dentistJson);
+    const dentistJson = localStorage.getItem("Dentist");
+    const dentistDto = JSON.parse(dentistJson);
     checkAdminPermissionsAndRedirect(dentistDto);
   }, []);
 
@@ -37,7 +37,8 @@ const CreateDentist = () => {
       message.error("Solo puede subir archivos JPG/PNG.");
       return Upload.LIST_IGNORE;
     }
-    return isJpgOrPng;
+    setImageFile(file);
+    return false;
   };
 
   const handleSubmit = async (values) => {
@@ -47,7 +48,7 @@ const CreateDentist = () => {
         email,
         pass,
         job,
-        permis,
+        permits,
         department,
         date_of_birth,
         nif,
@@ -57,18 +58,19 @@ const CreateDentist = () => {
 
       const formData = new FormData();
       formData.append("full_name", full_name);
-      formData.append("email",email);
+      formData.append("email", email);
       formData.append("pass", pass);
-      formData.append("job",job);
-      formData.append("permis",permis);
-      formData.append("department",department);
-      formData.append("date_of_birth", date_of_birth);
-      formData.append("nif",nif);
-      formData.append("address",address);
-      formData.append("gender",gender);
-      formData.append("",);
-      if (imageFile) {
-        formData.append("file", imageFile);
+      formData.append("job", job);
+      formData.append("permits", permits);
+      formData.append("department", department);
+      formData.append("date_of_birth", date_of_birth.format("YYYY-MM-DD"));
+      formData.append("nif", nif);
+      formData.append("address", address);
+      formData.append("gender", gender);
+      formData.append("file", imageFile);
+
+      for (let pair of formData.entries()) {
+        console.log(pair[0] + ': ' + pair[1]);
       }
 
       await axios.post(
@@ -98,10 +100,6 @@ const CreateDentist = () => {
         text: "Revise los datos del formulario o póngase en contacto con maken :(",
         icon: "error",
       });
-
-      setTimeout(() => {
-        window.location.reload();
-      }, 4000);
     }
   };
 
@@ -141,7 +139,7 @@ const CreateDentist = () => {
 
           <Form.Item
             label="Permisos"
-            name="permis"
+            name="permits"
             rules={[{ required: true, message: "¿Permisos de administrador?" }]}
           >
             <Radio.Group>
@@ -150,14 +148,14 @@ const CreateDentist = () => {
             </Radio.Group>
           </Form.Item>
           <Form.Item
-              label="Fecha de Inicio"
-              name="date_of_birth"
-              rules={[
-                { required: true, message: "Ingrese la fecha de nacimiento" },
-              ]}
-            >
-              <DatePicker/>
-            </Form.Item>
+            label="Fecha de Nacimiento"
+            name="date_of_birth"
+            rules={[
+              { required: true, message: "Ingrese la fecha de nacimiento" },
+            ]}
+          >
+            <DatePicker format="YYYY-MM-DD" />
+          </Form.Item>
 
           <Form.Item
             label="Género"
@@ -165,9 +163,9 @@ const CreateDentist = () => {
             rules={[{ required: true, message: "Seleccione el género" }]}
           >
             <Radio.Group>
-              <Radio value="masculino">Masculino</Radio>
-              <Radio value="femenino">Femenino</Radio>
-              <Radio value="otro">Otro</Radio>
+              <Radio value="Masculino">Masculino</Radio>
+              <Radio value="Femenino">Femenino</Radio>
+              <Radio value="Otro">Otro</Radio>
             </Radio.Group>
           </Form.Item>
         </div>
@@ -210,7 +208,7 @@ const CreateDentist = () => {
           <Upload
             beforeUpload={beforeUpload}
             onChange={handleChange}
-            showUploadList={false}
+            showUploadList={true}
           >
             <Button icon={<UploadOutlined />}>Seleccionar archivo</Button>
           </Upload>
