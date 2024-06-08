@@ -3,7 +3,6 @@ import MUIDataTable from "mui-datatables";
 import axios from "axios";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
-import "./Appointment.css";
 import Swal from "sweetalert2";
 import {
   DeleteOutlined,

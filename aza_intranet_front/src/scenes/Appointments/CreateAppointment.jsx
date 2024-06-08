@@ -1,7 +1,6 @@
 // src/components/CreateAppointmentPage.js
 import { Form, Input, DatePicker, Select, Button } from "antd";
 import DepartmentsDropdown from "../../utils/DepartmentsDropdown";
-import "./Appointment.css";
 import axios from "axios";
 import Swal from "sweetalert2";
 import PatientDropdown from "../../utils/PatientsDropdown";
