@@ -70,7 +70,7 @@ const CreateDentist = () => {
       formData.append("file", imageFile);
 
       for (let pair of formData.entries()) {
-        console.log(pair[0] + ': ' + pair[1]);
+        console.log(pair[0] + ": " + pair[1]);
       }
 
       await axios.post(
@@ -119,14 +119,31 @@ const CreateDentist = () => {
           </Form.Item>
 
           <Form.Item
+            label="Email"
+            name="email"
+            rules={[
+              { required: true, message: "Ingrese el email del usuario" },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+
+          <Form.Item
+            label="Contraseña"
+            name="pass"
+            rules={[{ required: true, message: "Ingrese la contraseña" }]}
+          >
+            <Input />
+          </Form.Item>
+        </div>
+        <div className="form-row">
+          <Form.Item
             label="Departamento"
             name="department"
             rules={[{ required: true, message: "Ingrese el departamento" }]}
           >
             <DepartmentsDropdown onSelect={handleDepartmentSelected} />
           </Form.Item>
-        </div>
-        <div className="form-row">
           <Form.Item
             label="Puesto"
             name="job"
@@ -147,6 +164,8 @@ const CreateDentist = () => {
               <Radio value="0">No</Radio>
             </Radio.Group>
           </Form.Item>
+        </div>
+        <div className="form-row">
           <Form.Item
             label="Fecha de Nacimiento"
             name="date_of_birth"
@@ -169,42 +188,25 @@ const CreateDentist = () => {
             </Radio.Group>
           </Form.Item>
         </div>
+        <div className="form-row">
+          <Form.Item
+            label="Dirección"
+            name="address"
+            rules={[
+              { required: true, message: "Ingrese la dirección del usuario" },
+            ]}
+          >
+            <Input />
+          </Form.Item>
 
-        <Form.Item
-          label="Email"
-          name="email"
-          rules={[{ required: true, message: "Ingrese el email del usuario" }]}
-        >
-          <Input />
-        </Form.Item>
-
-        <Form.Item
-          label="Contraseña"
-          name="pass"
-          rules={[{ required: true, message: "Ingrese la contraseña" }]}
-        >
-          <Input />
-        </Form.Item>
-
-        <Form.Item
-          label="Dirección"
-          name="address"
-          rules={[
-            { required: true, message: "Ingrese la dirección del usuario" },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-
-        <Form.Item
-          label="DNI / NIE"
-          name="nif"
-          rules={[{ required: true, message: "Ingrese el NIF del usuario" }]}
-        >
-          <Input />
-        </Form.Item>
-
-        <Form.Item label="Inserte una imagen suya">
+          <Form.Item
+            label="DNI / NIE"
+            name="nif"
+            rules={[{ required: true, message: "Ingrese el NIF del usuario" }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item label="Inserte una foto de perfil">
           <Upload
             beforeUpload={beforeUpload}
             onChange={handleChange}
@@ -214,6 +216,7 @@ const CreateDentist = () => {
           </Upload>
           {error && <p style={{ color: "red" }}>{error}</p>}
         </Form.Item>
+        </div>
 
         <Form.Item>
           <Button type="primary" htmlType="submit">

@@ -89,9 +89,9 @@ export const TableAxios = () => {
       options: {
         customBodyRender: (value) => {
           return (
-            <button onClick={() => handleButtonClick(value)}>
+            <Button onClick={() => handleButtonClick(value)}>
               <DeleteOutlined />
-            </button>
+            </Button>
           );
         },
         page: 8,

@@ -162,6 +162,8 @@ export const TableAxios = () => {
         data={events}
         columns={columns}
         options={options}
+        className="table_container"
+
       />
     </div>
   );
