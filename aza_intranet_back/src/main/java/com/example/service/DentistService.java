@@ -9,7 +9,6 @@ import com.example.dto.LoginDto;
 import com.example.dao.DentistDAO;
 import com.example.entity.DentistEntity;
 import com.example.entity.PictureEntity;
-import com.example.configuration.utils.ImageUtils;
 import com.example.configuration.utils.Security;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;

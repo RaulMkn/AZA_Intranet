@@ -1,16 +1,13 @@
 package com.example.controllers;
 
 import com.example.configuration.exceptionHandler.ResponseStatusException;
-import com.example.dto.AppointmentDto;
 import com.example.dto.EventDto;
 import com.example.dto.fakes.FakeEventDto;
-import com.example.entity.AppointmentEntity;
 import com.example.entity.EventEntity;
 import com.example.service.DentistService;
 import com.example.service.EventService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;

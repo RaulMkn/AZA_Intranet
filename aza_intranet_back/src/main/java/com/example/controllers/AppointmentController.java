@@ -2,11 +2,9 @@ package com.example.controllers;
 
 import com.example.configuration.exceptionHandler.ResponseStatusException;
 import com.example.dto.AppointmentDto;
-import com.example.dto.DentistDto;
 import com.example.dto.fakes.FakeAppointmentDto;
 import com.example.dto.fakes.FakePatientDto;
 import com.example.entity.AppointmentEntity;
-import com.example.entity.DentistEntity;
 import com.example.entity.InterventionEntity;
 import com.example.entity.PatientEntity;
 import com.example.service.*;
@@ -14,13 +12,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -53,7 +47,6 @@ public class AppointmentController {
                         .stream().map(appoEn -> this.map.map(appoEn, AppointmentDto.class))
                         .collect(Collectors.toList()));
     }
-    //Toda esta logica hay que moverla al service
     @Transactional
     @PostMapping(path = "/appointment")
     public ResponseEntity<Map<String, Object>> addAppointment(@RequestBody FakeAppointmentDto.PostAppointmentDto appointmentDto) throws ResponseStatusException {
@@ -90,7 +83,6 @@ public class AppointmentController {
         }
     }
 
-    // Mover al service
     private FakePatientDto.GetPatientDto getGetPatientDto(PatientEntity patient) {
         FakePatientDto.GetPatientDto sendPatient = new FakePatientDto.GetPatientDto();
         sendPatient.setId(patient.getId());

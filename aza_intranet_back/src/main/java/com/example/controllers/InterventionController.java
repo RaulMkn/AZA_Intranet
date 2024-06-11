@@ -1,7 +1,6 @@
 package com.example.controllers;
 
 import com.example.configuration.exceptionHandler.ResponseStatusException;
-import com.example.dto.DepartmentDto;
 import com.example.dto.InterventionDto;
 import com.example.dto.fakes.FakeInterventionDto;
 import com.example.entity.InterventionEntity;

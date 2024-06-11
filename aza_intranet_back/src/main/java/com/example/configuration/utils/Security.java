@@ -13,12 +13,10 @@ import org.springframework.web.filter.CorsFilter;
 public class Security {
 
 
-    // Método para hashear una contraseña
     public static String hashPassword(String pass) {
         return BCrypt.hashpw(pass, BCrypt.gensalt());
     }
 
-    // Método para verificar una contraseña
     public static boolean verifyPassword(String pass, String pass2) {
         return BCrypt.checkpw(pass, pass2);
     }
