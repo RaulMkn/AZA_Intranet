@@ -22,13 +22,12 @@ function Calendar() {
   useEffect(() => {
     if (dentistDto) {
       axios
-        .get(
-          `http://localhost:8080/intranet/DentalAesthetics/appointment/dentistId/${dentistDto.id}`
-        )
+        .get(`http://localhost:8080/intranet/DentalAesthetics/appointments`)
         .then((response) => {
           const formattedAppointments = response.data.map((evento) => ({
             title: evento.title,
             start: evento.date_time_beginning,
+            dentist: evento.dentist,
             end: evento.date_time_ending,
             description: evento.description,
             patient: evento.patient,
@@ -42,13 +41,12 @@ function Calendar() {
         });
 
       axios
-        .get(
-          `http://localhost:8080/intranet/DentalAesthetics/event/dentistId/${dentistDto.id}`
-        )
+        .get(`http://localhost:8080/intranet/DentalAesthetics/events`)
         .then((response) => {
           const formattedEvents = response.data.map((evento) => ({
             title: evento.title,
             start: evento.date_time_beginning,
+            dentist: evento.dentist,
             end: evento.date_time_ending,
             description: evento.description,
             backgroundColor: "#ff9999",
@@ -60,7 +58,7 @@ function Calendar() {
           console.error("Error al obtener eventos:", error);
         });
     }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const eventClick = (info) => {
@@ -76,6 +74,9 @@ function Calendar() {
       icon: "none",
       title: `${info.event.title}`,
       html: `
+              <div><strong>Dentista:</strong> ${
+                info.event.extendedProps.dentist.full_name
+              }</div>
         <div><strong>Descripción:</strong> ${
           info.event.extendedProps.description
         }</div>
@@ -91,20 +92,21 @@ function Calendar() {
   };
 
   return (
-      <FullCalendar
-        headerToolbar={{
-          left: "prev,next today",
-          center: "title",
-          right: "dayGridMonth,timeGridWeek,timeGridDay",
-        }}
-        style={{background:'transparent'}}
-        initialView="dayGridMonth"
-        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-        events={eventos.concat(appointments)}
-        eventClick={eventClick}
-        height={"auto"}
-        firstDay={1}
-      />
+    <FullCalendar
+      headerToolbar={{
+        left: "prev,next today",
+        center: "title",
+        right: "dayGridMonth,timeGridWeek,timeGridDay",
+      }}
+      initialView="dayGridMonth"
+      slotMinTime='09:00:00'
+      slotMaxTime='21:00:00'
+      plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+      events={eventos.concat(appointments)}
+      eventClick={eventClick}
+      height={"auto"}
+      firstDay={1}
+    />
   );
 }
 
