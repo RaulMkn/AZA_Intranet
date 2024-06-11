@@ -72,7 +72,7 @@ Asegúrese de tener instalados los siguientes programas antes de comenzar:
 3. Modifique los archivos application.properties e hibernate.cfg.xml (elimine .mock del nombre) para la conexión a la base de datos.
 4. Compile y ejecute el proyecto desde IntelliJ IDEA.
 
-## Configuración del Frontend
+### Configuración del Frontend
 1. Abra la terminal y navegue hasta el directorio aza_intranet_front.
 2. Ejecute el comando `npm install` para instalar las dependencias del proyecto.
 3. Ejecute el comando `npm run dev` para iniciar el servidor de desarrollo.
