@@ -144,7 +144,7 @@ FROM generate_series(1, 50);
 
 -- Insertar datos de prueba en la tabla 'picture'
 INSERT INTO picture (img, img_name, img_type)
-SELECT NULL, -- Cambia 100000 al tamaño deseado de los bytes de la imagen
+SELECT NULL,
        'imagen' || generate_series || '.jpg',
        'image/jpeg'
 FROM generate_series(1, 50);
