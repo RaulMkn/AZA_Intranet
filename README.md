@@ -12,7 +12,7 @@ Intranet creada para la gestion interna de una clinica dental.
 
 ## Introducción
 
-Este proyecto es una aplicación de intranet desarrollada para los alumnos del MEDAC Fuenlabrada, que proporciona diferentes funcionalidades relacinadas con el mundo de la Odontología.
+Este proyecto es una aplicación de intranet desarrollada para los alumnos del MEDAC Fuenlabrada, que proporciona diferentes funcionalidades relacionadas con el mundo de la Odontología.
 
 ## Principales Tecnologías Utilizadas
 - Java JDK 17
