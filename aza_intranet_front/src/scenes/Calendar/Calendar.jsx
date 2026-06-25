@@ -6,6 +6,7 @@ import interactionPlugin from "@fullcalendar/interaction";
 import axios from "axios";
 import { checkPermissionsAndRedirect } from "../../utils/CheckPermissions";
 import Swal from "sweetalert2";
+import API_BASE_URL from "../../utils/api";
 
 function Calendar() {
   const dentistJson = localStorage.getItem("Dentist");
@@ -22,7 +23,7 @@ function Calendar() {
   useEffect(() => {
     if (dentistDto) {
       axios
-        .get(`http://localhost:8080/intranet/DentalAesthetics/appointments`)
+        .get(`${API_BASE_URL}/appointments`)
         .then((response) => {
           const formattedAppointments = response.data.map((evento) => ({
             title: evento.title,
@@ -41,7 +42,7 @@ function Calendar() {
         });
 
       axios
-        .get(`http://localhost:8080/intranet/DentalAesthetics/events`)
+        .get(`${API_BASE_URL}/events`)
         .then((response) => {
           const formattedEvents = response.data.map((evento) => ({
             title: evento.title,

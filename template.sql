@@ -125,18 +125,6 @@ CREATE TABLE appointments_interventions
 );
 
 -- DML --
--- Insertar datos de prueba en la tabla 'patient'
-INSERT INTO patient (address, date_of_birth, email, full_name, gender, nif, phone, dentist)
-SELECT 'Dirección ' || generate_series,
-       CURRENT_DATE - INTERVAL '20 years' * random(),
-       'paciente' || generate_series || '@example.com',
-       'Paciente ' || generate_series,
-       CASE WHEN random() < 0.5 THEN 'Male' ELSE 'Female' END,
-       'NIF' || generate_series,
-       600000000 + generate_series,
-       generate_series
-FROM generate_series(1, 50);
-
 -- Insertar datos de prueba en la tabla 'department'
 INSERT INTO department (department_name)
 SELECT 'Departamento ' || generate_series
@@ -148,7 +136,6 @@ SELECT NULL,
        'imagen' || generate_series || '.jpg',
        'image/jpeg'
 FROM generate_series(1, 50);
-
 
 -- Insertar datos de prueba en la tabla 'dentist'
 INSERT INTO dentist (address, date_of_birth, email, full_name, gender, job, nif, pass, department, picture)
@@ -162,6 +149,18 @@ SELECT 'Dirección ' || generate_series,
        'password' || generate_series,
        generate_series,
        generate_series
+FROM generate_series(1, 50);
+
+-- Insertar datos de prueba en la tabla 'patient'
+INSERT INTO patient (address, date_of_birth, email, full_name, gender, nif, phone, dentist)
+SELECT 'Dirección ' || generate_series,
+    CURRENT_DATE - INTERVAL '20 years' * random(),
+    'paciente' || generate_series || '@example.com',
+    'Paciente ' || generate_series,
+    CASE WHEN random() < 0.5 THEN 'Male' ELSE 'Female' END,
+    'NIF' || generate_series,
+    600000000 + generate_series,
+    generate_series
 FROM generate_series(1, 50);
 
 -- Insertar datos de prueba en la tabla 'payment'
@@ -197,11 +196,11 @@ FROM generate_series(1, 50);
 -- Insertar datos de prueba en la tabla 'event'
 INSERT INTO event (date_time_beginning, date_time_ending, description, location, title, dentist)
 SELECT CURRENT_TIMESTAMP + INTERVAL '1 day' * random(),
-       CURRENT_TIMESTAMP + INTERVAL '2 days' * random(),
-       'Descripción ' || generate_series,
-       'Ubicación ' || generate_series,
-       'Evento ' || generate_series,
-       generate_series
+    CURRENT_TIMESTAMP + INTERVAL '2 days' * random(),
+    'Descripción ' || generate_series,
+    'Ubicación ' || generate_series,
+    'Evento ' || generate_series,
+    generate_series
 FROM generate_series(1, 50);
 
 -- Insertar datos de prueba en la tabla 'intervention'

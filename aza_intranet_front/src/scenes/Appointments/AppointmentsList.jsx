@@ -9,6 +9,7 @@ import {
   //CloseOutlined
 } from "@ant-design/icons";
 import { checkPermissionsAndRedirect } from "../../utils/CheckPermissions";
+import API_BASE_URL from "../../utils/api";
 
 export const TableAxios = () => {
   var dentistJson = localStorage.getItem("Dentist");
@@ -35,7 +36,7 @@ export const TableAxios = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/intranet/DentalAesthetics/appointment/dentistId/${dentistDto.id}`,
+        `${API_BASE_URL}/appointment/dentistId/${dentistDto.id}`,
         {
           withCredentials: true,
           headers: {
@@ -179,7 +180,7 @@ export const TableAxios = () => {
   const handleButtonClick = async (id) => {
     try {
       await axios.delete(
-        `http://localhost:8080/intranet/DentalAesthetics/appointment/id/${id}`,
+        `${API_BASE_URL}/appointment/id/${id}`,
         {
           withCredentials: true,
           headers: {

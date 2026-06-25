@@ -5,6 +5,7 @@ import DepartmentsDropdown from "../../utils/DepartmentsDropdown";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { checkAdminPermissionsAndRedirect } from "../../utils/CheckPermissions";
+import API_BASE_URL from "../../utils/api";
 
 const CreateDentist = () => {
   const [form] = Form.useForm();
@@ -74,7 +75,7 @@ const CreateDentist = () => {
       }
 
       await axios.post(
-        "http://localhost:8080/intranet/DentalAesthetics/dentist",
+        `${API_BASE_URL}/dentist`,
         formData,
         {
           withCredentials: true,

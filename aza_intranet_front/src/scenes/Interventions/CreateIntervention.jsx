@@ -5,6 +5,7 @@ import InterventionDto from "../../DTOs/InterventionDto";
 import axios from "axios";
 import { checkAdminPermissionsAndRedirect } from "../../utils/CheckPermissions";
 import { useEffect } from "react";
+import API_BASE_URL from "../../utils/api";
 
 const CreateIntervention = () => {
   useEffect(() => {
@@ -29,7 +30,7 @@ const CreateIntervention = () => {
       console.log(interventionDto);
 
       await axios.post(
-        "http://localhost:8080/intranet/DentalAesthetics/intervention",
+        `${API_BASE_URL}/intervention`,
         formData,
         {
           withCredentials: true,

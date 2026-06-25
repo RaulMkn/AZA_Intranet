@@ -6,6 +6,7 @@ import { checkPermissionsAndRedirect } from "../../utils/CheckPermissions";
 import Swal from "sweetalert2";
 import MUIDataTable from "mui-datatables";
 import { DeleteOutlined } from "@ant-design/icons";
+import API_BASE_URL from "../../utils/api";
 
 export const TableAxios = () => {
   const dentistJson = localStorage.getItem("Dentist");
@@ -43,7 +44,7 @@ export const TableAxios = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/intranet/DentalAesthetics/event/dentistId/${dentistDto.id}`,
+        `${API_BASE_URL}/event/dentistId/${dentistDto.id}`,
         {
           withCredentials: true,
           headers: {
@@ -69,7 +70,7 @@ export const TableAxios = () => {
   const handleDeleteClick = async (id) => {
     try {
       await axios.delete(
-        `http://localhost:8080/intranet/DentalAesthetics/event/id/${id}`,
+        `${API_BASE_URL}/event/id/${id}`,
         {
           withCredentials: true,
           headers: {

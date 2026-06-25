@@ -8,6 +8,7 @@ import InterventionsDropdown from "../../utils/InterventionsDropdown";
 import AppointmentDto from "../../DTOs/AppointmentDto";
 import { checkPermissionsAndRedirect } from "../../utils/CheckPermissions";
 import { useEffect } from "react";
+import API_BASE_URL from "../../utils/api";
 
 const { Option } = Select;
 
@@ -75,7 +76,7 @@ const CreateAppointmentPage = () => {
 
       const formData = AppointmentDto.toFormData(appointmentDto);
       const response = await axios.post(
-        "http://localhost:8080/intranet/DentalAesthetics/appointment",
+        `${API_BASE_URL}/appointment`,
         formData,
         {
           withCredentials: true,

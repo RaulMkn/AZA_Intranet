@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import { DeleteOutlined } from "@ant-design/icons";
 import { checkAdminPermissionsAndRedirect } from "../../utils/CheckPermissions";
+import API_BASE_URL from "../../utils/api";
 
 export const TableAxios = () => {
   var dentistJson = localStorage.getItem("Dentist");
@@ -18,7 +19,7 @@ export const TableAxios = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8080/intranet/DentalAesthetics/interventions",
+        `${API_BASE_URL}/interventions`,
         {
           withCredentials: true,
           headers: {
@@ -103,7 +104,7 @@ export const TableAxios = () => {
   const handleButtonClick = async (id) => {
     try {
       await axios.delete(
-        `http://localhost:8080/intranet/DentalAesthetics/intervention/id/${id}`,
+        `${API_BASE_URL}/intervention/id/${id}`,
         {
           withCredentials: true,
           headers: {

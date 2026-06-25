@@ -4,6 +4,7 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import "./LoginForm.css";
 import LoginDto from "../../DTOs/LoginDto";
+import API_BASE_URL from "../../utils/api";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
@@ -19,7 +20,7 @@ const LoginForm = () => {
       console.log(formData);
 
       const response = await axios.post(
-        "http://localhost:8080/intranet/DentalAesthetics/login",
+        `${API_BASE_URL}/login`,
         formData,
         {
           withCredentials: true,

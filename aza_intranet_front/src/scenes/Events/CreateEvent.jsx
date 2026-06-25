@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 import EventDto from "../../DTOs/EventDto";
 import { checkPermissionsAndRedirect } from "../../utils/CheckPermissions";
 import { useEffect } from "react";
+import API_BASE_URL from "../../utils/api";
 
 const CreateEventPage = () => {
   const [form] = Form.useForm();
@@ -39,7 +40,7 @@ const CreateEventPage = () => {
 
       const formData = EventDto.toFormData(eventDto);
       await axios.post(
-        "http://localhost:8080/intranet/DentalAesthetics/event",
+        `${API_BASE_URL}/event`,
         formData,
         {
           withCredentials: true,

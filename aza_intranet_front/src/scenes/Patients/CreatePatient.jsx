@@ -5,6 +5,7 @@ import PatientDto from "../../DTOs/PatientDto";
 import axios from "axios";
 import { checkPermissionsAndRedirect } from "../../utils/CheckPermissions";
 import { useEffect } from "react";
+import API_BASE_URL from "../../utils/api";
 
 const CreatePatient = () => {
   var dentistJson = localStorage.getItem("Dentist");
@@ -47,7 +48,7 @@ const CreatePatient = () => {
       console.log(patientDto);
 
       await axios.post(
-        "http://localhost:8080/intranet/DentalAesthetics/patient",
+        `${API_BASE_URL}/patient`,
         formData,
         {
           withCredentials: true,

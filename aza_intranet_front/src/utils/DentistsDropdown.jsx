@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Select } from "antd";
 import axios from "axios";
 import PropTypes from "prop-types";
+import API_BASE_URL from "./api";
 
 const { Option } = Select;
 
@@ -21,12 +22,12 @@ const DentistDropDown = ({ onSelect }) => {
       try {
         // Realiza la solicitud GET a la URL de la API
         const response = await axios.get(
-          "http://localhost:8080/intranet/DentalAesthetics/dentists",
+          `${API_BASE_URL}/dentists`,
           {
             withCredentials: true, // Utiliza credenciales de autenticación
             headers: {
               "Content-Type": "application/json",
-              Authorization: "Basic " + btoa("maken:yuki"), // Agrega encabezados necesarios
+              Authorization: "Basic " + btoa(import.meta.env.VITE_DATABASE_AUTH), // Agrega encabezados necesarios
             },
             crossdomain: true, // Permite solicitudes a diferentes dominios
           }

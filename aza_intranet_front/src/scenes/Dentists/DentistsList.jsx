@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { checkAdminPermissionsAndRedirect } from "../../utils/CheckPermissions";
 import { DeleteOutlined } from "@ant-design/icons";
 import { Avatar } from 'antd';
+import API_BASE_URL from "../../utils/api";
 
 
 export const TableAxios = () => {
@@ -22,7 +23,7 @@ export const TableAxios = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8080/intranet/DentalAesthetics/dentists",
+        `${API_BASE_URL}/dentists`,
         {
           withCredentials: true,
           headers: {
@@ -150,7 +151,7 @@ export const TableAxios = () => {
   const handleButtonClick = async (id) => {
     try {
       await axios.delete(
-        `http://localhost:8080/intranet/DentalAesthetics/dentist/id/${id}`,
+        `${API_BASE_URL}/dentist/id/${id}`,
         {
           withCredentials: true,
           headers: {

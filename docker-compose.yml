@@ -1,0 +1,52 @@
+services:
+  db:
+    image: postgres:17-alpine
+    container_name: aza_intranet_db
+    environment:
+      POSTGRES_DB: aza_intranet
+      POSTGRES_USER: aza
+      POSTGRES_PASSWORD: aza
+    volumes:
+      - aza_intranet_db_data:/var/lib/postgresql/data
+      - ./template.sql:/docker-entrypoint-initdb.d/01-template.sql:ro
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U aza -d aza_intranet"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./aza_intranet_back
+    container_name: aza_intranet_backend
+    environment:
+      SERVER_PORT: 8080
+      DB_URL: jdbc:postgresql://db:5432/aza_intranet
+      DB_USERNAME: aza
+      DB_PASSWORD: aza
+      APP_USER: maken
+      APP_PASSWORD: yuki
+      APP_CORS_ORIGIN: http://localhost:5173
+      RESEND_API_KEY: ""
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./aza_intranet_front
+      args:
+        VITE_API_BASE_URL: /intranet/DentalAesthetics
+        VITE_DATABASE_AUTH: maken:yuki
+    container_name: aza_intranet_frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
+volumes:
+  aza_intranet_db_data:

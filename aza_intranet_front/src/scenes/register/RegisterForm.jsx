@@ -4,6 +4,7 @@ import { FaUser, FaLock } from "react-icons/fa";
 import { IoIosMail } from "react-icons/io";
 import axios from "axios";
 import Swal from "sweetalert2";
+import API_BASE_URL from "../../utils/api";
 
 const RegisterForm = () => {
   const [nombre, setNombre] = useState("");
@@ -27,7 +28,7 @@ const RegisterForm = () => {
       });
 
       const response = await axios.post(
-        "http://localhost:8080/intranet/DentalAesthetics/dentist",
+        `${API_BASE_URL}/dentist`,
         formData,
         {
           withCredentials: true,

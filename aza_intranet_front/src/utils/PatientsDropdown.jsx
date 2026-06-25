@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Select } from "antd";
 import axios from "axios";
 import PropTypes from "prop-types";
+import API_BASE_URL from "./api";
 
 const { Option } = Select;
 
@@ -17,12 +18,12 @@ const PatientDropdown = ({ onSelect }) => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8080/intranet/DentalAesthetics/patients",
+          `${API_BASE_URL}/patients`,
           {
             withCredentials: true,
             headers: {
               "Content-Type": "application/json",
-              Authorization: "Basic " + btoa("maken:yuki"),
+              Authorization: "Basic " + btoa(import.meta.env.VITE_DATABASE_AUTH),
             },
             crossdomain: true,
           }
