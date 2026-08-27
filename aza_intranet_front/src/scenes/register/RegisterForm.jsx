@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./RegisterForm.css";
 import { FaUser, FaLock } from "react-icons/fa";
 import { IoIosMail } from "react-icons/io";
@@ -7,6 +8,7 @@ import Swal from "sweetalert2";
 import API_BASE_URL from "../../utils/api";
 
 const RegisterForm = () => {
+  const navigate = useNavigate();
   const [nombre, setNombre] = useState("");
   const [email, setEmail] = useState("");
   const [contrasena, setContrasena] = useState("");
@@ -22,32 +24,22 @@ const RegisterForm = () => {
       formData.append("name", nombre);
       formData.append("email", email);
       formData.append("pass", contrasena);
-      console.log("Contenido del FormData:");
-      formData.forEach((value, key) => {
-        console.log(key, value);
-      });
 
-      const response = await axios.post(
+      await axios.post(
         `${API_BASE_URL}/dentist`,
         formData,
         {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: "Basic " + btoa(import.meta.env.VITE_DATABASE_AUTH),
-          },
-          crossdomain: true,
+          headers: { "Content-Type": "multipart/form-data" },
         }
       );
 
-      console.log("Respuesta del servidor:", response.data);
       Swal.fire({
         title: "Registro Exitoso!",
         text: "Pongase en contacto con su supervisor para que valide su cuenta.",
         icon: "success",
       });
       setTimeout(() => {
-        window.location.href = "/login";
+        navigate("/login");
       }, 2000);
     } catch (error) {
       console.error("Error al enviar datos al servidor:", error);

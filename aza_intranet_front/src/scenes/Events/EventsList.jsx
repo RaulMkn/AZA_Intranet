@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@mui/material";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { checkPermissionsAndRedirect } from "../../utils/CheckPermissions";
 import Swal from "sweetalert2";
 import MUIDataTable from "mui-datatables";
@@ -9,12 +9,13 @@ import { DeleteOutlined } from "@ant-design/icons";
 import API_BASE_URL from "../../utils/api";
 
 export const TableAxios = () => {
+  const navigate = useNavigate();
   const dentistJson = localStorage.getItem("Dentist");
   const dentistDto = JSON.parse(dentistJson);
 
   useEffect(() => {
-    checkPermissionsAndRedirect(dentistDto);
-  });
+    checkPermissionsAndRedirect(dentistDto, navigate);
+  }, []);
 
   const [events, setEvents] = useState([]);
 
@@ -44,19 +45,10 @@ export const TableAxios = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get(
-        `${API_BASE_URL}/event/dentistId/${dentistDto.id}`,
-        {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Basic " + btoa(import.meta.env.VITE_DATABASE_AUTH),
-          },
-          crossdomain: true,
-        }
+        `${API_BASE_URL}/event/dentistId/${dentistDto.id}`
       );
 
       setEvents(response.data);
-      console.log(response.data);
     } catch (error) {
       console.error("Error al obtener los eventos:", error);
     }
@@ -69,17 +61,7 @@ export const TableAxios = () => {
 
   const handleDeleteClick = async (id) => {
     try {
-      await axios.delete(
-        `${API_BASE_URL}/event/id/${id}`,
-        {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Basic " + btoa(import.meta.env.VITE_DATABASE_AUTH),
-          },
-          crossdomain: true,
-        }
-      );
+      await axios.delete(`${API_BASE_URL}/event/id/${id}`);
       Swal.fire({
         title: "Evento eliminado con éxito!",
         icon: "success",
@@ -95,7 +77,7 @@ export const TableAxios = () => {
       });
 
       setTimeout(() => {
-        window.location.reload();
+        navigate(0);
       }, 4000);
     }
   };

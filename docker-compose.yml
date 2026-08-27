@@ -28,7 +28,7 @@ services:
       DB_PASSWORD: aza
       APP_USER: maken
       APP_PASSWORD: yuki
-      APP_CORS_ORIGIN: http://localhost:5173
+      APP_CORS_ORIGIN: http://localhost
       RESEND_API_KEY: ""
     ports:
       - "8080:8080"

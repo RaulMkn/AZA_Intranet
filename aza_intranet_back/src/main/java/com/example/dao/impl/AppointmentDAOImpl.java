@@ -3,54 +3,42 @@ package com.example.dao.impl;
 import com.example.dao.AppointmentDAO;
 import com.example.entity.AppointmentEntity;
 import com.example.entity.DentistEntity;
-import org.hibernate.Session;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Component
+@Repository
 public class AppointmentDAOImpl implements AppointmentDAO {
-    @Transactional
+
+    @PersistenceContext
+    private EntityManager entityManager;
+
     @Override
-    public List<AppointmentEntity> getAllAppointmentsFromDatabase(Session session) {
-        String hql = "SELECT ap FROM AppointmentEntity ap WHERE ap.deleted != 1";
-        return session.createQuery(hql, AppointmentEntity.class).list();
+    public List<AppointmentEntity> getAllAppointmentsFromDatabase() {
+        return entityManager.createQuery("SELECT ap FROM AppointmentEntity ap WHERE ap.deleted != 1", AppointmentEntity.class).getResultList();
     }
 
-    @Transactional
     @Override
-    public AppointmentEntity getAppointmentFromDatabaseById(Session session, int id) {
-        String hql = "SELECT ap FROM AppointmentEntity ap WHERE ap.id = :id";
-        return session.createQuery(hql, AppointmentEntity.class).setParameter("id", id).uniqueResult();
+    public AppointmentEntity getAppointmentFromDatabaseById(int id) {
+        return entityManager.createQuery("SELECT ap FROM AppointmentEntity ap WHERE ap.id = :id", AppointmentEntity.class)
+                .setParameter("id", id).getResultStream().findFirst().orElse(null);
     }
 
-    @Transactional
     @Override
-    public boolean persistAppointmentToDatabase(AppointmentEntity appointmentAttached, Session session) {
-        try {
-            session.persist(appointmentAttached);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+    public void persistAppointmentToDatabase(AppointmentEntity appointment) {
+        entityManager.persist(appointment);
     }
 
-    @Transactional
     @Override
-    public List<AppointmentEntity> getAppointmentFromDatabaseByDentistId(Session session, DentistEntity id) {
-        String hql = "SELECT ap FROM AppointmentEntity ap WHERE ap.dentist = :id";
-        return session.createQuery(hql, AppointmentEntity.class).setParameter("id", id).list();
+    public List<AppointmentEntity> getAppointmentFromDatabaseByDentistId(DentistEntity dentist) {
+        return entityManager.createQuery("SELECT ap FROM AppointmentEntity ap WHERE ap.dentist = :dentist", AppointmentEntity.class)
+                .setParameter("dentist", dentist).getResultList();
     }
 
-    @Transactional
     @Override
-    public boolean deleteAppointmentFromDatabase(Session session, AppointmentEntity appointment) {
-        try {
-            session.remove(appointment);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+    public void deleteAppointmentFromDatabase(AppointmentEntity appointment) {
+        entityManager.remove(entityManager.contains(appointment) ? appointment : entityManager.merge(appointment));
     }
 }

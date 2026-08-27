@@ -2,18 +2,17 @@ package com.example.dao;
 
 import com.example.entity.DentistEntity;
 import com.example.entity.EventEntity;
-import org.hibernate.Session;
 
 import java.util.List;
 
 public interface EventDAO {
-    List<EventEntity> getEventsFromDatabase(Session session);
+    List<EventEntity> getEventsFromDatabase();
 
-    EventEntity getEventsFromDatabaseById(Session session, Integer id);
+    EventEntity getEventsFromDatabaseById(Integer id);
 
-    boolean persistEventToDatabase(EventEntity eventAttached, Session session);
+    void persistEventToDatabase(EventEntity event);
 
-    boolean deleteEventFromDatabase(Session session, EventEntity event);
+    void deleteEventFromDatabase(EventEntity event);
 
-    List<EventEntity> getEventsFromDatabaseByDentistId(Session session, DentistEntity dentist);
+    List<EventEntity> getEventsFromDatabaseByDentistId(DentistEntity dentist);
 }

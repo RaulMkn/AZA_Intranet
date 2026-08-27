@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+
+# Build output
+aza_intranet_front/dist/
+aza_intranet_back/target/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# Environment
+.env
+*.env.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

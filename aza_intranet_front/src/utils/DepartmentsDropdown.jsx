@@ -17,17 +17,7 @@ const DepartmentDropdown = ({ onSelect }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `${API_BASE_URL}/departments`,
-          {
-            withCredentials: true,
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: "Basic " + btoa(import.meta.env.VITE_DATABASE_AUTH),
-            },
-            crossdomain: true,
-          }
-        );
+        const response = await axios.get(`${API_BASE_URL}/departments`);
         setDepartments(response.data);
       } catch (error) {
         console.error("Error al obtener datos de usuarios:", error);

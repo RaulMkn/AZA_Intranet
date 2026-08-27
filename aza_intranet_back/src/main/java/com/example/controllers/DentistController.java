@@ -1,6 +1,5 @@
 package com.example.controllers;
 
-import com.example.dto.AppointmentDto;
 import com.example.dto.LoginDto;
 import com.example.dto.DentistDto;
 import com.example.entity.DentistEntity;
@@ -11,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,9 +21,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Controller
+@RestController
 @RequestMapping("/intranet/DentalAesthetics")
-@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true", allowedHeaders = "*", methods = {RequestMethod.POST, RequestMethod.PUT, RequestMethod.GET, RequestMethod.DELETE})
 public class DentistController {
     @Autowired
     private DentistService dentistService;
@@ -87,7 +84,7 @@ public class DentistController {
         entity.setAddress(address);
         entity.setNif(nif);
 
-        String dateFormat = "yyyy-MM-DD";
+        String dateFormat = "yyyy-MM-dd";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat);
         Date date = simpleDateFormat.parse(date_of_birth);
         entity.setDate_of_birth(date);
@@ -114,11 +111,11 @@ public class DentistController {
     }
 
     @DeleteMapping(path = "/dentist/id/{id}")
-    public ResponseEntity<AppointmentDto> deleteAppointment(
+    public ResponseEntity<Void> deleteDentist(
             @PathVariable("id") int id
     ) {
-        boolean appointment = dentistService.deleteUser(id);
-        if (appointment) {
+        boolean deleted = dentistService.deleteUser(id);
+        if (deleted) {
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.notFound().build();

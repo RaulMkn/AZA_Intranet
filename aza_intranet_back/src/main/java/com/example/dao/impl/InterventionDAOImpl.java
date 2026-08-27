@@ -2,47 +2,36 @@ package com.example.dao.impl;
 
 import com.example.dao.InterventionDAO;
 import com.example.entity.InterventionEntity;
-import org.hibernate.Session;
-import org.hibernate.validator.constraints.CodePointLength;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Component
+@Repository
 public class InterventionDAOImpl implements InterventionDAO {
-    @Transactional
-    @Override
-    public InterventionEntity getInterventionFromDatabaseById(Session session, Integer id) {
-        String hql = "SELECT itv FROM InterventionEntity itv WHERE itv.id =:id";
-        return session.createQuery(hql, InterventionEntity.class).setParameter("id", id).uniqueResult();
-    }
 
-    @Transactional
-    @Override
-    public List<InterventionEntity> getInterventionsFromDatabase(Session session) {
-        String hql = "SELECT itv FROM InterventionEntity itv WHERE itv.deleted != 1";
-        return session.createQuery(hql, InterventionEntity.class).list();
-    }
+    @PersistenceContext
+    private EntityManager entityManager;
 
-    @Transactional
     @Override
-    public boolean persistInterventionToDatabase(InterventionEntity intervention, Session session) {
-        try {
-            session.persist(intervention);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+    public InterventionEntity getInterventionFromDatabaseById(Integer id) {
+        return entityManager.createQuery("SELECT itv FROM InterventionEntity itv WHERE itv.id = :id", InterventionEntity.class)
+                .setParameter("id", id).getResultStream().findFirst().orElse(null);
     }
 
     @Override
-    public boolean deleteInterventionFromDatabase(Session session, InterventionEntity intervention) {
-        try{
-            session.remove(intervention);
-            return true;
-        }catch (Exception e){
-            return false;
-        }
+    public List<InterventionEntity> getInterventionsFromDatabase() {
+        return entityManager.createQuery("SELECT itv FROM InterventionEntity itv WHERE itv.deleted != 1", InterventionEntity.class).getResultList();
+    }
+
+    @Override
+    public void persistInterventionToDatabase(InterventionEntity intervention) {
+        entityManager.persist(intervention);
+    }
+
+    @Override
+    public void deleteInterventionFromDatabase(InterventionEntity intervention) {
+        entityManager.remove(entityManager.contains(intervention) ? intervention : entityManager.merge(intervention));
     }
 }

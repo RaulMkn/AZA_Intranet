@@ -8,17 +8,19 @@ import InterventionsDropdown from "../../utils/InterventionsDropdown";
 import AppointmentDto from "../../DTOs/AppointmentDto";
 import { checkPermissionsAndRedirect } from "../../utils/CheckPermissions";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import API_BASE_URL from "../../utils/api";
 
 const { Option } = Select;
 
 const CreateAppointmentPage = () => {
+  const navigate = useNavigate();
   const [form] = Form.useForm();
-  var dentistJson = localStorage.getItem("Dentist");
-  var dentistDto = JSON.parse(dentistJson);
+  const dentistJson = localStorage.getItem("Dentist");
+  const dentistDto = JSON.parse(dentistJson);
   useEffect(() => {
-    checkPermissionsAndRedirect(dentistDto);
-  },);
+    checkPermissionsAndRedirect(dentistDto, navigate);
+  }, []);
   
   const handleDepartmentSelected = (departmentId) => {
     form.setFieldsValue({ department: departmentId });
@@ -75,28 +77,14 @@ const CreateAppointmentPage = () => {
       );
 
       const formData = AppointmentDto.toFormData(appointmentDto);
-      const response = await axios.post(
-        `${API_BASE_URL}/appointment`,
-        formData,
-        {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Basic " + btoa(import.meta.env.VITE_DATABASE_AUTH),
-          },
-          crossdomain: true,
-        }
-      );
-
-      const patientInfo = response.data.patient;
-      console.log(patientInfo);
+      await axios.post(`${API_BASE_URL}/appointment`, formData);
       
       Swal.fire({
         title: "Cita creada con éxito!",
         icon: "success",
       });
       setTimeout(() => {
-        window.location.href = "/appointments";
+        navigate("/appointments");
       }, 4000);
     } catch (error) {
       console.error("Error al enviar datos al servidor:", error);
@@ -108,7 +96,7 @@ const CreateAppointmentPage = () => {
       });
 
       setTimeout(() => {
-        window.location.reload();
+        navigate(0);
       }, 4000);
     }
   };

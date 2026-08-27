@@ -2,33 +2,24 @@ import { useState, useEffect } from "react";
 import MUIDataTable from "mui-datatables";
 import axios from "axios";
 import Button from "@mui/material/Button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { DeleteOutlined } from "@ant-design/icons";
 import { checkAdminPermissionsAndRedirect } from "../../utils/CheckPermissions";
 import API_BASE_URL from "../../utils/api";
 
 export const TableAxios = () => {
-  var dentistJson = localStorage.getItem("Dentist");
-  var dentistDto = JSON.parse(dentistJson);
+  const navigate = useNavigate();
+  const dentistJson = localStorage.getItem("Dentist");
+  const dentistDto = JSON.parse(dentistJson);
   useEffect(() => {
-    checkAdminPermissionsAndRedirect(dentistDto);
-  });
+    checkAdminPermissionsAndRedirect(dentistDto, navigate);
+  }, []);
   const [intervention, setIntervention] = useState([]);
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(
-        `${API_BASE_URL}/interventions`,
-        {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Basic " + btoa(import.meta.env.VITE_DATABASE_AUTH),
-          },
-          crossdomain: true,
-        }
-      );
+      const response = await axios.get(`${API_BASE_URL}/interventions`);
       setIntervention(response.data);
     } catch (error) {
       console.error("Error al obtener datos de usuarios:", error);
@@ -103,17 +94,7 @@ export const TableAxios = () => {
 
   const handleButtonClick = async (id) => {
     try {
-      await axios.delete(
-        `${API_BASE_URL}/intervention/id/${id}`,
-        {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Basic " + btoa(import.meta.env.VITE_DATABASE_AUTH),
-          },
-          crossdomain: true,
-        }
-      );
+      await axios.delete(`${API_BASE_URL}/intervention/id/${id}`);
 
       Swal.fire({
         title: "Intervencion eliminada con éxito!",
@@ -130,7 +111,7 @@ export const TableAxios = () => {
       });
 
       setTimeout(() => {
-        window.location.reload();
+        navigate(0);
       }, 3000);
     }
   };

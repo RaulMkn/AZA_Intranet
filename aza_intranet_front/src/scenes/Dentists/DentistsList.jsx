@@ -3,7 +3,7 @@ import MUIDataTable from "mui-datatables";
 import axios from "axios";
 import Button from "@mui/material/Button";
 import Swal from "sweetalert2";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { checkAdminPermissionsAndRedirect } from "../../utils/CheckPermissions";
 import { DeleteOutlined } from "@ant-design/icons";
 import { Avatar } from 'antd';
@@ -11,29 +11,19 @@ import API_BASE_URL from "../../utils/api";
 
 
 export const TableAxios = () => {
-  var dentistJson = localStorage.getItem("Dentist");
-  var dentistDto = JSON.parse(dentistJson);
+  const navigate = useNavigate();
+  const dentistJson = localStorage.getItem("Dentist");
+  const dentistDto = JSON.parse(dentistJson);
 
   useEffect(() => {
-    checkAdminPermissionsAndRedirect(dentistDto);
-  });
+    checkAdminPermissionsAndRedirect(dentistDto, navigate);
+  }, []);
 
   const [dentist, setDentist] = useState([]);
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(
-        `${API_BASE_URL}/dentists`,
-        {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Basic " + btoa(import.meta.env.VITE_DATABASE_AUTH),
-          },
-          crossdomain: true,
-        }
-      );
-      console.log(response.data);
+      const response = await axios.get(`${API_BASE_URL}/dentists`);
       const dentists = response.data;
       setDentist(dentists);
     } catch (error) {
@@ -150,17 +140,7 @@ export const TableAxios = () => {
 
   const handleButtonClick = async (id) => {
     try {
-      await axios.delete(
-        `${API_BASE_URL}/dentist/id/${id}`,
-        {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Basic " + btoa(import.meta.env.VITE_DATABASE_AUTH),
-          },
-          crossdomain: true,
-        }
-      );
+      await axios.delete(`${API_BASE_URL}/dentist/id/${id}`);
 
       Swal.fire({
         title: "Usuario eliminado con éxito!",
@@ -177,7 +157,7 @@ export const TableAxios = () => {
       });
 
       setTimeout(() => {
-        window.location.reload();
+        navigate(0);
       }, 4000);
     }
   };

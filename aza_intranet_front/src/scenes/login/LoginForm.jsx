@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { FaUser, FaLock } from "react-icons/fa";
 import Swal from "sweetalert2";
 import axios from "axios";
@@ -7,6 +8,7 @@ import LoginDto from "../../DTOs/LoginDto";
 import API_BASE_URL from "../../utils/api";
 
 const LoginForm = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
 
@@ -17,37 +19,22 @@ const LoginForm = () => {
 
     try {
       const formData = LoginDto.toFormData(loginDto);
-      console.log(formData);
 
-      const response = await axios.post(
-        `${API_BASE_URL}/login`,
-        formData,
-        {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Basic " + btoa(import.meta.env.VITE_DATABASE_AUTH),
-          },
-          crossdomain: true,
-        }
-      );
+      const response = await axios.post(`${API_BASE_URL}/login`, formData);
       Swal.fire({
         title: "Inicio de sesión exitoso!",
         icon: "success",
       }).then(() => {
-        console.log("Respuesta del servidor:", response.data);
-
         // Suponiendo que response.data contiene el DentistDto devuelto por la petición
-        var dentistDto = response.data;
+        const dentistDto = response.data;
 
         // Convertir el DentistDto a cadena JSON
-        var dentistJson = JSON.stringify(dentistDto);
-        console.log(response.data);
+        const dentistJson = JSON.stringify(dentistDto);
 
         // Guardar la cadena JSON en el localStorage
         localStorage.setItem("Dentist", dentistJson);
 
-        window.location.href = "/home"; // Redirigir a la página de inicio
+        navigate("/home"); // Redirigir a la página de inicio
       });
     } catch (error) {
       console.error("Error al iniciar sesión:", error);

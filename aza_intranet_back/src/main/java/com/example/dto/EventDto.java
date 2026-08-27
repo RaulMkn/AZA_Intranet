@@ -1,8 +1,6 @@
 package com.example.dto;
 
 import com.example.dto.fakes.FakeDentistDto;
-import com.example.entity.DentistEntity;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

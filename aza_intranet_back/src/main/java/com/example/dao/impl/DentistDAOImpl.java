@@ -2,65 +2,47 @@ package com.example.dao.impl;
 
 import com.example.dao.DentistDAO;
 import com.example.entity.DentistEntity;
-import org.hibernate.Session;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Component
+@Repository
 public class DentistDAOImpl implements DentistDAO {
-    @Transactional
+
+    @PersistenceContext
+    private EntityManager entityManager;
+
     @Override
-    public List<DentistEntity> getAllUsersFromDatabase(Session session) {
-        String hql ="SELECT us FROM DentistEntity us WHERE us.deleted != 1";
-        return session.createQuery(hql, DentistEntity.class).list();
+    public List<DentistEntity> getAllUsersFromDatabase() {
+        return entityManager.createQuery("SELECT us FROM DentistEntity us WHERE us.deleted != 1", DentistEntity.class).getResultList();
     }
 
-    @Transactional
     @Override
-    public DentistEntity getUserFromDatabaseById(Session session, int id) {
-        String hql = "SELECT us FROM DentistEntity us WHERE us.id = :id";
-        return session.createQuery(hql, DentistEntity.class).setParameter("id", id).uniqueResult();
+    public DentistEntity getUserFromDatabaseById(int id) {
+        return entityManager.createQuery("SELECT us FROM DentistEntity us WHERE us.id = :id", DentistEntity.class)
+                .setParameter("id", id).getResultStream().findFirst().orElse(null);
     }
 
-    @Transactional
     @Override
-    public boolean persistUserToDatabase(DentistEntity userAttached, Session session) {
-        try{
-            session.persist(userAttached);
-            return true;
-        }catch (Exception e){
-            return false;
-        }
-    }
-    @Transactional
-    @Override
-    public boolean updateUserInfo(DentistEntity user, Session session) {
-        try{
-            session.merge(user);
-            session.getTransaction().commit();
-            return true;
-        }catch (Exception e){
-            return false;
-        }
-    }
-    @Transactional
-    @Override
-    public boolean deleteUserFromDatabase(Session session, DentistEntity user) {
-        try{
-            session.remove(user);
-            return true;
-        }
-        catch (Exception e){
-            return false;
-        }
+    public void persistUserToDatabase(DentistEntity user) {
+        entityManager.persist(user);
     }
 
-    @Transactional
     @Override
-    public DentistEntity getUserFromDatabaseByEmail(Session session, String mail) {
-        String hql = "SELECT us FROM DentistEntity us WHERE us.email = :mail";
-        return session.createQuery(hql, DentistEntity.class).setParameter("mail",mail).uniqueResult();
+    public void updateUserInfo(DentistEntity user) {
+        entityManager.merge(user);
+    }
+
+    @Override
+    public void deleteUserFromDatabase(DentistEntity user) {
+        entityManager.remove(entityManager.contains(user) ? user : entityManager.merge(user));
+    }
+
+    @Override
+    public DentistEntity getUserFromDatabaseByEmail(String email) {
+        return entityManager.createQuery("SELECT us FROM DentistEntity us WHERE us.email = :mail", DentistEntity.class)
+                .setParameter("mail", email).getResultStream().findFirst().orElse(null);
     }
 }

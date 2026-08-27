@@ -2,50 +2,42 @@ package com.example.dao.impl;
 
 import com.example.dao.DepartmentDAO;
 import com.example.entity.DepartmentEntity;
-import org.hibernate.Session;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
-@Component
+
+@Repository
 public class DepartmentDAOImpl implements DepartmentDAO {
-    @Transactional
-    @Override
-    public List<DepartmentEntity> getAllDepartmentsFromDatabase(Session session) {
-        String hql = "SELECT dp FROM DepartmentEntity dp WHERE dp.deleted != 1";
-        return session.createQuery(hql, DepartmentEntity.class).list();
-    }
-    @Transactional
-    @Override
-    public DepartmentEntity getAllDepartmentsFromDatabaseById(Session session, int id) {
-        String hql = "SELECT dp FROM DepartmentEntity dp WHERE id = :id";
-        return session.createQuery(hql, DepartmentEntity.class).setParameter("id", id).uniqueResult();
 
-    }
-    @Transactional
+    @PersistenceContext
+    private EntityManager entityManager;
+
     @Override
-    public boolean persistDepartmentToDatabase(DepartmentEntity departmentAttached, Session session) {
-        try{
-            session.persist(departmentAttached);
-            return true;
-        }catch (Exception e){
-            return false;
-        }
+    public List<DepartmentEntity> getAllDepartmentsFromDatabase() {
+        return entityManager.createQuery("SELECT dp FROM DepartmentEntity dp WHERE dp.deleted != 1", DepartmentEntity.class).getResultList();
     }
 
     @Override
-    public DepartmentEntity getDepartmentPartialInfoFromDatabase(Session session, Integer id) {
-        String hql = "SELECT dp.department_name FROM DepartmentEntity dp WHERE dp.id = :id";
-        return session.createQuery(hql, DepartmentEntity.class).setParameter("id", id).uniqueResult();
-
+    public DepartmentEntity getAllDepartmentsFromDatabaseById(int id) {
+        return entityManager.createQuery("SELECT dp FROM DepartmentEntity dp WHERE dp.id = :id", DepartmentEntity.class)
+                .setParameter("id", id).getResultStream().findFirst().orElse(null);
     }
 
     @Override
-    public boolean removeDepartmentFromDatabase(Session session, DepartmentEntity department) {
-        try{
-            session.remove(department);
-            return true;
-        }catch (Exception e){
-            return false;
-        }    }
+    public void persistDepartmentToDatabase(DepartmentEntity department) {
+        entityManager.persist(department);
+    }
+
+    @Override
+    public DepartmentEntity getDepartmentPartialInfoFromDatabase(Integer id) {
+        return entityManager.createQuery("SELECT dp FROM DepartmentEntity dp WHERE dp.id = :id", DepartmentEntity.class)
+                .setParameter("id", id).getResultStream().findFirst().orElse(null);
+    }
+
+    @Override
+    public void removeDepartmentFromDatabase(DepartmentEntity department) {
+        entityManager.remove(entityManager.contains(department) ? department : entityManager.merge(department));
+    }
 }

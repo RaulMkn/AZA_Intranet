@@ -5,9 +5,11 @@ import DepartmentsDropdown from "../../utils/DepartmentsDropdown";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { checkAdminPermissionsAndRedirect } from "../../utils/CheckPermissions";
+import { useNavigate } from "react-router-dom";
 import API_BASE_URL from "../../utils/api";
 
 const CreateDentist = () => {
+  const navigate = useNavigate();
   const [form] = Form.useForm();
   const [imageFile, setImageFile] = useState(null);
   const [error, setError] = useState(null);
@@ -15,7 +17,7 @@ const CreateDentist = () => {
   useEffect(() => {
     const dentistJson = localStorage.getItem("Dentist");
     const dentistDto = JSON.parse(dentistJson);
-    checkAdminPermissionsAndRedirect(dentistDto);
+    checkAdminPermissionsAndRedirect(dentistDto, navigate);
   }, []);
 
   const handleDepartmentSelected = (departmentId) => {
@@ -70,19 +72,11 @@ const CreateDentist = () => {
       formData.append("gender", gender);
       formData.append("file", imageFile);
 
-      for (let pair of formData.entries()) {
-        console.log(pair[0] + ": " + pair[1]);
-      }
-
       await axios.post(
         `${API_BASE_URL}/dentist`,
         formData,
         {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: "Basic " + btoa(import.meta.env.VITE_DATABASE_AUTH),
-          },
+          headers: { "Content-Type": "multipart/form-data" },
         }
       );
 
@@ -91,7 +85,7 @@ const CreateDentist = () => {
         icon: "success",
       });
       setTimeout(() => {
-        window.location.reload();
+        navigate(0);
       }, 4000);
     } catch (error) {
       console.error("Error al enviar datos al servidor:", error);

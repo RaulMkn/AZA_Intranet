@@ -1,7 +1,6 @@
 package com.example.controllers;
 
 import com.example.configuration.exceptionHandler.ResponseStatusException;
-import com.example.dto.DentistDto;
 import com.example.dto.DepartmentDto;
 import com.example.entity.DepartmentEntity;
 import com.example.service.DepartmentService;
@@ -18,7 +17,6 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/intranet/DentalAesthetics")
-@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true", allowedHeaders = "*", methods = {RequestMethod.POST, RequestMethod.PUT, RequestMethod.GET, RequestMethod.DELETE})
 public class DepartmentController {
 
     @Autowired
@@ -66,11 +64,11 @@ public class DepartmentController {
 
     @Transactional
     @DeleteMapping(path = "/department/id/{id}")
-    public ResponseEntity<Void> deleteAppointment(
+    public ResponseEntity<Void> deleteDepartment(
             @PathVariable("id") int id
     ) {
-        boolean department = departmentService.deleteDepartmentFromDatabase(id);
-        if (department) {
+        boolean deleted = departmentService.deleteDepartmentFromDatabase(id);
+        if (deleted) {
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.notFound().build();

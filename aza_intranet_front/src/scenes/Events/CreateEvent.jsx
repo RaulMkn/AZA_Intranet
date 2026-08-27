@@ -5,17 +5,19 @@ import Swal from "sweetalert2";
 import EventDto from "../../DTOs/EventDto";
 import { checkPermissionsAndRedirect } from "../../utils/CheckPermissions";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import API_BASE_URL from "../../utils/api";
 
 const CreateEventPage = () => {
+  const navigate = useNavigate();
   const [form] = Form.useForm();
 
-  var dentistJson = localStorage.getItem("Dentist");
+  const dentistJson = localStorage.getItem("Dentist");
 
-  var dentistDto = JSON.parse(dentistJson);
+  const dentistDto = JSON.parse(dentistJson);
   useEffect(() => {
-    checkPermissionsAndRedirect(dentistDto);
-  });
+    checkPermissionsAndRedirect(dentistDto, navigate);
+  }, []);
 
   const handleSubmit = async (values) => {
     try {
@@ -39,25 +41,14 @@ const CreateEventPage = () => {
       );
 
       const formData = EventDto.toFormData(eventDto);
-      await axios.post(
-        `${API_BASE_URL}/event`,
-        formData,
-        {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Basic " + btoa(import.meta.env.VITE_DATABASE_AUTH),
-          },
-          crossdomain: true,
-        }
-      );
+      await axios.post(`${API_BASE_URL}/event`, formData);
       Swal.fire({
         title: "Evento creado con exito!",
         icon: "success",
       });
 
       setTimeout(() => {
-        window.location.href = "/events";
+        navigate("/events");
       }, 4000);
     } catch (error) {
       console.error("Error al enviar datos al servidor:", error);

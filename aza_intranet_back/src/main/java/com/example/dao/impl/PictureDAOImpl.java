@@ -1,26 +1,20 @@
 package com.example.dao.impl;
 
 import com.example.dao.PictureDAO;
-import com.example.entity.PatientEntity;
 import com.example.entity.PictureEntity;
-import org.hibernate.Session;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import org.springframework.stereotype.Repository;
 
-import java.util.Arrays;
-import java.util.List;
-
-@Component
+@Repository
 public class PictureDAOImpl implements PictureDAO {
-    @Transactional
-    @Override
-    public PictureEntity persistPictureToDatabase(PictureEntity pictureAttached, Session session) {
-        try {
-            session.persist(pictureAttached);
-            return pictureAttached;
-        } catch (Exception e) {
-            throw new RuntimeException("Error al persistir la imagen en la base de datos", e);
-        }
-    }
 
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    @Override
+    public PictureEntity persistPictureToDatabase(PictureEntity picture) {
+        entityManager.persist(picture);
+        return picture;
+    }
 }

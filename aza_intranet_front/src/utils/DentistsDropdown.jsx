@@ -21,18 +21,7 @@ const DentistDropDown = ({ onSelect }) => {
     const fetchData = async () => {
       try {
         // Realiza la solicitud GET a la URL de la API
-        const response = await axios.get(
-          `${API_BASE_URL}/dentists`,
-          {
-            withCredentials: true, // Utiliza credenciales de autenticación
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: "Basic " + btoa(import.meta.env.VITE_DATABASE_AUTH), // Agrega encabezados necesarios
-            },
-            crossdomain: true, // Permite solicitudes a diferentes dominios
-          }
-        );
-        console.log(response.data);
+        const response = await axios.get(`${API_BASE_URL}/dentists`);
 
         // Actualiza el estado 'users' con los datos de la respuesta
         setUsers(response.data);

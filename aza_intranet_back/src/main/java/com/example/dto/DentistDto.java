@@ -1,6 +1,7 @@
 package com.example.dto;
 
 import com.example.dto.fakes.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,6 +17,7 @@ public class DentistDto {
     private Integer id;
     private String full_name;
     private String email;
+    @JsonIgnore
     private String pass;
     private FakePictureDto picture;
     private String job;

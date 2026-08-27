@@ -5,13 +5,15 @@ import InterventionDto from "../../DTOs/InterventionDto";
 import axios from "axios";
 import { checkAdminPermissionsAndRedirect } from "../../utils/CheckPermissions";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import API_BASE_URL from "../../utils/api";
 
 const CreateIntervention = () => {
+  const navigate = useNavigate();
   useEffect(() => {
-    var dentistJson = localStorage.getItem("Dentist");
-    var dentistDto = JSON.parse(dentistJson);
-    checkAdminPermissionsAndRedirect(dentistDto);
+    const dentistJson = localStorage.getItem("Dentist");
+    const dentistDto = JSON.parse(dentistJson);
+    checkAdminPermissionsAndRedirect(dentistDto, navigate);
   }, []);
 
   const [form] = Form.useForm();
@@ -27,26 +29,14 @@ const CreateIntervention = () => {
       const interventionDto = new InterventionDto(full_name, price, department);
 
       const formData = InterventionDto.toFormData(interventionDto);
-      console.log(interventionDto);
 
-      await axios.post(
-        `${API_BASE_URL}/intervention`,
-        formData,
-        {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Basic " + btoa(import.meta.env.VITE_DATABASE_AUTH),
-          },
-          crossdomain: true,
-        }
-      );
+      await axios.post(`${API_BASE_URL}/intervention`, formData);
       Swal.fire({
         title: "Intervencion creada con éxito!",
         icon: "success",
       });
       setTimeout(() => {
-        window.location.href = "/interventions";
+        navigate("/interventions");
       }, 2000);
     } catch (error) {
       console.error("Error al enviar datos al servidor:", error);

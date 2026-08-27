@@ -1,20 +1,19 @@
 package com.example.dao;
 
 import com.example.entity.DentistEntity;
-import org.hibernate.Session;
 
 import java.util.List;
 
 public interface DentistDAO {
-    List<DentistEntity> getAllUsersFromDatabase(Session session);
+    List<DentistEntity> getAllUsersFromDatabase();
 
-    DentistEntity getUserFromDatabaseById(Session session, int id);
+    DentistEntity getUserFromDatabaseById(int id);
 
-    boolean persistUserToDatabase(DentistEntity userAttached, Session session);
+    void persistUserToDatabase(DentistEntity user);
 
-    boolean updateUserInfo(DentistEntity user, Session session);
+    void updateUserInfo(DentistEntity user);
 
-    boolean deleteUserFromDatabase(Session session, DentistEntity user);
+    void deleteUserFromDatabase(DentistEntity user);
 
-    DentistEntity getUserFromDatabaseByEmail(Session session, String email);
+    DentistEntity getUserFromDatabaseByEmail(String email);
 }

@@ -2,16 +2,13 @@ package com.example.controllers;
 
 import com.example.configuration.exceptionHandler.ResponseStatusException;
 import com.example.dto.PatientDto;
-import com.example.dto.fakes.FakeDentistDto;
 import com.example.dto.fakes.FakePatientDto;
 import com.example.entity.PatientEntity;
-import com.example.service.AppointmentService;
 import com.example.service.DentistService;
 import com.example.service.PatientService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -22,8 +19,6 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/intranet/DentalAesthetics")
-@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true", allowedHeaders = "*", methods = {RequestMethod.POST, RequestMethod.PUT, RequestMethod.GET, RequestMethod.DELETE})
-
 public class PatientController {
 
     @Autowired
@@ -34,8 +29,6 @@ public class PatientController {
 
     @Autowired
     private ModelMapper map;
-    @Autowired
-    private AppointmentService appointmentService;
     @Transactional
     @GetMapping(path = "/patients")
     public ResponseEntity<List<PatientDto>> obtainPatients(
@@ -99,11 +92,11 @@ public class PatientController {
 
     @Transactional
     @DeleteMapping(path = "/patient/id/{id}")
-    public ResponseEntity<Void> deleteAppointment(
+    public ResponseEntity<Void> deletePatient(
             @PathVariable("id") int id
     ) {
-        boolean patient = patientService.deletePatient(id);
-        if (patient) {
+        boolean deleted = patientService.deletePatient(id);
+        if (deleted) {
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.notFound().build();

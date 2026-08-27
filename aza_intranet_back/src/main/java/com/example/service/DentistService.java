@@ -1,16 +1,12 @@
 package com.example.service;
 
-import com.example.configuration.HibernateConfiguration;
 import com.example.configuration.exceptionHandler.ResponseStatusException;
-import com.example.dao.PictureDAO;
-import com.example.dao.impl.DentistDAOImpl;
-import com.example.dao.impl.PictureDAOImpl;
 import com.example.dto.LoginDto;
 import com.example.dao.DentistDAO;
+import com.example.dao.PictureDAO;
 import com.example.entity.DentistEntity;
 import com.example.entity.PictureEntity;
 import com.example.configuration.utils.Security;
-import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -24,129 +20,89 @@ import java.util.List;
 public class DentistService {
 
     @Autowired
-    DentistDAO dentistDAO = new DentistDAOImpl();
+    private DentistDAO dentistDAO;
 
     @Autowired
-    PictureDAO pictureDAO = new PictureDAOImpl();
+    private PictureDAO pictureDAO;
 
-
-    @Transactional
+    @Transactional(readOnly = true)
     public List<DentistEntity> getAllUsers() {
-        try (Session session = HibernateConfiguration.getSessionFactory().openSession()) {
-            session.beginTransaction();
-            List<DentistEntity> dentists = dentistDAO.getAllUsersFromDatabase(session);
-            for (DentistEntity dentist : dentists) {
-                dentist.getAppointments().size();
-                dentist.getPatients().size();
-                dentist.getEvents().size();
-            }
-            return dentists;
+        List<DentistEntity> dentists = dentistDAO.getAllUsersFromDatabase();
+        for (DentistEntity dentist : dentists) {
+            dentist.getAppointments().size();
+            dentist.getPatients().size();
+            dentist.getEvents().size();
         }
+        return dentists;
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public DentistEntity getUserById(int id) {
-        try (Session session = HibernateConfiguration.getSessionFactory().openSession()) {
-            session.beginTransaction();
-            DentistEntity dentist = dentistDAO.getUserFromDatabaseById(session, id);
+        DentistEntity dentist = dentistDAO.getUserFromDatabaseById(id);
+        if (dentist != null) {
             dentist.getEvents().size();
             dentist.getPatients().size();
             dentist.getAppointments().size();
-            dentist.getPayments().size();
-            return dentist;
         }
+        return dentist;
     }
 
     @Transactional
     public boolean createUser(DentistEntity user, MultipartFile picture) {
-        try (Session session = HibernateConfiguration.getSessionFactory().openSession()) {
-            session.beginTransaction();
-            PictureEntity persistedPicture = getPicture(picture, session);
+        try {
+            PictureEntity persistedPicture = getPicture(picture);
             user.setPicture(persistedPicture);
             user.setPass(Security.hashPassword(user.getPass()));
-            DentistEntity userAttached = session.merge(user);
-            boolean persistSuccess = dentistDAO.persistUserToDatabase(userAttached, session);
-            if (persistSuccess) {
-                session.getTransaction().commit();
-            } else {
-                session.getTransaction().rollback();
-            }
-            return persistSuccess;
-
+            dentistDAO.persistUserToDatabase(user);
+            return true;
         } catch (Exception e) {
             return false;
         }
-
     }
 
     @Transactional
-    public PictureEntity getPicture(MultipartFile picture, Session session) throws IOException {
+    public PictureEntity getPicture(MultipartFile picture) throws IOException {
         PictureEntity pictureEntity = new PictureEntity();
         pictureEntity.setImg_name(picture.getOriginalFilename());
         pictureEntity.setImg(picture.getBytes());
         pictureEntity.setImg_type(picture.getContentType());
-        return pictureDAO.persistPictureToDatabase(session.merge(pictureEntity), session);
+        return pictureDAO.persistPictureToDatabase(pictureEntity);
     }
 
     @Transactional
     public boolean updateUser(DentistEntity user) {
-        try (Session session = HibernateConfiguration.getSessionFactory().openSession()) {
-            session.beginTransaction();
-            return dentistDAO.updateUserInfo(user, session);
+        try {
+            dentistDAO.updateUserInfo(user);
+            return true;
+        } catch (Exception e) {
+            return false;
         }
     }
 
     @Transactional
     public boolean deleteUser(int id) {
-        try (Session session = HibernateConfiguration.getSessionFactory().openSession()) {
-            session.beginTransaction();
-            DentistEntity dentist = this.getUserById(id);
-            if (dentist == null) {
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No se ha encontrado el dentista con id -> " + id);
-            }
-            boolean success = dentistDAO.deleteUserFromDatabase(session, dentist);
-            if (success) {
-                session.getTransaction().commit();
-            } else {
-                session.getTransaction().rollback();
-            }
-            return success;
-
-        } catch (Exception e) {
+        DentistEntity dentist = dentistDAO.getUserFromDatabaseById(id);
+        if (dentist == null) {
             return false;
         }
-
+        dentistDAO.deleteUserFromDatabase(dentist);
+        return true;
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public boolean verifyLogin(LoginDto dto) {
-        try (Session session = HibernateConfiguration.getSessionFactory().openSession()) {
-            session.beginTransaction();
-            DentistEntity user = dentistDAO.getUserFromDatabaseByEmail(session, dto.getEmail());
-            if (user != null && Security.verifyPassword(dto.getPass(), user.getPass())) {
-                session.getTransaction().commit();
-                return true;
-            } else {
-                session.getTransaction().rollback();
-                return false;
-            }
-        } catch (Exception e) {
-            return false;
-        }
-
+        DentistEntity user = dentistDAO.getUserFromDatabaseByEmail(dto.getEmail());
+        return user != null && Security.verifyPassword(dto.getPass(), user.getPass());
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public DentistEntity getUserByEmail(LoginDto loginDto) {
-        try (Session session = HibernateConfiguration.getSessionFactory().openSession()) {
-            session.beginTransaction();
-            DentistEntity dentist = dentistDAO.getUserFromDatabaseByEmail(session, loginDto.getEmail());
+        DentistEntity dentist = dentistDAO.getUserFromDatabaseByEmail(loginDto.getEmail());
+        if (dentist != null) {
             dentist.getEvents().size();
             dentist.getPatients().size();
             dentist.getAppointments().size();
-            dentist.getPayments().size();
-            return dentist;
         }
+        return dentist;
     }
 }
-

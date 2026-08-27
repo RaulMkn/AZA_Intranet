@@ -12,7 +12,6 @@ const Home = () => {
   useEffect(() => {
     const dentistData = JSON.parse(localStorage.getItem("Dentist"));
     setDentist(dentistData);
-    console.log(dentistData);
   }, []);
 
   if (!dentist) {

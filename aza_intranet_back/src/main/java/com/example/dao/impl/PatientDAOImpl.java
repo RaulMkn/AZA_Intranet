@@ -2,53 +2,42 @@ package com.example.dao.impl;
 
 import com.example.dao.PatientDAO;
 import com.example.entity.PatientEntity;
-import org.hibernate.Session;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Component
+@Repository
 public class PatientDAOImpl implements PatientDAO {
-    @Transactional
-    @Override
-    public PatientEntity getPatientFromDatabaseById(Session session, Integer patientId) {
-        String hql = "SELECT pt FROM PatientEntity pt WHERE pt.id = :patientId";
-        return session.createQuery(hql, PatientEntity.class).setParameter("patientId", patientId).uniqueResult();
-    }
 
-    @Transactional
-    @Override
-    public List<PatientEntity> getPatientsFromDatabase(Session session) {
-        String hql = "SELECT pt FROM PatientEntity pt WHERE pt.deleted != 1";
-        return session.createQuery(hql, PatientEntity.class).list();
-    }
+    @PersistenceContext
+    private EntityManager entityManager;
 
-    @Transactional
     @Override
-    public boolean persistPatientToDatabase(PatientEntity patientAttached, Session session) {
-        try{
-            session.persist(patientAttached);
-            return true;
-        }catch (Exception e){
-            return false;
-        }
+    public PatientEntity getPatientFromDatabaseById(Integer patientId) {
+        return entityManager.createQuery("SELECT pt FROM PatientEntity pt WHERE pt.id = :patientId", PatientEntity.class)
+                .setParameter("patientId", patientId).getResultStream().findFirst().orElse(null);
     }
 
     @Override
-    public String getPatientNameFromDatabaseById(Session session, int id) {
-        String hql = "SELECT pt.full_name FROM PatientEntity pt WHERE pt.id = :id";
-        return session.createQuery(hql, String.class).setParameter("id", id).uniqueResult();
-
+    public List<PatientEntity> getPatientsFromDatabase() {
+        return entityManager.createQuery("SELECT pt FROM PatientEntity pt WHERE pt.deleted != 1", PatientEntity.class).getResultList();
     }
 
     @Override
-    public boolean deletePatientFromDatabase(Session session, PatientEntity patient) {
-        try{
-            session.remove(patient);
-            return true;
-        }catch (Exception e){
-            return false;
-        }
+    public void persistPatientToDatabase(PatientEntity patient) {
+        entityManager.persist(patient);
+    }
+
+    @Override
+    public String getPatientNameFromDatabaseById(int id) {
+        return entityManager.createQuery("SELECT pt.full_name FROM PatientEntity pt WHERE pt.id = :id", String.class)
+                .setParameter("id", id).getResultStream().findFirst().orElse(null);
+    }
+
+    @Override
+    public void deletePatientFromDatabase(PatientEntity patient) {
+        entityManager.remove(entityManager.contains(patient) ? patient : entityManager.merge(patient));
     }
 }

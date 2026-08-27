@@ -5,15 +5,17 @@ import PatientDto from "../../DTOs/PatientDto";
 import axios from "axios";
 import { checkPermissionsAndRedirect } from "../../utils/CheckPermissions";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import API_BASE_URL from "../../utils/api";
 
 const CreatePatient = () => {
-  var dentistJson = localStorage.getItem("Dentist");
-  var dentistDto = JSON.parse(dentistJson);
+  const navigate = useNavigate();
+  const dentistJson = localStorage.getItem("Dentist");
+  const dentistDto = JSON.parse(dentistJson);
 
   useEffect(() => {
-    checkPermissionsAndRedirect(dentistDto);
-  });
+    checkPermissionsAndRedirect(dentistDto, navigate);
+  }, []);
   const [form] = Form.useForm();
 
   const handleDentistSelect = (dentistId) => {
@@ -45,26 +47,14 @@ const CreatePatient = () => {
       );
 
       const formData = PatientDto.toFormData(patientDto);
-      console.log(patientDto);
 
-      await axios.post(
-        `${API_BASE_URL}/patient`,
-        formData,
-        {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Basic " + btoa(import.meta.env.VITE_DATABASE_AUTH),
-          },
-          crossdomain: true,
-        }
-      );
+      await axios.post(`${API_BASE_URL}/patient`, formData);
       Swal.fire({
         title: "Paciente creado con éxito!",
         icon: "success",
       });
       setTimeout(() => {
-        window.location.href = "/patients";
+        navigate("/patients");
       }, 4000);
     } catch (error) {
       console.error("Error al enviar datos al servidor:", error);

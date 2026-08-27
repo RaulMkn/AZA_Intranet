@@ -1,5 +1,5 @@
 import { Menu, Button } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   HomeOutlined,
   CalendarOutlined,
@@ -14,6 +14,7 @@ import Swal from "sweetalert2";
 /* eslint-disable react/prop-types */
 
 const MenuList = ({ darkTheme }) => {
+  const navigate = useNavigate();
   const logOut = () => {
     try {
       localStorage.removeItem("Dentist");
@@ -24,7 +25,7 @@ const MenuList = ({ darkTheme }) => {
         showConfirmButton: false,
       });
       setTimeout(() => {
-        window.location.href = "/login";
+        navigate("/login");
       }, 2000);
     } catch {
       Swal.fire({
@@ -38,8 +39,8 @@ const MenuList = ({ darkTheme }) => {
   };
 
   // Obtener datos del localStorage
-  var dentistJson = localStorage.getItem("Dentist");
-  var dentistDto = JSON.parse(dentistJson);
+  const dentistJson = localStorage.getItem("Dentist");
+  const dentistDto = JSON.parse(dentistJson);
 
   // Si dentistDto es nulo o vacío, retorna un componente vacío
   if (!dentistDto) {

@@ -1,18 +1,17 @@
 package com.example.dao;
 
 import com.example.entity.DepartmentEntity;
-import org.hibernate.Session;
 
 import java.util.List;
 
 public interface DepartmentDAO {
-    List<DepartmentEntity> getAllDepartmentsFromDatabase(Session session);
+    List<DepartmentEntity> getAllDepartmentsFromDatabase();
 
-    DepartmentEntity getAllDepartmentsFromDatabaseById(Session session, int id);
+    DepartmentEntity getAllDepartmentsFromDatabaseById(int id);
 
-    boolean persistDepartmentToDatabase(DepartmentEntity departmentAttached, Session session);
+    void persistDepartmentToDatabase(DepartmentEntity department);
 
-    DepartmentEntity getDepartmentPartialInfoFromDatabase(Session session, Integer id);
+    DepartmentEntity getDepartmentPartialInfoFromDatabase(Integer id);
 
-    boolean removeDepartmentFromDatabase(Session session, DepartmentEntity department);
+    void removeDepartmentFromDatabase(DepartmentEntity department);
 }

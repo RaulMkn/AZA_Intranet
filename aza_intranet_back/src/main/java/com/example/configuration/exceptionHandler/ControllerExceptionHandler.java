@@ -3,6 +3,8 @@ package com.example.configuration.exceptionHandler;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,8 @@ import java.time.LocalDateTime;
 @ControllerAdvice
 public class ControllerExceptionHandler {
 
+    private static final Logger log = LoggerFactory.getLogger(ControllerExceptionHandler.class);
+
     @Autowired
     private ObjectMapper objectMapper;
 
@@ -24,7 +28,7 @@ public class ControllerExceptionHandler {
                 ex.getMessage(),
                 ex.getStatus().value(),
                 LocalDateTime.now());
-        ex.printStackTrace();
+        log.error("ResponseStatusException: {}", ex.getMessage(), ex);
         return new ResponseEntity<>(this.objectMapper.writeValueAsString(message), ex.getStatus());
     }
 
@@ -34,7 +38,7 @@ public class ControllerExceptionHandler {
                 "Error, ha ocurrido algo inesperado...",
                 500,
                 LocalDateTime.now());
-        ex.printStackTrace();
+        log.error("Unhandled exception", ex);
         return new ResponseEntity<>(this.objectMapper.writeValueAsString(message), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
